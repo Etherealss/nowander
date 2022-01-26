@@ -1,0 +1,5 @@
+# 生产环境
+myapp:
+  resource:
+    path:
+      avatar: www\my-application\avatars

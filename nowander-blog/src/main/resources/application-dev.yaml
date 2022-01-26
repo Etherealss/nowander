@@ -1,0 +1,5 @@
+# 开发环境
+myapp:
+  resource:
+    path:
+      avatar: D:/www/nowander/UserAvatar/
