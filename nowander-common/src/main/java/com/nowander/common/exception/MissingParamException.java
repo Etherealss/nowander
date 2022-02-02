@@ -1,6 +1,7 @@
 package com.nowander.common.exception;
 
-import com.wanderfour.nowander.common.enums.ApiInfo;
+
+import com.nowander.common.enums.ApiInfo;
 
 /**
  * @author wtk

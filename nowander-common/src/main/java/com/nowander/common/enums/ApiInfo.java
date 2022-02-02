@@ -44,6 +44,8 @@ public enum ApiInfo {
     TOKEN_MISSING(10401, "[token缺失]"),
     TOKEN_EXP(10402, "[token缺失]"),
 
+    LIKE_DUPLICATE(100501, "重复点赞或取消");
+
     ;
 
     int code;

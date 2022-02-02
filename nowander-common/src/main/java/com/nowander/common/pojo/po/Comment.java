@@ -63,12 +63,7 @@ public class Comment implements Serializable {
      */
     private Integer state;
 
-    /**
-     * 点赞数
-     */
-    private Integer liked;
-
-    private Date createTime;
+    private Date gmtCreate;
 
 
 }

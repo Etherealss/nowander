@@ -1,7 +1,7 @@
 package com.nowander.blog.mapper;
 
-import com.wanderfour.nowander.pojo.po.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.nowander.common.pojo.po.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,11 +16,11 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
     /**
      * 登录
-     * @param userId
+     * @param username
      * @param password
      * @return
      */
-    User selectLoginUser(@Param("userId") int userId, @Param("password") String password);
+    User selectLoginUserByUsername(@Param("username") int username, @Param("password") String password);
 
     /**
      *

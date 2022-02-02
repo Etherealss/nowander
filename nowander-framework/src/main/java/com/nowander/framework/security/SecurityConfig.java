@@ -1,9 +1,9 @@
 package com.nowander.framework.security;
 
-import com.wanderfour.nowander.common.enums.ApiInfo;
-import com.wanderfour.nowander.filter.LoginCaptchaFilter;
-import com.wanderfour.nowander.pojo.vo.Msg;
-import com.wanderfour.nowander.utils.ResponseUtil;
+import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.utils.ResponseUtil;
+import com.nowander.framework.filter.LoginCaptchaFilter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -33,6 +34,7 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String LOGIN_MAPPING_URL = "/users/login";

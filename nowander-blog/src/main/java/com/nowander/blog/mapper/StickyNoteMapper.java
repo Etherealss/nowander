@@ -1,7 +1,7 @@
 package com.nowander.blog.mapper;
 
-import com.wanderfour.nowander.pojo.po.StickyNote;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.nowander.common.pojo.po.StickyNote;
 import org.springframework.stereotype.Repository;
 
 /**

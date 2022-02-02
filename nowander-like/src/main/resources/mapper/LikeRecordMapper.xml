@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nowander.like.mapper.LikeRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.nowander.common.pojo.po.LikeRecord">
+        <id column="user_id" property="userId" />
+        <result column="target_id" property="targetId" />
+        <result column="type" property="targetType" />
+    </resultMap>
+    <delete id="delete">
+        DELETE FROM like_record
+        WHERE user_id = ${likeRecord.userId}
+          AND target_id = ${likeRecord.userId.targetId}
+          AND `target_type` = ${likeRecord.userId.targetType};
+    </delete>
+    <select id="countLikeRecord" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM like_record
+        WHERE user_id = ${likeRecord.userId}
+          AND target_id = ${likeRecord.userId.targetId}
+          AND `target_type` = ${likeRecord.userId.targetType};
+    </select>
+
+</mapper>

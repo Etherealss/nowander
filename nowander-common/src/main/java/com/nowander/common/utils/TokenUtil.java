@@ -1,12 +1,14 @@
 package com.nowander.common.utils;
 
-import com.wanderfour.nowander.common.enums.ApiInfo;
-import com.wanderfour.nowander.common.exception.TokenException;
-import com.wanderfour.nowander.pojo.po.User;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.exception.TokenException;
+import com.nowander.common.pojo.po.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.context.request.NativeWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
@@ -38,6 +40,7 @@ public class TokenUtil {
         String authorization = request.getHeader(TOKEN_HEADER);
         return !StringUtils.isBlank(authorization);
     }
+
     /**
      * 从request中获取token
      * @param request
@@ -57,7 +60,7 @@ public class TokenUtil {
     }
 
     public static Claims getTokenClaims(String token) {
-        if (StringUtils.isBlank(token)) {
+        if (StrUtil.isBlank(token)) {
             return null;
         }
         return Jwts.parser().setSigningKey(JWT_SIGN_KEY).parseClaimsJws(token).getBody();
@@ -73,7 +76,6 @@ public class TokenUtil {
         user.setAvatar(tokenClaims.get("avatar", String.class));
         user.setEmail(tokenClaims.get("username", String.class));
         user.setRegisterDate(tokenClaims.get("registerTime", Date.class));
-        user.setUserType(Integer.valueOf(tokenClaims.get("userRole", String.class)));
         return user;
     }
 }

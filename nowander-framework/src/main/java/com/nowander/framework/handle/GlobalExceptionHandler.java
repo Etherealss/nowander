@@ -1,10 +1,11 @@
 package com.nowander.framework.handle;
 
-import com.wanderfour.nowander.common.enums.ApiInfo;
-import com.wanderfour.nowander.common.exception.*;
-import com.wanderfour.nowander.pojo.vo.Msg;
+import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.exception.*;
+import com.nowander.common.pojo.vo.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(SimpleException.class)
-    public Msg<Object> handleSimpleServiceException(SimpleException e) {
+    public Msg<Object> handle(SimpleException e) {
         return new Msg<>(e.getCode(), e.getMessage());
     }
 
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UnsupportedOperationException.class)
-    public Msg<Object> handleUnsupportedOperationException(UnsupportedOperationException e) {
+    public Msg<Object> handle(UnsupportedOperationException e) {
         log.info("[全局异常处理器]不支持的操作：" + e.getMessage());
         return new Msg<>(e);
     }
@@ -48,7 +49,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingParamException.class)
-    public Msg<Object> handleMissingParamException(MissingParamException e) {
+    public Msg<Object> handle(MissingParamException e) {
         log.info("[全局异常处理器]参数缺失：" + e.getMessage());
         return new Msg<>(e);
     }
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ErrorParamException.class)
-    public Msg<Object> handleErrorParamException(ErrorParamException e) {
+    public Msg<Object> handle(ErrorParamException e) {
         log.info("[全局异常处理器]参数异常：" + e.getMessage());
         return new Msg<>(e);
     }
@@ -68,7 +69,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MismatchException.class)
-    public Msg<Object> handleMismatchException(MismatchException e) {
+    public Msg<Object> handle(MismatchException e) {
         log.info("[全局异常处理器]不匹配异常：" + e.getMessage());
         return new Msg<>(e);
     }
@@ -78,7 +79,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ExistException.class)
-    public Msg<Object> handleExistException(ExistException e) {
+    public Msg<Object> handle(ExistException e) {
         return new Msg<>(e);
     }
 
@@ -87,32 +88,41 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(NotFoundException.class)
-    public Msg<Object> handleNotFoundException(NotFoundException e) {
+    public Msg<Object> handle(NotFoundException e) {
         return new Msg<>(e);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(CaptchaException.class)
-    public Msg<Object> handleCaptchaException(CaptchaException e) {
+    public Msg<Object> handle(CaptchaException e) {
         return new Msg<>(e.getCode(), e.getMsg());
     }
 
     /**
-     * MissingServletRequestParameterException 前后端交接的接口参数缺失
+     * 前后端交接的接口参数缺失
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public Msg<Object> handleHttpMessageNotReadableException(MissingServletRequestParameterException e) {
+    public Msg<Object> handle(MissingServletRequestParameterException e) {
         log.warn("前后端交接的接口参数缺失:" + e.getMessage());
         return Msg.paramsError("前后端交接的接口参数缺失引起MissingServletRequestParameterException异常：" + e.getMessage());
     }
 
     /**
+     * 参数不可读
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Msg<Object> handle(HttpMessageNotReadableException e) {
+        log.warn("参数不可读异常：" + e.getMessage());
+        return Msg.paramsError("参数不可读，请检查参数列表是否完整：" + e.getMessage());
+    }
+    /**
      * 不支持的请求方式
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Msg<Object> handleNotFoundException(HttpRequestMethodNotSupportedException e) {
+    public Msg<Object> handle(HttpRequestMethodNotSupportedException e) {
         log.warn("[全局异常处理器]不支持的请求方式：" + e.getMessage());
         return new Msg<>(ApiInfo.REQUEST_UNSUPPORTED);
     }
@@ -122,7 +132,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public Msg<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+    public Msg<Object> handle(MethodArgumentTypeMismatchException e) {
         log.warn("[全局异常处理器]方法不存在："+e.getMessage());
         return new Msg<>(ApiInfo.REQUEST_UNSUPPORTED);
     }
@@ -132,7 +142,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
-    public Msg<Object> handleAccessDeniedException(AccessDeniedException e) {
+    public Msg<Object> handle(AccessDeniedException e) {
         log.info("[无权访问]" + e.getMessage());
         return new Msg<>(ApiInfo.FORBIDDEN_REQUEST);
     }
@@ -144,8 +154,8 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public Msg<Object> handleException(Exception e) {
-        log.warn("[全局异常处理器]其他异常：", e);
+    public Msg<Object> handle(Exception e) {
+        log.warn("[全局异常处理器]其他异常:", e);
         return new Msg<>(e);
     }
 }

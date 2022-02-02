@@ -76,11 +76,6 @@ public class Article implements Serializable {
     private Date updateTime;
 
     /**
-     * 点赞数
-     */
-    private Integer liked;
-
-    /**
      * 收藏数
      */
     private Integer collected;

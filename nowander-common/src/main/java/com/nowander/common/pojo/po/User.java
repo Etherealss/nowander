@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 
-import java.time.LocalDate;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 
@@ -18,9 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * <p>
- *
- * </p>
  * @author wtk
  * @since 2022-01-05
  */
@@ -33,6 +29,11 @@ public class User implements UserDetails, Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    /**
+     * 用户名
+     */
+    private String username;
 
     /**
      * 邮箱注册

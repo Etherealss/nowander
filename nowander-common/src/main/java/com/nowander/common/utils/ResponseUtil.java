@@ -2,7 +2,7 @@ package com.nowander.common.utils;
 
 
 import cn.hutool.json.JSONUtil;
-import com.wanderfour.nowander.pojo.vo.Msg;
+import com.nowander.common.pojo.vo.Msg;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

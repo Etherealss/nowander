@@ -1,7 +1,7 @@
 package com.nowander.common.pojo.vo;
 
-import com.wanderfour.nowander.common.enums.ApiInfo;
-import com.wanderfour.nowander.common.exception.ServiceException;
+import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.exception.ServiceException;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.AuthenticationException;

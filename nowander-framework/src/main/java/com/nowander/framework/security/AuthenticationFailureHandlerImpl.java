@@ -1,9 +1,10 @@
 package com.nowander.framework.security;
 
-import com.wanderfour.nowander.common.enums.ApiInfo;
-import com.wanderfour.nowander.common.exception.CaptchaException;
-import com.wanderfour.nowander.pojo.vo.Msg;
-import com.wanderfour.nowander.utils.ResponseUtil;
+
+import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.exception.CaptchaException;
+import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;

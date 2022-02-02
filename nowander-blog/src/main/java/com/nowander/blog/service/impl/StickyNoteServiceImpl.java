@@ -1,9 +1,9 @@
 package com.nowander.blog.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.blog.mapper.StickyNoteMapper;
 import com.nowander.blog.service.StickyNoteService;
-import com.wanderfour.nowander.pojo.po.StickyNote;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.nowander.common.pojo.po.StickyNote;
 import org.springframework.stereotype.Service;
 
 /**

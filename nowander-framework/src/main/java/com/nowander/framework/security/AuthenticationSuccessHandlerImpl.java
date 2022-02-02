@@ -1,8 +1,8 @@
 package com.nowander.framework.security;
 
-import com.wanderfour.nowander.pojo.po.User;
-import com.wanderfour.nowander.pojo.vo.Msg;
-import com.wanderfour.nowander.utils.ResponseUtil;
+import com.nowander.common.pojo.po.User;
+import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;

@@ -1,7 +1,7 @@
 package com.nowander.blog.service.impl;
 
 import com.nowander.blog.mapper.UserMapper;
-import com.wanderfour.nowander.pojo.po.User;
+import com.nowander.common.pojo.po.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,8 +1,8 @@
 package com.nowander.framework.security;
 
-import com.wanderfour.nowander.common.enums.ApiInfo;
-import com.wanderfour.nowander.pojo.vo.Msg;
-import com.wanderfour.nowander.utils.ResponseUtil;
+import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

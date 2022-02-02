@@ -1,7 +1,8 @@
 package com.nowander.blog.service;
 
-import com.wanderfour.nowander.pojo.po.Posts;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.nowander.common.pojo.po.Posts;
 
 /**
  * <p>

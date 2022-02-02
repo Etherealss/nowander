@@ -3,8 +3,8 @@ package com.nowander.blog.controller;
 
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
-import com.wanderfour.nowander.common.enums.AppAttribute;
-import com.wanderfour.nowander.pojo.vo.Msg;
+import com.nowander.common.enums.AppAttribute;
+import com.nowander.common.pojo.vo.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;

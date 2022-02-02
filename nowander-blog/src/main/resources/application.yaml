@@ -2,7 +2,6 @@
 server:
   port: 8081
 
-
 spring:
   # 环境
   profiles:
@@ -31,6 +30,34 @@ spring:
   # 项目配置
   application:
     name: NoWander
+
+  # quarzt
+  quartz:
+    properties:
+      jdbc-store-type: jdbc
+      org:
+        quartz:
+          scheduler:
+            instanceName: NoWanderQuartz
+            instanceId: AUTO
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+#          jobStore:
+#            # 见 https://www.w3cschool.cn/quartz_doc/quartz_doc-ib1j2d6x.html
+#            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+#            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+#            tablePrefix: QRTZ_
+#            useProperties: false
+#            dataSource: myDs # 和下面的myDs对应
+#          dataSource:
+#            myDs:
+#              driver: com.mysql.cj.jdbc.Driver
+#              url: jdbc:mysql://localhost:3306/nowander?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+#              username: root
+#              password: 123456
 
   # 数据源配置
   datasource:
@@ -75,4 +102,9 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
 logging:
-  config: classpath:log4j2-spring.xml
+  config: classpath:log4j2.xml
+
+nowander:
+  like:
+    save:
+      work-queue-capacity: 8
