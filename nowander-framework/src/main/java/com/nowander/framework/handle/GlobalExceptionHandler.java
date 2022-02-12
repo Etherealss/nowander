@@ -124,7 +124,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Msg<Object> handle(HttpRequestMethodNotSupportedException e) {
         log.warn("[全局异常处理器]不支持的请求方式：" + e.getMessage());
-        return new Msg<>(ApiInfo.REQUEST_UNSUPPORTED);
+        return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED);
     }
 
     /**
@@ -134,7 +134,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Msg<Object> handle(MethodArgumentTypeMismatchException e) {
         log.warn("[全局异常处理器]方法不存在："+e.getMessage());
-        return new Msg<>(ApiInfo.REQUEST_UNSUPPORTED);
+        return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED);
     }
 
     /**

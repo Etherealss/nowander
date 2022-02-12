@@ -1,9 +1,9 @@
 package com.nowander.blog.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.blog.service.ArticleService;
 import com.nowander.common.pojo.po.Article;
-import com.nowander.common.pojo.po.User;
 import com.nowander.common.pojo.vo.Msg;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/articles")
 @AllArgsConstructor
 public class ArticleController {
+
     private ArticleService articleService;
+
+    public static final int articlePageSize = 10;
 
     @GetMapping("/{articleId}")
     public Msg<Article> getArticle(@PathVariable Long articleId) {
@@ -28,21 +31,49 @@ public class ArticleController {
     }
 
     @PostMapping("/publish")
-    public Msg<Object> publishArticle(Article article) {
+    public Msg<Void> publishArticle(Article article) {
         articleService.save(article);
         return Msg.ok();
     }
 
     @PutMapping("/update")
-    public Msg<Object> updateArticle(Article article) {
+    public Msg<Void> updateArticle(Article article) {
         articleService.updateById(article);
         return Msg.ok();
     }
 
     @DeleteMapping("/{articleId}")
-    public Msg<Object> deleteArticle(@PathVariable Long articleId) {
+    public Msg<Void> deleteArticle(@PathVariable Long articleId) {
         articleService.removeById(articleId);
         return Msg.ok();
+    }
+
+    /*
+       1.  使用;连接矩阵变量。请求路径写成：/cars/sell;low=34;brand=byd,audi,yd
+       如果你的一个属性有多个值，有两种写法：
+           1.  /cars/sell;low=34;brand=byd,audi,yd
+           2.  /cars/sell;low=34;brand=byd;brand=audi;brand=yd
+           第一个分号;之后的数据都是矩阵变量的参数
+       2.  可以在多个地方写矩阵变量，在矩阵变量之后照常使用/即可：
+           /cars/sell;low=34/1;brand=byd,audi,yd
+       3.  可以声明是哪一个路径变量PathVariable后的矩阵变量：
+           对于url：/boss/{bossId}/{empId}，访问的url为：/boss/1;age=20/2;age=18
+           可以给@MatrixVariable指定pathVar参数：
+           @MatrixVariable(value = "age", pathVal = "bossId")
+    */
+
+    /**
+     *
+     * @param curPage
+     * @param orderBy
+     * @return
+     */
+    @GetMapping("/public/pages/{curPage}")
+    public Msg<IPage<Article>> getPageCompetition(
+            @PathVariable(value = "curPage") int curPage,
+            @MatrixVariable(value = "orderBy", pathVar = "curPage", required = false) String orderBy) {
+        log.debug("获取分页数据：当前页curPage = {}, orderBy = {}", curPage, orderBy);
+        return articleService.page(curPage, articlePageSize, orderBy);
     }
 }
 

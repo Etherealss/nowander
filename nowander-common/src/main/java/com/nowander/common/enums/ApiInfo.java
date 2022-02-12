@@ -28,7 +28,8 @@ public enum ApiInfo {
     ERROR_PARAM(4002, "[参数不合法]"),
     EXIST(4003, "[目标已存在]"),
     MISMATCH(4004, "[信息不匹配]"),
-    REQUEST_UNSUPPORTED(4005, "[请求不支持]"),
+    OPERATE_UNSUPPORTED(4005, "[请求不支持]"),
+    NOT_AUTHOR(4006, "[不是作者]"),
 
     AUTHORIZATION_FAILED(4011, "[认证未通过]"),
 

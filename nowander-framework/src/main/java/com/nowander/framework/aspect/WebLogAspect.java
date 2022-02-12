@@ -27,7 +27,7 @@ public class WebLogAspect {
      * 声明切点，我这里启动Controller层下的所有类下的方法就可以打印，
      * 可以使用*来代表任意字符，用..来表示任意个参数
      */
-    private final String operateLogPoint = "execution(* pers.etherealss.controller.*.*(..))";
+    private final String operateLogPoint = "execution(* com.nowander.*.controller.*.*(..))";
 
     @Pointcut(operateLogPoint)
     public void webLog() {

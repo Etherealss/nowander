@@ -2,6 +2,7 @@ package com.nowander.like.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.nowander.common.pojo.po.LikeCount;
 import com.nowander.common.pojo.po.LikeRecord;
 import com.nowander.common.pojo.vo.Msg;
 
@@ -27,6 +28,13 @@ public interface LikeService extends IService<LikeRecord> {
     Msg<Boolean> checkHasLiked(LikeRecord likeRecord);
 
     /**
+     * 点赞数
+     * @param likeCount
+     * @return
+     */
+    Msg<LikeCount> getTotalLikeCount(LikeCount likeCount);
+
+    /**
      * 持久化点赞记录
      */
     void saveRecentLikeRecord();
@@ -34,5 +42,5 @@ public interface LikeService extends IService<LikeRecord> {
     /**
      * 持久化点赞数
      */
-    void saveLikeCount();
+    void saveRecentLikeCount();
 }

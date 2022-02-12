@@ -10,16 +10,16 @@
     </resultMap>
     <delete id="delete">
         DELETE FROM like_record
-        WHERE user_id = ${likeRecord.userId}
-          AND target_id = ${likeRecord.userId.targetId}
-          AND `target_type` = ${likeRecord.userId.targetType};
+        WHERE user_id = #{likeRecord.userId}
+          AND target_id = #{likeRecord.userId.targetId}
+          AND `target_type` = #{likeRecord.userId.targetType};
     </delete>
     <select id="countLikeRecord" resultType="java.lang.Integer">
         SELECT COUNT(1)
         FROM like_record
-        WHERE user_id = ${likeRecord.userId}
-          AND target_id = ${likeRecord.userId.targetId}
-          AND `target_type` = ${likeRecord.userId.targetType};
+        WHERE user_id = #{likeRecord.userId}
+          AND target_id = #{likeRecord.userId.targetId}
+          AND `target_type` = #{likeRecord.userId.targetType};
     </select>
 
 </mapper>

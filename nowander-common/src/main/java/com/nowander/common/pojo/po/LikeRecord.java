@@ -2,6 +2,7 @@ package com.nowander.common.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 
 import com.nowander.common.enums.RedisKey;
@@ -12,9 +13,8 @@ import lombok.NoArgsConstructor;
 
 /**
  * <p>
- * 
- * </p>
  *
+ * </p>
  * @author wtk
  * @since 2022-01-05
  */
@@ -65,9 +65,8 @@ public class LikeRecord implements Serializable {
         this.userId = userId;
         this.targetId = targetId;
         this.targetType = targetType;
-        likeRecordKey = likeRecordKey(userId, targetId, targetType);
-        likeCountKey = likeCountKey(targetId, targetType);
     }
+
 
     public LikeRecord(String likeRecordKey) {
         String[] split = likeRecordKey.split("::");
@@ -84,16 +83,23 @@ public class LikeRecord implements Serializable {
         this.state = state;
     }
 
-    private static String likeRecordKey(Integer userId, Integer targetId, Integer targetType) {
-        return RedisKey.RECENT_LIKE_RECORD
-                + userId + "::"
-                + targetType + "::"
-                + targetId;
+    public String getLikeRecordKey() {
+        if (likeRecordKey == null) {
+            likeRecordKey = RedisKey.LIKE_RECORD
+                    + userId + "::"
+                    + targetType + "::"
+                    + targetId;
+        }
+        return likeRecordKey;
     }
 
-    private static String likeCountKey(Integer targetId, Integer targetType) {
-        return RedisKey.LIKE_COUNT
-                + targetType + "::"
-                + targetId;
+    public String getLikeCountKey() {
+        if (likeCountKey == null) {
+            likeCountKey = RedisKey.LIKE_COUNT
+                    + targetType + "::"
+                    + targetId;
+        }
+        return likeCountKey;
     }
+
 }

@@ -17,6 +17,11 @@
     </properties>
 
     <dependencies>
+        <!--elasticsearch-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
         <!-- 其他子模块的依赖 -->
         <dependency>
             <groupId>com.wanderfour</groupId>
@@ -25,10 +30,6 @@
         <dependency>
             <groupId>com.wanderfour</groupId>
             <artifactId>nowander-framework</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-like</artifactId>
         </dependency>
         <!--mybatis-plus-->
         <dependency>
@@ -39,12 +40,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!--security-->
         <dependency>
@@ -71,6 +66,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <!--测试-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
         <!--log4j2-->

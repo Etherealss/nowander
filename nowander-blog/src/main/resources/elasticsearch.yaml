@@ -1,0 +1,20 @@
+search:
+  article:
+    test1: a1
+    test2: a2
+    test3: a3
+    # 搜索的field及其权重
+    fields: "{
+      'title': '4.0'
+      'content': '1.0'
+      'category': '3.0'
+      'label1': '3.0'
+      'label2': '3.0'
+      'label3': '3.0'
+      'label4': '3.0'
+      'label5': '3.0'
+    }"
+hightlight:
+  article:
+    pre-tags: <font color='red'>
+    post-tags: </font>

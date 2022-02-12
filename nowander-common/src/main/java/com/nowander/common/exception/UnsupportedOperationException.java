@@ -10,10 +10,10 @@ import com.nowander.common.enums.ApiInfo;
  */
 public class UnsupportedOperationException extends ServiceException {
     public UnsupportedOperationException() {
-        super(ApiInfo.REQUEST_UNSUPPORTED);
+        super(ApiInfo.OPERATE_UNSUPPORTED);
     }
 
     public UnsupportedOperationException(String message) {
-        super(ApiInfo.REQUEST_UNSUPPORTED, message);
+        super(ApiInfo.OPERATE_UNSUPPORTED, message);
     }
 }

@@ -4,18 +4,26 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.nowander.common.pojo.po.Article">
-        <id column="id" property="id" />
-        <result column="category" property="category" />
-        <result column="author_id" property="authorId" />
-        <result column="title" property="title" />
-        <result column="label1" property="label1" />
-        <result column="label2" property="label2" />
-        <result column="label3" property="label3" />
-        <result column="label4" property="label4" />
-        <result column="label5" property="label5" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="collected" property="collected" />
+        <id column="id" property="id"/>
+        <result column="category" property="category"/>
+        <result column="author_id" property="authorId"/>
+        <result column="title" property="title"/>
+        <result column="label1" property="label1"/>
+        <result column="label2" property="label2"/>
+        <result column="label3" property="label3"/>
+        <result column="label4" property="label4"/>
+        <result column="label5" property="label5"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="collected" property="collected"/>
     </resultMap>
+    <select id="pageByLike" resultType="com.nowander.common.pojo.po.Article">
+        SELECT *
+        FROM `article` `a`
+          LEFT JOIN `like_count` `l`
+        ON `a`.`id` = `l`.`target_id`
+          AND `l`.`target_type` = 0
+        ORDER BY `l`.`count` DESC
+    </select>
 
 </mapper>

@@ -9,5 +9,24 @@
         <result column="count" property="count" />
         <result column="gmt_update" property="gmtUpdate" />
     </resultMap>
+    <update id="getLikeCountForUpdate">
+        SELECT `count`
+        FROM `like_count`
+        WHERE target_id = #{likeCount.targetId}
+          AND target_type = #{likeCount.targetType}
+        FOR UPDATE;
+    </update>
+    <update id="updateLikeCount">
+        UPDATE `like_count`
+        SET `count` = #{likeCount.count}
+        WHERE target_id = #{likeCount.targetId}
+          AND target_type = #{likeCount.targetType};
+    </update>
+    <select id="getLikeCount" resultType="java.lang.Integer">
+        SELECT `count`
+        FROM `like_count`
+        WHERE target_id = #{likeCount.targetId}
+          AND target_type = #{likeCount.targetType};
+    </select>
 
 </mapper>

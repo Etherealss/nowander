@@ -13,6 +13,10 @@ public class RedisKey {
      * 已有点赞记录
      */
     public static final String LIKE_RECORD = "likeRecord";
+    /**
+     * 新增点赞数
+     */
+    public static final String RECENT_LIKE_COUNT = "recentLikeCount";
 
     public static final String LIKE_COUNT = "likeCount";
     /**

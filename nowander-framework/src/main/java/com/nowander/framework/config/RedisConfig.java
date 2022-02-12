@@ -13,10 +13,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.*;
 
 import java.time.Duration;
 
@@ -50,21 +47,29 @@ public class RedisConfig {
     private <T> void redisTemplate(RedisConnectionFactory factory,
                                    RedisTemplate<String, T> template, Class<T> clazz) {
         RedisSerializer<String> redisSerializer = new StringRedisSerializer();
+        template.setConnectionFactory(factory);
+        // key序列化
+        template.setKeySerializer(redisSerializer);
+        template.setHashKeySerializer(redisSerializer);
+
+        // value序列化
+        // Jackson2JsonRedisSerializer替换为通用的GenericJackson2JsonRedisSerializer
+        /*
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer
-                = new Jackson2JsonRedisSerializer(Object.class);
+                = new Jackson2JsonRedisSerializer(clazz);
         // 解决查询缓存异常转换异常的问题
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         jackson2JsonRedisSerializer.setObjectMapper(mapper);
-
-        template.setConnectionFactory(factory);
-        // key-value序列化方式
-        template.setKeySerializer(redisSerializer);
         template.setValueSerializer(jackson2JsonRedisSerializer);
-        // value hash序列化方式
         template.setHashValueSerializer(jackson2JsonRedisSerializer);
+        */
+        GenericJackson2JsonRedisSerializer jsonRedisSerializer
+                = new GenericJackson2JsonRedisSerializer();
+        template.setValueSerializer(jsonRedisSerializer);
+        template.setHashValueSerializer(jsonRedisSerializer);
     }
 
     /**
