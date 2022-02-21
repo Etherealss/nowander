@@ -1,9 +1,8 @@
 package com.nowander.chat.config;
 
-import com.nowander.chat.socket.HttpAuthHandler;
-import com.nowander.chat.socket.MyHandshakeInterceptor;
+import com.nowander.chat.socket.WebSocketConnectionHandler;
+import com.nowander.chat.socket.WebSocketHandshakeInterceptor;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -20,19 +19,19 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @AllArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    private HttpAuthHandler httpAuthHandler;
+    private WebSocketConnectionHandler webSocketConnectionHandler;
 
-    private MyHandshakeInterceptor myHandshakeInterceptor;
+    private WebSocketHandshakeInterceptor webSocketHandshakeInterceptor;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry
                 //添加myHandler消息处理对象，和websocket访问地址
-                .addHandler(httpAuthHandler, "websocket")
+                .addHandler(webSocketConnectionHandler, "websocket")
                 //设置允许跨域访问
                 .setAllowedOrigins("*")
                 //添加拦截器可实现用户链接前进行权限校验等操作
-                .addInterceptors(myHandshakeInterceptor);
+                .addInterceptors(webSocketHandshakeInterceptor);
     }
 
     @Bean

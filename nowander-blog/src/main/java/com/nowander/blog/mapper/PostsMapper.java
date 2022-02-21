@@ -1,7 +1,7 @@
 package com.nowander.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.nowander.common.pojo.po.Posts;
+import com.nowander.blog.pojo.po.Posts;
 import org.springframework.stereotype.Repository;
 
 /**

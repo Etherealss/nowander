@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.nowander.common.exception.ServiceException;
+import com.nowander.common.pojo.BaseEntity;
 import com.nowander.common.pojo.po.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("comment")
-public class Comment implements Serializable {
+public class Comment extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -70,8 +71,6 @@ public class Comment implements Serializable {
      * 正常为1，已删除为0
      */
     private Integer state;
-
-    private Date gmtCreate;
 
     public Boolean getIsAuthor() {
         return isAuthor;

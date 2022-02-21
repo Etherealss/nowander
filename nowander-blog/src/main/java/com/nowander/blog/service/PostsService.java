@@ -2,7 +2,7 @@ package com.nowander.blog.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.nowander.common.pojo.po.Posts;
+import com.nowander.blog.pojo.po.Posts;
 
 /**
  * <p>

@@ -1,10 +1,10 @@
 package com.nowander.like.service.impl;
 
-import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.common.enums.ApiInfo;
-import com.nowander.common.pojo.po.LikeCount;
-import com.nowander.common.pojo.po.LikeRecord;
+import com.nowander.common.exception.SimpleException;
+import com.nowander.like.pojo.po.LikeCount;
+import com.nowander.like.pojo.po.LikeRecord;
 import com.nowander.common.pojo.vo.Msg;
 import com.nowander.like.cache.LikeCountCache;
 import com.nowander.like.cache.LikeRecordCache;
@@ -12,14 +12,14 @@ import com.nowander.like.mapper.LikeCountMapper;
 import com.nowander.like.mapper.LikeRecordMapper;
 import com.nowander.like.pool.SaveLikeThreadPool;
 import com.nowander.like.service.LikeService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.Loader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -57,10 +57,9 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
      * 点赞 需要注意竞态条件
      * @param likeRecord
      * @param isLike
-     * @return
      */
     @Override
-    public Msg<Object> likeOrUnlike(LikeRecord likeRecord, Boolean isLike) {
+    public void likeOrUnlike(LikeRecord likeRecord, Boolean isLike) {
         String key = likeRecord.getLikeRecordKey();
         ReentrantLock lock = null;
         if (likeLocks.containsKey(key)) {
@@ -79,9 +78,10 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
         // 点赞
         try {
             lock.wait();
-            Msg<Boolean> hasLiked = this.checkHasLiked(likeRecord);
-            if (hasLiked.getData().equals(isLike)) {
-                return new Msg<>(ApiInfo.LIKE_DUPLICATE);
+            Boolean hasLiked = this.checkHasLiked(likeRecord);
+            if (hasLiked.equals(isLike)) {
+                // 重复点赞
+                throw new SimpleException(ApiInfo.LIKE_DUPLICATE);
             }
             likeRecordCache.setRecentLike(likeRecord, isLike);
             // 只要将点赞记录放到likeRecordCache中，就不怕重复点赞了。所以就可以解锁了
@@ -91,11 +91,10 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
             lock.unlock();
         }
         likeCountCache.increRecentLike(likeRecord, isLike);
-        return Msg.ok();
     }
 
     @Override
-    public Msg<Boolean> checkHasLiked(LikeRecord likeRecord) {
+    public Boolean checkHasLiked(LikeRecord likeRecord) {
         /*
         分三步：
         1. 查“最近点赞记录缓存”，检查用户最近是否有点赞或取消点赞的操作并且该操作记录尚未持久化到数据库
@@ -105,22 +104,22 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
         Boolean recentLike = likeRecordCache.getRecentLike(likeRecord);
         if (recentLike != null) {
             // 不为空，说明用户最近有点赞或取消点赞，但该数据尚未持久化到数据库
-            return Msg.ok(recentLike);
+            return recentLike;
         }
 
         Boolean like = likeRecordCache.getLike(likeRecord);
         if (like != null) {
-            return Msg.ok(like);
+            return like;
         }
         // 从数据库查数据
         like = likeRecordMapper.countLikeRecord(likeRecord) == 1;
         // 更新缓存
         likeRecordCache.setLike(likeRecord, like);
-        return Msg.ok(like);
+        return like;
     }
 
     @Override
-    public Msg<LikeCount> getTotalLikeCount(LikeCount likeCount) {
+    public LikeCount getTotalLikeCount(LikeCount likeCount) {
         // 获取已有点赞数，如果缓存未命中则更新缓存
         Integer count = likeCountCache.getLikeCount(likeCount);
         if (count == null) {
@@ -134,7 +133,7 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
         if (incre != null) {
             likeCount.addCount(incre);
         }
-        return Msg.ok(likeCount);
+        return likeCount;
     }
 
     @Override
@@ -166,7 +165,10 @@ public class LikeServiceImpl extends ServiceImpl<LikeRecordMapper, LikeRecord> i
     @Override
     public void saveRecentLikeCount() {
         Set<String> keys = likeCountCache.getAllKeys();
-        keys.stream().map(key -> likeCountCache.getAndDelRecentLikeCount(key)).forEach(likeCount -> {
+        keys.stream()
+                .map(key -> likeCountCache.getAndDelRecentLikeCount(key))
+                .filter(Objects::nonNull)
+                .forEach(likeCount -> {
             Integer count = likeCountMapper.getLikeCountForUpdate(likeCount);
             likeCount.addCount(count);
             likeCountMapper.updateLikeCount(likeCount);

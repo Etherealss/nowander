@@ -1,7 +1,7 @@
 package com.nowander.like.controller;
 
 
-import com.nowander.common.pojo.po.LikeCount;
+import com.nowander.like.pojo.po.LikeCount;
 import com.nowander.common.pojo.vo.Msg;
 import com.nowander.like.service.LikeService;
 import lombok.AllArgsConstructor;
@@ -35,7 +35,7 @@ public class LikeCountController {
      * @return
      */
     @GetMapping("/{targetType}/{targetId}")
-    public Msg<LikeCount> getLikeCount(@PathVariable Integer targetType, @PathVariable Integer targetId){
+    public LikeCount getLikeCount(@PathVariable Integer targetType, @PathVariable Integer targetId){
         LikeCount likeCount = new LikeCount();
         likeCount.setTargetId(targetId);
         likeCount.setTargetType(targetType);

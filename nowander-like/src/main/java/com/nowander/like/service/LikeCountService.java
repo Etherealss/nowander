@@ -2,7 +2,7 @@ package com.nowander.like.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.nowander.common.pojo.po.LikeCount;
+import com.nowander.like.pojo.po.LikeCount;
 
 /**
  * <p>

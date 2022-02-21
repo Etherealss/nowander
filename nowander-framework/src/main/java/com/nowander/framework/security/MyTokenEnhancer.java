@@ -26,7 +26,7 @@ public class MyTokenEnhancer implements TokenEnhancer {
         map.put("id", principal.getId());
         map.put("username", principal.getUsername());
         map.put("avatar", principal.getAvatar());
-        map.put("registerDate", principal.getRegisterDate());
+        map.put("createTime", principal.getCreateTime());
         map.put("userType", principal.getUserType());
         ((DefaultOAuth2AccessToken)oAuth2AccessToken).setAdditionalInformation(map);
         return oAuth2AccessToken;

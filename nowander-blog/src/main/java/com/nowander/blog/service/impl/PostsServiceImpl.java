@@ -1,6 +1,6 @@
 package com.nowander.blog.service.impl;
 
-import com.nowander.common.pojo.po.Posts;
+import com.nowander.blog.pojo.po.Posts;
 import com.nowander.blog.mapper.PostsMapper;
 import com.nowander.blog.service.PostsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.nowander.common.pojo.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("user")
-public class User implements UserDetails, Serializable {
+public class User extends BaseEntity implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
@@ -89,11 +90,6 @@ public class User implements UserDetails, Serializable {
      * 选课/专业
      */
     private String major;
-
-    /**
-     * 注册时间
-     */
-    private Date registerDate;
 
     /**
      * 权限

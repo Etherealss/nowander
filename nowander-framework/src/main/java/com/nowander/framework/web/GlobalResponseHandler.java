@@ -24,17 +24,30 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
 
+    /**
+     * 方法上 或者所在的类上 有 ResponseAdvice 注解，返回true
+     * @param returnType
+     * @param converterType
+     * @return
+     */
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        // 方法上 或者所在的类上 有 ResponseAdvice 注解，返回true
-        return returnType.getMethodAnnotation(ResponseAdvice.class) != null
-            || returnType.getDeclaringClass().isAnnotationPresent(ResponseAdvice.class);
+        return returnType.getDeclaringClass().isAnnotationPresent(ResponseAdvice.class)
+            || returnType.getMethodAnnotation(ResponseAdvice.class) != null;
     }
 
+    /**
+     *
+     * @param o 返回的对象，当返回值是void时返回null
+     * @param returnType 返回的所有信息，可以获取返回的对象returnValue、对象类型genericParameterType等等
+     * @param selectedContentType 返回值类型，比如 application/json
+     * @param selectedConverterType 返回值转换器 比如 MappingJackson2HttpMessageConverter
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        log.debug("object:{}", o);
-        log.debug("returnType:{}", returnType);
         if (o == null) {
             return Msg.ok();
         }

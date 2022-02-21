@@ -8,7 +8,7 @@ import com.nowander.blog.properties.EsSearchProperties;
 import com.nowander.blog.mapper.ArticleEsDao;
 import com.nowander.blog.mapper.ArticleMapper;
 import com.nowander.blog.service.ArticleService;
-import com.nowander.common.pojo.po.Article;
+import com.nowander.blog.pojo.po.Article;
 import com.nowander.common.pojo.vo.Msg;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private ElasticsearchRestTemplate es;
 
     @Override
-    public Msg<IPage<Article>> page(int curPage, int size, String orderBy) {
+    public IPage<Article> page(int curPage, int size, String orderBy) {
         IPage<Article> page;
         Page<Article> p = new Page<>(curPage, size);
         switch (orderBy) {
@@ -58,11 +58,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             default:
                 page = this.page(p);
         }
-        return Msg.ok(page);
+        return page;
     }
 
     @Override
-    public Msg<List<String>> searchTips(String prefixWord, String indexName, int size) {
+    public List<String> searchTips(String prefixWord, String indexName, int size) {
         CompletionSuggestionBuilder suggestionBuilder = SuggestBuilders
                 .completionSuggestion("title")
                 .prefix(prefixWord)
@@ -75,7 +75,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<String> list = searchHits.stream()
                 .map(searchHit -> searchHit.getContent().getTitle())
                 .collect(Collectors.toList());
-        return Msg.ok(list);
+        return list;
     }
 
     /**
@@ -87,7 +87,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @return
      */
     @Override
-    public Msg<IPage<Article>> searchByHighLigh(String word, int curPage, int size) {
+    public IPage<Article> searchByHighLigh(String word, int curPage, int size) {
         // fragmentSize 高亮字段内容长度，去除html样式标签，统计字数
         // numOfFragment 高亮关键字数量，优先显示，当numOfFragment设置为0时，fragmentSize失效，会返回全部内容。默认为5。
         HighlightBuilder highlightBuilder = new HighlightBuilder();
@@ -118,6 +118,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         long totalPages = totalHits / size;
         totalPages = totalHits % size == 0 ? totalPages : totalPages + 1;
         page.setPages(totalPages);
-        return Msg.ok(page);
+        return page;
     }
 }

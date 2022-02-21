@@ -2,7 +2,7 @@ package com.nowander.blog.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.common.pojo.po.Article;
+import com.nowander.blog.pojo.po.Article;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

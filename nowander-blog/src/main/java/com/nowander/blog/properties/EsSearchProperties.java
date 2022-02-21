@@ -1,9 +1,11 @@
 package com.nowander.blog.properties;
 
+import com.nowander.framework.config.CompositePropertySourceFactory;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -20,13 +22,14 @@ import java.util.Map;
 @Getter
 @Setter
 @Configuration
-@PropertySource("classpath:elasticsearch.yaml")
+@PropertySource(value = "classpath:config/elasticsearch.yaml", factory = CompositePropertySourceFactory.class)
 public class EsSearchProperties {
-    @Value("${highlight.article.preTags}")
+
+    @Value("${elasticsearch.highlight.article.pre-tags}")
     public String[] articlePreTags;
-    @Value("${highlight.article.postTags}")
+    @Value("${elasticsearch.highlight.article.post-tags}")
     public String[] articlePostTags;
-    @Value("${search.article.fields}")
+    @Value("#{${elasticsearch.search.fields.article}}")
     public Map<String, Float> articleFileds;
 
     @PostConstruct

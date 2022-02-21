@@ -3,11 +3,12 @@
 <mapper namespace="com.nowander.like.mapper.LikeCountMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.common.pojo.po.LikeCount">
+    <resultMap id="BaseResultMap" type="com.nowander.like.pojo.po.LikeCount">
         <id column="target_id" property="targetId" />
         <result column="target_type" property="targetType" />
         <result column="count" property="count" />
-        <result column="gmt_update" property="gmtUpdate" />
+        <result column="update_time" property="updateTime" />
+        <result column="create_time" property="createTime" />
     </resultMap>
     <update id="getLikeCountForUpdate">
         SELECT `count`

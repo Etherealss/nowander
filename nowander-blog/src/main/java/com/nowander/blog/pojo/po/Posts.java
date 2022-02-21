@@ -1,4 +1,4 @@
-package com.nowander.common.pojo.po;
+package com.nowander.blog.pojo.po;
 
 
 import java.io.Serializable;

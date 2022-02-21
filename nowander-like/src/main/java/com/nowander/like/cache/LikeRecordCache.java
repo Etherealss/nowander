@@ -1,7 +1,7 @@
 package com.nowander.like.cache;
 
 import com.nowander.common.enums.RedisKey;
-import com.nowander.common.pojo.po.LikeRecord;
+import com.nowander.like.pojo.po.LikeRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;

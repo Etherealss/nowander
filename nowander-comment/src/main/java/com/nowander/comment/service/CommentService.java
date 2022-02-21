@@ -36,7 +36,7 @@ public interface CommentService extends IService<Comment> {
      * @param user
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    Msg<Map<String, Object>> pageComments(
+    Map<String, Object> pageComments(
             Integer parentId, Integer parentType, int curPage,
             int pageSize, int replySize, String orderBy, User user);
 
@@ -49,7 +49,7 @@ public interface CommentService extends IService<Comment> {
      * @param user
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    Msg<Map<String, Object>> pageReplys(Integer commentId, int curPage, int replySize,
+    Map<String, Object> pageReplys(Integer commentId, int curPage, int replySize,
                                       String orderBy, User user);
 
     /**
@@ -58,6 +58,6 @@ public interface CommentService extends IService<Comment> {
      * @param authorId
      * @return
      */
-    Msg<Object> deleteComment(Integer commentId, Integer authorId);
+    void deleteComment(Integer commentId, Integer authorId);
 
 }

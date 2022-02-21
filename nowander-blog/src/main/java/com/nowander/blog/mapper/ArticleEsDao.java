@@ -1,6 +1,6 @@
 package com.nowander.blog.mapper;
 
-import com.nowander.common.pojo.po.Article;
+import com.nowander.blog.pojo.po.Article;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 

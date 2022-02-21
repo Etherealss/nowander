@@ -42,7 +42,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public Msg<Map<String, Object>> pageComments(
+    public Map<String, Object> pageComments(
             Integer parentId, Integer parentType, int curPage,
             int pageSize, int replySize, String orderBy, User user) {
         QueryCommentStrategy strategy;
@@ -58,11 +58,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
         Map<String, Object> map = CommentReplyContext.build4Comment(strategy)
                 .query(parentId, parentType);
-        return Msg.ok(map);
+        return map;
     }
 
     @Override
-    public Msg<Map<String, Object>> pageReplys(
+    public Map<String, Object> pageReplys(
             Integer commentId, int curPage, int replySize, String orderBy, User user) {
         QueryReplyStrategy strategy;
         switch (orderBy) {
@@ -78,11 +78,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
         Map<String, Object> map = CommentReplyContext.build4Reply(strategy)
                 .query(commentId);
-        return Msg.ok(map);
+        return map;
     }
 
     @Override
-    public Msg<Object> deleteComment(Integer commentId, Integer authorId) {
+    public void deleteComment(Integer commentId, Integer authorId) {
         int i = commentMapper.deleteByAuthor(commentId, authorId);
         if (i == 0) {
             // 没有删除
@@ -94,6 +94,5 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 throw new NotAuthorException("id为" + authorId + "的用户不是id为" + commentId + "的作者，无法删除");
             }
         }
-        return Msg.ok();
     }
 }

@@ -1,8 +1,8 @@
 package com.nowander.like.cache;
 
 import com.nowander.common.enums.RedisKey;
-import com.nowander.common.pojo.po.LikeCount;
-import com.nowander.common.pojo.po.LikeRecord;
+import com.nowander.like.pojo.po.LikeCount;
+import com.nowander.like.pojo.po.LikeRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -59,7 +59,7 @@ public class LikeCountCache {
     /**
      * 获取并删除
      * @param key
-     * @return
+     * @return 如果key获取不到count，则返回null
      */
     public LikeCount getAndDelRecentLikeCount(String key) {
         Integer count = hash.get(RedisKey.RECENT_LIKE_COUNT, key);

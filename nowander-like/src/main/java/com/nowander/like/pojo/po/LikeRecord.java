@@ -1,4 +1,4 @@
-package com.nowander.common.pojo.po;
+package com.nowander.like.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import com.nowander.common.enums.RedisKey;
 import com.nowander.common.exception.ServiceException;
+import com.nowander.common.pojo.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @TableName("like_record")
 @NoArgsConstructor
-public class LikeRecord implements Serializable {
+public class LikeRecord extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

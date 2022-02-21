@@ -5,6 +5,7 @@ import com.nowander.comment.pojo.po.Comment;
 import com.nowander.comment.service.CommentService;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.pojo.vo.Msg;
+import com.nowander.framework.annotation.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -19,19 +20,19 @@ import java.util.Map;
 @RestController
 @RequestMapping("/comments")
 @AllArgsConstructor
+@ResponseAdvice
 public class CommentController {
 
     private CommentService commentService;
 
     @PostMapping("/publish")
-    public Msg<Object> publish(@RequestBody Comment comment) {
+    public void publish(@RequestBody Comment comment) {
         commentService.save(comment);
-        return Msg.ok();
     }
 
     @DeleteMapping("/delete/{commentId}")
-    public Msg<Object> delete(@PathVariable("commentId") Integer commentId, User user) {
-        return commentService.deleteComment(commentId, user.getId());
+    public void delete(@PathVariable("commentId") Integer commentId, User user) {
+        commentService.deleteComment(commentId, user.getId());
     }
 
     /**
@@ -46,7 +47,7 @@ public class CommentController {
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
     @PostMapping("/pages/comments/{parentType}/{parentId}/{curPage}")
-    public Msg<Map<String, Object>> pageComment(
+    public Map<String, Object> pageComment(
             @PathVariable(value = "curPage") Integer curPage,
             @PathVariable(value = "parentId") Integer parentId,
             @PathVariable(value = "parentType") Integer parentType,
@@ -67,7 +68,7 @@ public class CommentController {
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
     @PostMapping("/pages/replys/{commentId}/{curPage}")
-    public Msg<Map<String, Object>> pageRepky(
+    public Map<String, Object> pageRepky(
             @PathVariable(value = "curPage") Integer curPage,
             @PathVariable(value = "commentId") Integer commentId,
             @RequestParam(value = "orderBy", required = false) String orderBy,

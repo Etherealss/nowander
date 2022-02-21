@@ -8,6 +8,7 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.DefaultPropertySourceFactory;
 import org.springframework.core.io.support.EncodedResource;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -22,13 +23,14 @@ import java.util.Properties;
  * @author wtk
  * @date 2022-02-12
  */
+@Component
 public class CompositePropertySourceFactory extends DefaultPropertySourceFactory {
 
     /**
      * 文件结尾
      */
-    public static final String YML = ".yml";
-    public static final String YAML = ".yaml";
+    public static final String YML = ".yml",
+                               YAML = ".yaml";
 
     @Override
     public PropertySource<?> createPropertySource(String name, EncodedResource resource)

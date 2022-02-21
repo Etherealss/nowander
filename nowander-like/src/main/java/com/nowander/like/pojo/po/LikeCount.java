@@ -1,4 +1,4 @@
-package com.nowander.common.pojo.po;
+package com.nowander.like.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,10 +8,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.nowander.common.enums.RedisKey;
+import com.nowander.common.pojo.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 /**
  * @author wtk
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @TableName("like_count")
 @NoArgsConstructor
-public class LikeCount implements Serializable {
+public class LikeCount extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,7 +33,6 @@ public class LikeCount implements Serializable {
 
     private Integer count;
 
-    private Date gmtUpdate;
     @TableField(exist = false)
     private String likeCountKey;
 
@@ -55,8 +56,13 @@ public class LikeCount implements Serializable {
         this.count = count;
     }
 
-    public void addCount(Integer add) {
-        count += add;
+    /**
+     * @param add null值会被视为0
+     */
+    public void addCount(@Nullable Integer add) {
+        if (add != null) {
+            count += add;
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.nowander.common.pojo.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sticky_note")
-public class StickyNote implements Serializable {
+public class StickyNote extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

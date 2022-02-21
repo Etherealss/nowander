@@ -3,10 +3,12 @@
 <mapper namespace="com.nowander.like.mapper.LikeRecordMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.common.pojo.po.LikeRecord">
+    <resultMap id="BaseResultMap" type="com.nowander.like.pojo.po.LikeRecord">
         <id column="user_id" property="userId" />
         <result column="target_id" property="targetId" />
-        <result column="type" property="targetType" />
+        <result column="target_type" property="targetType" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
     </resultMap>
     <delete id="delete">
         DELETE FROM like_record

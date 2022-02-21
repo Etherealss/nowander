@@ -2,7 +2,7 @@ package com.nowander.like.controller;
 
 
 import com.nowander.framework.annotation.JsonParam;
-import com.nowander.common.pojo.po.LikeRecord;
+import com.nowander.like.pojo.po.LikeRecord;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.pojo.vo.Msg;
 import com.nowander.like.service.LikeService;
@@ -32,9 +32,9 @@ public class LikeRecordController {
      * @return
      */
     @PostMapping("/do")
-    public Msg<?> doLike(User user, @JsonParam Integer targetId, @JsonParam Integer targetType,
+    public void doLike(User user, @JsonParam Integer targetId, @JsonParam Integer targetType,
                          @JsonParam Boolean isLike) {
-        return likeService.likeOrUnlike(new LikeRecord(user.getId(), targetId, targetType), isLike);
+        likeService.likeOrUnlike(new LikeRecord(user.getId(), targetId, targetType), isLike);
     }
 
     /**
@@ -45,7 +45,7 @@ public class LikeRecordController {
      * @return
      */
     @GetMapping("/check")
-    public Msg<Boolean> checkHasLike(User user, @JsonParam Integer targetId, @JsonParam Integer targetType) {
+    public Boolean checkHasLike(User user, @JsonParam Integer targetId, @JsonParam Integer targetType) {
         return likeService.checkHasLiked(new LikeRecord(user.getId(), targetId, targetType));
     }
 }

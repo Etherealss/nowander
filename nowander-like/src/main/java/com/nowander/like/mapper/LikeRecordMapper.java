@@ -2,11 +2,9 @@ package com.nowander.like.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.nowander.common.pojo.po.LikeRecord;
+import com.nowander.like.pojo.po.LikeRecord;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * @author wtk

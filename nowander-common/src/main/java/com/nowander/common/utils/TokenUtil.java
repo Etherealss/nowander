@@ -75,7 +75,7 @@ public class TokenUtil {
         user.setId(tokenClaims.get("id", Integer.class));
         user.setAvatar(tokenClaims.get("avatar", String.class));
         user.setEmail(tokenClaims.get("username", String.class));
-        user.setRegisterDate(tokenClaims.get("registerTime", Date.class));
+        user.setCreateTime(tokenClaims.get("createTime", Date.class));
         return user;
     }
 }
