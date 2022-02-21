@@ -13,7 +13,7 @@ import java.util.Map;
  * @author wtk
  */
 @Component
-public class MyHandshakeInterceptor implements HandshakeInterceptor {
+public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
 
     /**
      * 握手之前，若返回 false，则不建立链接

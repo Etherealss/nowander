@@ -1,4 +1,4 @@
-package com.nowander.chat.event;
+package com.nowander.chat.domain.event;
 
 import lombok.Getter;
 

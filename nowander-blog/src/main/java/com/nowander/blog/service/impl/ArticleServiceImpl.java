@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.blog.properties.EsSearchProperties;
-import com.nowander.blog.dao.ArticleEsDao;
+import com.nowander.blog.mapper.ArticleEsDao;
 import com.nowander.blog.mapper.ArticleMapper;
 import com.nowander.blog.service.ArticleService;
 import com.nowander.common.pojo.po.Article;
@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
  * @date 2022-01-05
  */
 @Slf4j
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     private ArticleMapper articleMapper;

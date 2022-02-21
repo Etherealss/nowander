@@ -1,4 +1,4 @@
-package com.nowander.blog.dao;
+package com.nowander.blog.mapper;
 
 import com.nowander.common.pojo.po.Article;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;

@@ -1,5 +1,6 @@
 package com.nowander.framework.schedule;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.nowander.common.utils.SpringUtil;
 import com.nowander.framework.schedule.domain.JobInfo;
@@ -36,6 +37,10 @@ public class JobInvokeUtil {
      * @throws Exception
      */
     private static void invokeByGivingValue(JobInfo jobInfo) throws Exception {
+        Assert.notNull(jobInfo);
+        Assert.notNull(jobInfo.getTargetMethod());
+        Assert.notNull(jobInfo.getTargetBean());
+        // TODO 有bug
         jobInfo.getTargetMethod().invoke(jobInfo.getTargetBean(), jobInfo.getInvokeParams());
     }
 

@@ -1,6 +1,6 @@
 package com.nowander.chat.socket;
 
-import com.nowander.chat.event.ConnectionClosedEvent;
+import com.nowander.chat.domain.event.ConnectionClosedEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @AllArgsConstructor
 @Component
-public class HttpAuthHandler extends AbstractWebSocketHandler {
+public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
 
     private final ApplicationEventPublisher applicationEventPublisher;
     private static ConcurrentHashMap<Integer, WebSocketSession> sessionPools = new ConcurrentHashMap<>();

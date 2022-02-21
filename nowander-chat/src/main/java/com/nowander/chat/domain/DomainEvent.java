@@ -1,4 +1,4 @@
-package com.nowander.chat.event;
+package com.nowander.chat.domain;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * <p>
- * </p>
  */
 @Getter
 public abstract class DomainEvent extends ApplicationEvent {

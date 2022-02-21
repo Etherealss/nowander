@@ -20,7 +20,7 @@ public class SaveLikeJobInfo {
         jobInfo.setJobId(ScheduleConstants.JOB_ID_SAVE_LIKE_RECORD);
         jobInfo.setJobName("点赞记录持久化");
         jobInfo.setJobGroup(ScheduleConstants.JOB_JROUP_SAVE_LIKE);
-        jobInfo.setCronExpression("0 0/30 * * * ?");
+        jobInfo.setCronExpression("0 0/1 * * * ?");
 //        jobInfo.setCronExpression("0/1 * * * * ?");
         jobInfo.setTargetMethod(LikeService.class.getMethod("saveRecentLikeRecord"));
         jobInfo.setTargetBean(likeService);
@@ -33,7 +33,7 @@ public class SaveLikeJobInfo {
         jobInfo.setJobId(ScheduleConstants.JOB_ID_SAVE_LIKE_COUNT);
         jobInfo.setJobName("点赞统计持久化");
         jobInfo.setJobGroup(ScheduleConstants.JOB_JROUP_SAVE_LIKE);
-        jobInfo.setCronExpression("0 0/30 * * * ?");
+        jobInfo.setCronExpression("0 0/1 * * * ?");
 //        jobInfo.setCronExpression("0/1 * * * * ?");
         jobInfo.setTargetMethod(LikeService.class.getMethod("saveRecentLikeCount"));
         jobInfo.setTargetBean(likeService);
