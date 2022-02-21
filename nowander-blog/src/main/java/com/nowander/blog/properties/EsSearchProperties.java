@@ -1,4 +1,4 @@
-package com.nowander.blog;
+package com.nowander.blog.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,8 +22,6 @@ import java.util.Map;
 @Configuration
 @PropertySource("classpath:elasticsearch.yaml")
 public class EsSearchProperties {
-    @Value("${search.article.test2}")
-    public String test2;
     @Value("${highlight.article.preTags}")
     public String[] articlePreTags;
     @Value("${highlight.article.postTags}")

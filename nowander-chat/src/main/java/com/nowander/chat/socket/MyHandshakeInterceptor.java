@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * WebSocket连接
+ * @author wtk
  */
 @Component
 public class MyHandshakeInterceptor implements HandshakeInterceptor {

@@ -19,6 +19,10 @@
     <dependencies>
         <dependency>
             <groupId>com.wanderfour</groupId>
+            <artifactId>nowander-chat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wanderfour</groupId>
             <artifactId>nowander-common</artifactId>
         </dependency>
         <dependency>

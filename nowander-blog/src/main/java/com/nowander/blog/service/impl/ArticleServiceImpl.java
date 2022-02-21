@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nowander.blog.EsSearchProperties;
+import com.nowander.blog.properties.EsSearchProperties;
 import com.nowander.blog.dao.ArticleEsDao;
 import com.nowander.blog.mapper.ArticleMapper;
 import com.nowander.blog.service.ArticleService;

@@ -1,8 +1,12 @@
 package com.nowander.chat.config;
 
+import com.nowander.chat.socket.HttpAuthHandler;
+import com.nowander.chat.socket.MyHandshakeInterceptor;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
@@ -13,12 +17,11 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
  */
 @Configuration
 @EnableWebSocket
+@AllArgsConstructor
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    @Autowired
     private HttpAuthHandler httpAuthHandler;
 
-    @Autowired
     private MyHandshakeInterceptor myHandshakeInterceptor;
 
     @Override

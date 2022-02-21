@@ -12,12 +12,15 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @author wtk
+ */
 @AllArgsConstructor
 @Component
 public class HttpAuthHandler extends AbstractWebSocketHandler {
 
     private final ApplicationEventPublisher applicationEventPublisher;
-    static ConcurrentHashMap<Integer, WebSocketSession> sessionPools = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<Integer, WebSocketSession> sessionPools = new ConcurrentHashMap<>();
 
 
     /**

@@ -1,8 +1,5 @@
 search:
   article:
-    test1: a1
-    test2: a2
-    test3: a3
     # 搜索的field及其权重
     fields: "{
       'title': '4.0'

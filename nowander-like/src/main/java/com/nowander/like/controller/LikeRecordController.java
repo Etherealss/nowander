@@ -1,7 +1,7 @@
 package com.nowander.like.controller;
 
 
-import com.nowander.common.annotation.JsonParam;
+import com.nowander.framework.annotation.JsonParam;
 import com.nowander.common.pojo.po.LikeRecord;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.pojo.vo.Msg;

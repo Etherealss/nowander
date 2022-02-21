@@ -1,4 +1,4 @@
-package com.nowander.common.annotation;
+package com.nowander.framework.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

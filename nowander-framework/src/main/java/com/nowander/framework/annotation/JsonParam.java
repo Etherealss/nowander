@@ -1,4 +1,4 @@
-package com.nowander.common.annotation;
+package com.nowander.framework.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 

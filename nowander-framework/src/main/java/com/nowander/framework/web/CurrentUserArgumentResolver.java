@@ -1,11 +1,9 @@
 package com.nowander.framework.web;
 
-import com.nowander.common.annotation.NoCurrentUserParam;
+import com.nowander.framework.annotation.NoCurrentUserParam;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.utils.TokenUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

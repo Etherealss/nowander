@@ -72,6 +72,11 @@
                 <artifactId>nowander-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.wanderfour</groupId>
+                <artifactId>nowander-chat</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!--elasticsearch-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
