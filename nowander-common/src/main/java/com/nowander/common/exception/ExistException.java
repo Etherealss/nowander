@@ -8,7 +8,7 @@ import com.nowander.common.enums.ApiInfo;
  * @description
  * @date 2021-08-12
  */
-public class ExistException extends ServiceException {
+public class ExistException extends AbstractServiceException {
     public ExistException() {
         super(ApiInfo.EXIST);
     }

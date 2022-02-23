@@ -19,6 +19,7 @@ import java.lang.UnsupportedOperationException;
 /**
  * @author wtk
  * @description 全局异常处理
+ * @version 2.0 将多个异常合并
  * @date 2021-08-13
  */
 @Slf4j
@@ -31,16 +32,18 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(SimpleException.class)
     public Msg<Object> handle(SimpleException e) {
-        return new Msg<>(e.getCode(), e.getMessage());
+        return new Msg<>(e);
     }
 
     /**
      * 不支持的操作
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(UnsupportedOperationException.class)
-    public Msg<Object> handle(UnsupportedOperationException e) {
-        log.info("[全局异常处理器]不支持的操作：" + e.getMessage());
+    @ExceptionHandler(
+            UnsupportedOperationException.class
+    )
+    public Msg<Object> handle(AbstractServiceException e) {
+        log.info("Bad Request异常：" + e.getMessage());
         return new Msg<>(e);
     }
 

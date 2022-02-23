@@ -8,7 +8,7 @@ import com.nowander.common.enums.ApiInfo;
  * @description
  * @date 2021-08-12
  */
-public class NotFoundException extends ServiceException {
+public class NotFoundException extends AbstractServiceException {
     public NotFoundException() {
         super(ApiInfo.NOT_FOUND);
     }

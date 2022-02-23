@@ -1,7 +1,7 @@
 package com.nowander.common.pojo.vo;
 
 import com.nowander.common.enums.ApiInfo;
-import com.nowander.common.exception.ServiceException;
+import com.nowander.common.exception.AbstractServiceException;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.AuthenticationException;
@@ -115,7 +115,7 @@ public class Msg<T> implements Serializable {
      * 自定义异常的message包含了ApiInfo的说明和自定义描述
      * @param e
      */
-    public Msg(ServiceException e) {
+    public Msg(AbstractServiceException e) {
         this.code = e.getCode();
         this.message = e.getMessage();
     }

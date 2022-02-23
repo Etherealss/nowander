@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.nowander.common.pojo.BaseEntity;
+import com.nowander.common.pojo.IdentifiedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,15 +23,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sticky_note")
-public class StickyNote extends BaseEntity {
+public class StickyNote extends IdentifiedEntity {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 便利贴id
-     */
-      @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
 
     /**
      * 便利贴作者id

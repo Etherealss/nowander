@@ -1,10 +1,12 @@
-package com.nowander.blog.controller;
+package com.nowander.common.controller;
 
 
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
 import com.nowander.common.enums.AppAttribute;
 import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.service.CaptchaService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,21 +25,21 @@ import java.util.concurrent.TimeUnit;
  * @date 2021-10-05
  */
 @RestController("/captchas")
+@AllArgsConstructor
 public class CaptchaController {
 
-    @Autowired
-    private RedisTemplate<String, Object> redis;
+    private final CaptchaService captchaService;
 
     /**
      * 获取验证码 字节流传输
      * @param response
-     * @param timestamp 使用时间作为key来判断用户
+     * @param timestamp 使用时间作为key来判断用户，key由前端传输并保存
      * @throws IOException
      */
     @GetMapping("/byte/{timestamp}")
     public void captcha(HttpServletResponse response, @PathVariable Date timestamp,
                         @RequestParam(value = "useBase64", defaultValue = "false") Boolean useBase64) throws IOException {
-        AbstractCaptcha captcha = getAndCacheCaptcha(timestamp);
+        AbstractCaptcha captcha = captchaService.getAndCacheCaptcha(timestamp);
         // 关闭浏览器的缓存
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");
@@ -52,29 +54,9 @@ public class CaptchaController {
      * @throws IOException
      */
     @GetMapping("/string/{timestamp}")
-    public Msg<String> captcha4Base64(HttpServletResponse response, @PathVariable Date timestamp) throws IOException {
-        return Msg.ok(getAndCacheCaptcha(timestamp).getImageBase64());
+    public Msg<String> captcha4Base64(HttpServletResponse response, @PathVariable Date timestamp) {
+        return Msg.ok(captchaService.getAndCacheCaptcha(timestamp).getImageBase64());
     }
 
-    /**
-     * 获取并缓存
-     * @param timestamp
-     * @return
-     */
-    private AbstractCaptcha getAndCacheCaptcha(Date timestamp) {
-        AbstractCaptcha captcha = CaptchaUtil.createLineCaptcha(200, 100);
-        captchaCache(captcha, timestamp);
-        return captcha;
-    }
-
-    /**
-     * 缓存到 Redis 中，5分钟超时
-     * @param captcha
-     * @param timestamp
-     */
-    private void captchaCache(AbstractCaptcha captcha, Date timestamp) {
-        redis.opsForValue().set(AppAttribute.CAPTCHAC_CACHE + timestamp.getTime(),
-                captcha.getCode(), 5, TimeUnit.MINUTES);
-    }
 
 }

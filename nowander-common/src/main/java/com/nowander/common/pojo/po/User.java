@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.nowander.common.pojo.BaseEntity;
+import com.nowander.common.pojo.IdentifiedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,12 +25,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("user")
-public class User extends BaseEntity implements UserDetails {
+public class User extends IdentifiedEntity implements UserDetails {
 
     private static final long serialVersionUID = 1L;
-
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
 
     /**
      * 用户名

@@ -8,7 +8,7 @@ import com.nowander.common.enums.ApiInfo;
  * @description 信息不匹配
  * @date 2021-08-12
  */
-public class MismatchException extends ServiceException {
+public class MismatchException extends AbstractServiceException {
     public MismatchException() {
         super(ApiInfo.MISMATCH);
     }

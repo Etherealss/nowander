@@ -19,10 +19,6 @@
     <dependencies>
         <dependency>
             <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-chat</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wanderfour</groupId>
             <artifactId>nowander-common</artifactId>
         </dependency>
         <dependency>
@@ -44,6 +40,10 @@
         <dependency>
             <groupId>com.wanderfour</groupId>
             <artifactId>nowander-blog</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wanderfour</groupId>
+            <artifactId>nowander-chat</artifactId>
         </dependency>
 
         <!-- Spring Boot -->

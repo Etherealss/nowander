@@ -32,10 +32,4 @@ public class EsSearchProperties {
     @Value("#{${elasticsearch.search.fields.article}}")
     public Map<String, Float> articleFileds;
 
-    @PostConstruct
-    public void fun() {
-        log.debug("{}", Arrays.toString(this.getArticlePreTags()));
-        log.debug("{}", Arrays.toString(this.getArticlePostTags()));
-        this.getArticleFileds().forEach((k, v) -> log.debug("field:{}\tboost:{}", k, v));
-    }
 }

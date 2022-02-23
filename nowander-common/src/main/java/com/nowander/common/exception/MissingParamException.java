@@ -8,7 +8,7 @@ import com.nowander.common.enums.ApiInfo;
  * @description
  * @date 2021-08-13
  */
-public class MissingParamException extends ServiceException {
+public class MissingParamException extends AbstractServiceException {
     public MissingParamException() {
         super(ApiInfo.MISSING_PARAM);
     }

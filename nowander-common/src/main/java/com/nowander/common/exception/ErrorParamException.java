@@ -8,7 +8,7 @@ import com.nowander.common.enums.ApiInfo;
  * @description
  * @date 2021-08-13
  */
-public class ErrorParamException extends ServiceException {
+public class ErrorParamException extends AbstractServiceException {
     public ErrorParamException() {
         super(ApiInfo.ERROR_PARAM);
     }

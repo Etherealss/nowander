@@ -1,5 +1,4 @@
 # 开发环境
-myapp:
-  resource:
-    path:
-      avatar: D:/www/nowander/UserAvatar/
+logging:
+  file:
+    path: D://ApplicationLogs/${spring.application.name}

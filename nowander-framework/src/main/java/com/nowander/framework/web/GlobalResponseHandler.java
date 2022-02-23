@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * 方法返回 Msg 实例时，照常返回
  * 方法返回为空时，返回 Msg.ok()
  * 方法返回对象时，包装在 Msg 中返回
+ * https://javadaily.cn/post/2022012758/2fed6f3dba49/
  * @author wtk
  * @date 2022/2/21
  */

@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.blog.properties.EsSearchProperties;
-import com.nowander.blog.mapper.ArticleEsDao;
 import com.nowander.blog.mapper.ArticleMapper;
 import com.nowander.blog.service.ArticleService;
 import com.nowander.blog.pojo.po.Article;
-import com.nowander.common.pojo.vo.Msg;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
@@ -38,7 +36,6 @@ import java.util.stream.Collectors;
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     private ArticleMapper articleMapper;
-    private ArticleEsDao articleEsDao;
     private EsSearchProperties properties;
 
     private ElasticsearchRestTemplate es;

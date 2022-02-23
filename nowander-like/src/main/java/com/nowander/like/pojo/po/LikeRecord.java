@@ -3,10 +3,9 @@ package com.nowander.like.pojo.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import java.io.Serializable;
-
 import com.nowander.common.enums.RedisKey;
-import com.nowander.common.exception.ServiceException;
+import com.nowander.common.exception.AbstractServiceException;
+import com.nowander.common.exception.ServerException;
 import com.nowander.common.pojo.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -72,7 +71,7 @@ public class LikeRecord extends BaseEntity {
     public LikeRecord(String likeRecordKey) {
         String[] split = likeRecordKey.split("::");
         if (split.length != 3) {
-            throw new ServiceException("LikeRecord构造失败！传入的参数不对！");
+            throw new ServerException("LikeRecord构造失败！传入的参数不对！");
         }
         userId = Integer.valueOf(split[0]);
         targetType = Integer.valueOf(split[1]);

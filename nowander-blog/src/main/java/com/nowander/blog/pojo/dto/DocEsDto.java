@@ -1,32 +1,32 @@
-package com.nowander.blog.pojo.po;
+package com.nowander.blog.pojo.dto;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-
-import java.io.Serializable;
-import java.util.Date;
-
-import com.nowander.common.pojo.IdentifiedEntity;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
-import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.util.Date;
+
 /**
- * @author wtk
- * @since 2022-01-05
+ * @author wang tengkun
+ * @date 2022/2/23
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
-@TableName("article")
-public class Article extends IdentifiedEntity {
+@Document(indexName = "doc")
+public class DocEsDto {
+
+    /**
+     * 文章Id
+     */
+    @Id
+    private Integer id;
+
+    @Field(type = FieldType.Text)
+    private String docType;
 
     /**
      * 分区
      */
+    @Field(type = FieldType.Text)
     private Integer category;
 
     /**
@@ -37,40 +37,62 @@ public class Article extends IdentifiedEntity {
     /**
      * 标题
      */
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String title;
 
     /**
      * 内容
      */
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
+
 
     /**
      * 标签1
      */
+    @Field(type = FieldType.Text)
     private String label1;
 
     /**
      * 标签2
      */
+    @Field(type = FieldType.Text)
     private String label2;
 
     /**
      * 标签3
      */
+    @Field(type = FieldType.Text)
     private String label3;
 
     /**
      * 标签4
      */
+    @Field(type = FieldType.Text)
     private String label4;
 
     /**
      * 标签5
      */
+    @Field(type = FieldType.Text)
     private String label5;
+
+    /**
+     * 创建时间
+     */
+    @Field(type = FieldType.Date)
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    @Field(type = FieldType.Date)
+    private Date updateTime;
 
     /**
      * 收藏数
      */
+    @Field(type = FieldType.Integer)
     private Integer collected;
+
 }

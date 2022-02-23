@@ -5,11 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import com.nowander.common.exception.ServiceException;
 import com.nowander.common.pojo.BaseEntity;
+import com.nowander.common.pojo.IdentifiedEntity;
 import com.nowander.common.pojo.po.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,12 +19,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("comment")
-public class Comment extends BaseEntity {
+public class Comment extends IdentifiedEntity {
 
     private static final long serialVersionUID = 1L;
-
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
 
     /**
      * 评论作者用户id

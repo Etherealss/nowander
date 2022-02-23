@@ -1,0 +1,4 @@
+# 开发环境
+logging:
+  file:
+    path: /Documents/ApplicationLogs/${spring.application.name}
