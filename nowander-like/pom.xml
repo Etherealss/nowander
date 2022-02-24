@@ -20,10 +20,6 @@
             <groupId>com.wanderfour</groupId>
             <artifactId>nowander-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-framework</artifactId>
-        </dependency>
         <!-- quartz -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

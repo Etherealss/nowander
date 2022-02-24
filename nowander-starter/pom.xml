@@ -23,10 +23,6 @@
         </dependency>
         <dependency>
             <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-framework</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wanderfour</groupId>
             <artifactId>nowander-like</artifactId>
         </dependency>
         <dependency>

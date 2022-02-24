@@ -1,14 +1,16 @@
 package com.nowander.like.controller;
 
 
-import com.nowander.framework.annotation.JsonParam;
-import com.nowander.like.pojo.po.LikeRecord;
 import com.nowander.common.pojo.po.User;
-import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.web.JsonParam;
+import com.nowander.like.pojo.po.LikeRecord;
 import com.nowander.like.service.LikeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 前端控制器

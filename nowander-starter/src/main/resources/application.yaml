@@ -93,7 +93,8 @@ mybatis-plus:
 logging:
   config: classpath:log4j2.xml
 
-nowander:
-  like:
-    save:
-      work-queue-capacity: 8
+jwt:
+  key: "bm93YW5kZXI="
+  header: Auth
+  expire-seconds: 360
+  sub: nowander

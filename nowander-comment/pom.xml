@@ -28,12 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-framework</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wanderfour</groupId>
             <artifactId>nowander-user</artifactId>
-            <version>0.0.1</version>
         </dependency>
         <!--mybatis-plus-->
         <dependency>

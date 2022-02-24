@@ -1,8 +1,8 @@
 package com.nowander.comment.strategy;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.nowander.comment.mapper.CommentMapper;
 import com.nowander.common.pojo.po.User;
-import com.nowander.common.utils.SpringUtil;
 import com.nowander.common.mapper.UserMapper;
 import lombok.Data;
 

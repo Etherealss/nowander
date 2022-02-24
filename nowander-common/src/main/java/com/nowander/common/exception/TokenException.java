@@ -15,7 +15,13 @@ public class TokenException extends AuthenticationException {
     private String msg;
 
     public TokenException(ApiInfo apiInfo, String message) {
-        super(message);
+        super(message + apiInfo.getMessage());
+        this.code = apiInfo.getCode();
+        this.msg = apiInfo.getMessage();
+    }
+
+    public TokenException(ApiInfo apiInfo) {
+        super(apiInfo.getMessage());
         this.code = apiInfo.getCode();
         this.msg = apiInfo.getMessage();
     }
