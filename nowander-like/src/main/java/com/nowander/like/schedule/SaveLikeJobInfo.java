@@ -1,7 +1,7 @@
 package com.nowander.like.schedule;
 
 import com.nowander.common.enums.ScheduleConstants;
-import com.nowander.framework.schedule.domain.JobInfo;
+import com.nowander.common.schedule.domain.JobInfo;
 import com.nowander.like.service.LikeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

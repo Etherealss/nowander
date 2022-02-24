@@ -44,11 +44,6 @@
             </dependency>
             <dependency>
                 <groupId>com.wanderfour</groupId>
-                <artifactId>nowander-framework</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.wanderfour</groupId>
                 <artifactId>nowander-blog</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -277,7 +272,7 @@
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
-                <version>5.4.4</version>
+                <version>5.7.21</version>
             </dependency>
             <!--quartz-->
             <dependency>

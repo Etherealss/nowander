@@ -43,7 +43,8 @@ public enum ApiInfo {
     CAPTCHA_ERROR(10304, "[验证码异常]"),
 
     TOKEN_MISSING(10401, "[token缺失]"),
-    TOKEN_EXP(10402, "[token缺失]"),
+    TOKEN_INVALID(10401, "[token无效]"),
+    TOKEN_EXP(10402, "[token已过期]"),
 
     LIKE_DUPLICATE(100501, "重复点赞或取消");
 

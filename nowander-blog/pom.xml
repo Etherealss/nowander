@@ -27,10 +27,6 @@
             <groupId>com.wanderfour</groupId>
             <artifactId>nowander-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-framework</artifactId>
-        </dependency>
         <!--mybatis-plus-->
         <dependency>
             <groupId>com.baomidou</groupId>

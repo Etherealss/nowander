@@ -24,7 +24,7 @@ public class RedisKey {
      */
     public static final String LIKE_COUNT_INC = "likeCountInr";
 
-
+    public static final String USER_TOKEN = "token_";
 
     public static final String WACTH_LOCK = "LOCK";
 
