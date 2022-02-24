@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -53,6 +55,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MyJwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
+     * 自定义配置 DaoAuthenticationProvider，
+     * 唯一的目的是将 HideUserNotFoundExceptions 设置为 false，
+     * 使SpringSecurity不隐藏 UsernameNotFoundException
+     * @return
+     */
+    @Bean
+    public AuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(getPasswordEncoder());
+        daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
+        return daoAuthenticationProvider;
+    }
+
+    /**
      * 将AuthenticationManager注入容器
      * @return
      * @throws Exception
@@ -65,7 +82,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
+        auth.authenticationProvider(daoAuthenticationProvider())
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(getPasswordEncoder());
     }
 

@@ -35,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userMapper.selectUserByUsername(username);
         //判断
         if (user == null) {
-            log.info("登录用户不存在,username = {}。", username);
+            log.info("登录用户不存在,username = '{}'", username);
             throw new UsernameNotFoundException("登录用户：" + username + " 不存在");
         }
 

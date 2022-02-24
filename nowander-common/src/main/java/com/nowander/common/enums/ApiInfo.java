@@ -33,9 +33,10 @@ public enum ApiInfo {
 
     AUTHORIZATION_FAILED(4011, "[认证未通过]"),
 
-    PASSWORD_ERROR(10201, "[密码错误]"),
-    LOGIN_USER_NOT_FOUND(10202, "[登录用户不存在]"),
-    USER_LOGGED(10203, "[用户已登录]"),
+    LOGIN_FAIL(10201, "[登录失败]"),
+    PASSWORD_ERROR(10202, "[密码错误]"),
+    LOGIN_USER_NOT_FOUND(10203, "[登录用户不存在]"),
+    USER_LOGGED(10204, "[用户已登录]"),
 
     CAPTCHA_MISSING(10301, "[未输入验证码]"),
     CAPTCHA_NOT_MATCH(10302, "[验证码不匹配]"),

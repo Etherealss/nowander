@@ -57,9 +57,9 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
     public void handleBadCredentialsException(HttpServletRequest request,
                                               HttpServletResponse response,
                                               BadCredentialsException e) throws IOException {
-        Msg<?> msg = new Msg<>(ApiInfo.PASSWORD_ERROR);
+        Msg<?> msg = new Msg<>(ApiInfo.LOGIN_FAIL, e.getMessage());
         ResponseUtil.send(response, msg);
-        log.trace("登录失败：密码错误");
+        log.trace("登录失败：{}", e.getMessage());
     }
 
 }
