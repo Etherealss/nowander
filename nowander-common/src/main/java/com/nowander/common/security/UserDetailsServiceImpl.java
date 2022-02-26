@@ -1,4 +1,4 @@
-package com.nowander.common.service.impl;
+package com.nowander.common.security;
 
 import com.nowander.common.mapper.UserMapper;
 import com.nowander.common.pojo.po.User;

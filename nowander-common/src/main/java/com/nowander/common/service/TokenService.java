@@ -8,10 +8,12 @@ import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.nowander.common.config.JwtConfig;
 import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.enums.RedisKey;
 import com.nowander.common.exception.TokenException;
 import com.nowander.common.pojo.po.User;
 import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,7 @@ import java.util.Map;
 public class TokenService {
 
     private JwtConfig jwtConfig;
+    private RedisTemplate<String, String> redisTemplate;
 
     public String createToken(User user) {
         Map<String, Object> payload = new HashMap<>(8);
@@ -139,11 +142,13 @@ public class TokenService {
         if (StrUtil.isBlank(token)) {
             throw new TokenException(ApiInfo.TOKEN_MISSING);
         }
-        if (expiredToken(token)) {
-            throw new TokenException(ApiInfo.TOKEN_EXP);
-        }
         if (!verifyToken(token)) {
             throw new TokenException(ApiInfo.TOKEN_INVALID);
+        }
+        String username = (String) parseAndGet(token, "username");
+        // 缓存中没有就说明token过期了
+        if (redisTemplate.opsForValue().get(RedisKey.USER_TOKEN + username) == null) {
+            throw new TokenException(ApiInfo.TOKEN_EXP);
         }
     }
 

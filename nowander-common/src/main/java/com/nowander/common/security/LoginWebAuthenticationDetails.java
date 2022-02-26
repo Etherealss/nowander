@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 保存登录验证码
+ * @see LoginAuthenticationProvider
  * @author wang tengkun
  * @date 2022/2/23
  */
@@ -24,8 +25,6 @@ public class LoginWebAuthenticationDetails extends WebAuthenticationDetails {
      * 前端时间戳参数名
      */
     private static final String LOGIN_CAPTCHA_KEY_NAME = "captchaTimestamp";
-
-    private RedisTemplate<String, String> redisTemplate;
 
     private final String captchaCode;
 

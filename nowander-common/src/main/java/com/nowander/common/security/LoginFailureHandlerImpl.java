@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
-public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
+public class LoginFailureHandlerImpl implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(
             HttpServletRequest request, HttpServletResponse response,

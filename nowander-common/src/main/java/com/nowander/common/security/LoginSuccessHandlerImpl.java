@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
+public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
     private TokenService tokenService;
 
@@ -46,7 +46,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 
         // 获取并缓存token
         String token = tokenService.createToken(user);
-        redisTemplate.opsForValue().set(RedisKey.USER_TOKEN, token, jwtConfig.getExpireSeconds(), TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(RedisKey.USER_TOKEN + user.getUsername(), token, jwtConfig.getExpireSeconds(), TimeUnit.SECONDS);
 
         Msg<Map<String, Object>> msg = Msg.ok("登录成功");
         Map<String, Object> data = new HashMap<>(4);
