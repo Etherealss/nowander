@@ -11,6 +11,7 @@ import com.nowander.common.enums.ApiInfo;
 import com.nowander.common.enums.RedisKey;
 import com.nowander.common.exception.TokenException;
 import com.nowander.common.pojo.po.User;
+import com.nowander.common.utils.TokenUtil;
 import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -54,55 +55,14 @@ public class TokenService {
         return JWTUtil.createToken(payload, jwtSigner);
     }
 
+
     /**
      * 校验token是否有效，但不检验是否过期
      * @param token
      * @return
      */
-    private boolean verifyToken(String token) {
+    public boolean verifyToken(String token) {
         return JWTUtil.verify(token, jwtConfig.getKeyBytes());
-    }
-
-    /**
-     * 校验token是否过期
-     * @param token
-     * @return
-     */
-    private boolean expiredToken(String token) {
-        return System.currentTimeMillis() < getExpiredToken(token);
-    }
-
-    /**
-     * 获取token过期时间
-     * @param token
-     * @return
-     */
-    private long getExpiredToken(String token) {
-        return Long.parseLong(parseAndGet(token, "expire_time").toString());
-    }
-
-    /**
-     * 解析jwt
-     * @param token
-     * @return
-     */
-    private JSONObject parse(@NotNull String token) {
-        return JWTUtil.parseToken(token).getPayload().getClaimsJson();
-    }
-
-    /**
-     * 解析jwt，获取某个属性
-     * @param token
-     * @param name
-     * @return
-     */
-    private Object parseAndGet(String token, String name) {
-        return JWTUtil.parseToken(token).getPayload().getClaim(name);
-    }
-
-
-    private boolean existToken(HttpServletRequest request) {
-        return StrUtil.isBlank(getTokenStringWithoutVerify(request));
     }
 
     /**
@@ -145,25 +105,11 @@ public class TokenService {
         if (!verifyToken(token)) {
             throw new TokenException(ApiInfo.TOKEN_INVALID);
         }
-        String username = (String) parseAndGet(token, "username");
+        String username = (String) TokenUtil.parseAndGet(token, "username");
         // 缓存中没有就说明token过期了
         if (redisTemplate.opsForValue().get(RedisKey.USER_TOKEN + username) == null) {
             throw new TokenException(ApiInfo.TOKEN_EXP);
         }
-    }
-
-    /**
-     * 判断是否具有有效token
-     * @param request
-     * @return
-     */
-    @Nullable
-    public boolean verifyTokenIfExist(HttpServletRequest request) {
-        String token = getTokenStringWithoutVerify(request);
-        if (token == null) {
-            return false;
-        }
-        return verifyToken(token);
     }
 
     /**
@@ -173,7 +119,8 @@ public class TokenService {
      * @throws TokenException
      */
     public User requireUserByToken(HttpServletRequest request) throws TokenException {
-        JSONObject tokenClaims = parse(requireVaildToken(request));
+        String vaildToken = requireVaildToken(request);
+        JSONObject tokenClaims = TokenUtil.parse(vaildToken);
         return createUser(tokenClaims);
     }
 
