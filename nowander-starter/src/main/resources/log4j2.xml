@@ -8,8 +8,7 @@
     <properties>
         <property name="fileLevel">trace</property>
         <property name="rootLevel">trace</property>
-        <!-- Spring 预设的变量，可以在application.yaml中指定 -->
-        <property name="LOG_HOME">${sys:LOG_PATH}</property>
+        <property name="LOG_HOME">${web:rootDir}/log</property>
         <!--控制台输出格式-->
         <!--%d{HH:mm:ss.SSS} [%t] [%-5level] %c{36}:%L - %m%n-->
         <property name="consolePatternLayout">

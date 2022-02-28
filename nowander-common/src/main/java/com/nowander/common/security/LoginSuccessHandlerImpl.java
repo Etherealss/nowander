@@ -1,7 +1,6 @@
 package com.nowander.common.security;
 
-import com.nowander.common.config.JwtConfig;
-import com.nowander.common.enums.RedisKey;
+import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.pojo.vo.Msg;
 import com.nowander.common.service.TokenService;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author wtk
@@ -44,10 +42,12 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
         User user = (User) authentication.getPrincipal();
         log.info("登录成功：{}", user.getUsername());
 
-        // 获取并缓存token
+        // 获取token
         String token = tokenService.createToken(user);
-        redisTemplate.opsForValue().set(RedisKey.USER_TOKEN + user.getUsername(), token, jwtConfig.getExpireSeconds(), TimeUnit.SECONDS);
 
+//        redisTemplate.opsForValue().set(RedisKey.USER_TOKEN_BLACKLIST + user.getUsername(), token, jwtConfig.getExpireMs(), TimeUnit.SECONDS);
+        // 登录成功，从黑名单中移除
+        redisTemplate.opsForValue().getAndDelete(RedisKeyPrefix.USER_TOKEN_BLACKLIST + user.getUsername());
         Msg<Map<String, Object>> msg = Msg.ok("登录成功");
         Map<String, Object> data = new HashMap<>(4);
         data.put("user", user);

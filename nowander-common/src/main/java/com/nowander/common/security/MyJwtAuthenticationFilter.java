@@ -2,7 +2,6 @@ package com.nowander.common.security;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.nowander.common.config.JwtConfig;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.service.TokenService;
 import lombok.AllArgsConstructor;
@@ -41,18 +40,19 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = jwtConfig.getHeader();
+        String header = jwtConfig.getTokenHeader();
         String authToken = request.getHeader(header);
 
-        String tokenWithoutVerify = tokenService.getTokenStringWithoutVerify(request);
+        String token = request.getHeader(jwtConfig.getTokenHeader());
 
         // 校验token是否为有效token
-        if (!StrUtil.isBlank(tokenWithoutVerify) && ObjectUtil.isNull(SecurityContextHolder.getContext().getAuthentication())) {
+        if (!StrUtil.isBlank(token) && ObjectUtil.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             // token有效，但SpringSecurity上下文没有User对象，则验证token，不通过时直接抛异常，通过了跳过登录
             User user = tokenService.requireUserByToken(request);
+            // 不在token黑名单
             // token有效，跳过账号密码，直接登录
             UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
-            //清除密码
+            // 清除密码
             user.setPassword(null);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

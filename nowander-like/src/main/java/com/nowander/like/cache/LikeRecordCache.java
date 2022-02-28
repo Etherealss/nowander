@@ -1,6 +1,6 @@
 package com.nowander.like.cache;
 
-import com.nowander.common.enums.RedisKey;
+import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.like.pojo.po.LikeRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
@@ -32,11 +32,11 @@ public class LikeRecordCache {
     }
 
     public void setRecentLike(LikeRecord likeRecord, Boolean isLike) {
-        hash.put(RedisKey.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
+        hash.put(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
     }
 
     public void setLike(LikeRecord likeRecord, Boolean isLike) {
-        hash.put(RedisKey.LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
+        hash.put(RedisKeyPrefix.LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
     }
 
     /**
@@ -57,10 +57,10 @@ public class LikeRecordCache {
         redis.multi();
         redis.opsForValue().set(likeRecord.getWatchLikeRecord(), isLike.toString());
         // 如果上面这个操作没问题，那么说明watch没有冲突
-        Boolean o = hash.get(RedisKey.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
+        Boolean o = hash.get(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
         if (o == null) {
             // 数据一致，将数据库的点赞记录添加到缓存中
-            hash.put(RedisKey.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
+            hash.put(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
             redis.exec();
             return true;
         } else if (!isLike.equals(o)) {
@@ -79,7 +79,7 @@ public class LikeRecordCache {
      * @return
      */
     public Boolean getLike(LikeRecord likeRecord) {
-        return hash.get(RedisKey.LIKE_RECORD, likeRecord.getLikeRecordKey());
+        return hash.get(RedisKeyPrefix.LIKE_RECORD, likeRecord.getLikeRecordKey());
     }
 
     /**
@@ -88,20 +88,20 @@ public class LikeRecordCache {
      * @return
      */
     public Boolean getRecentLike(LikeRecord likeRecord) {
-        return hash.get(RedisKey.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
+        return hash.get(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
     }
 
     public void delLike(LikeRecord likeRecord) {
-        hash.delete(RedisKey.LIKE_RECORD, likeRecord.getLikeRecordKey());
+        hash.delete(RedisKeyPrefix.LIKE_RECORD, likeRecord.getLikeRecordKey());
     }
 
     public void delRecentLike(LikeRecord likeRecord) {
-        hash.delete(RedisKey.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
+        hash.delete(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
     }
 
     public List<LikeRecord> getAndDelAllRecentLikeRecord() {
         // 只有Recent点赞记录需要持久化
-        return getAndDelAllLikeRecord(RedisKey.RECENT_LIKE_RECORD);
+        return getAndDelAllLikeRecord(RedisKeyPrefix.RECENT_LIKE_RECORD);
     }
 
     /**

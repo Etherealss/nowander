@@ -1,20 +1,23 @@
 package com.nowander.common.service;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
+import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.nowander.common.config.JwtConfig;
+import com.nowander.common.security.JwtConfig;
 import com.nowander.common.enums.ApiInfo;
-import com.nowander.common.enums.RedisKey;
+import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.exception.TokenException;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.utils.TokenUtil;
 import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +26,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * JWT: https://blog.csdn.net/weixin_45070175/article/details/118559272
+ * Header: alg 签名算法，默认为HMAC SHA256（写为HS256）; typ 令牌类型，JWT令牌统一写为JWT。
+ * Payload:
+ *      iss：发行人
+ *      exp：到期时间
+ *      sub：主题
+ *      aud：用户
+ *      nbf：在此之前不可用
+ *      iat：发布时间
+ * jti：JWT ID用于标识该JWT
  * @author wang tengkun
  * @date 2022/2/23
  */
@@ -33,22 +46,49 @@ public class TokenService {
     private JwtConfig jwtConfig;
     private RedisTemplate<String, String> redisTemplate;
 
+    @NonNull
+    public String refleshToken(HttpServletRequest request) {
+        String refleshToken = request.getHeader(jwtConfig.getRefleshHeader());
+        this.requireVaildToken(refleshToken);
+        JSONObject claims = TokenUtil.parse(refleshToken);
+        User user = new User();
+        user.setId(claims.get("id", Integer.class));
+        user.setUsername(claims.get("username", String.class));
+        Assert.notNull(user.getId());
+        Assert.notBlank(user.getUsername());
+        return this.createToken(user);
+    }
+
     public String createToken(User user) {
         Map<String, Object> payload = new HashMap<>(8);
         payload.put("id", user.getId());
         payload.put("username", user.getUsername());
         payload.put("avatar", user.getAvatar());
-        return createToken(payload);
+        return createToken(payload, false);
+    }
+
+    public String createRefleshToken(User user) {
+        Map<String, Object> payload = new HashMap<>(8);
+        payload.put("id", user.getId());
+        payload.put("username", user.getUsername());
+        return createToken(payload, true);
     }
 
     /**
      * 生成jwt
      * @param payload 数据主体
+     * @param isReflesh
      * @return
      */
-    public String createToken(Map<String, Object> payload) {
+    public String createToken(Map<String, Object> payload, boolean isReflesh) {
         // 每个jwt都默认生成一个到期时间
-        payload.put("expire_time", System.currentTimeMillis() + jwtConfig.getExpireSeconds());
+        if (isReflesh) {
+            payload.put(JWT.EXPIRES_AT, System.currentTimeMillis() + jwtConfig.getRefleshExpireMs());
+        } else {
+            payload.put(JWT.EXPIRES_AT, System.currentTimeMillis() + jwtConfig.getExpireMs());
+        }
+        payload.put(JWT.ISSUED_AT, System.currentTimeMillis());
+        payload.put(JWT.ISSUER, jwtConfig.getIssuer());
         // 生成私钥
         JWTSigner jwtSigner = JWTSignerUtil.hs256(jwtConfig.getKeyBytes());
         // 生成token
@@ -66,38 +106,23 @@ public class TokenService {
     }
 
     /**
-     * 从request中获取token字符串，但没有任何验证
-     * @param request
-     * @return 可能为null
-     */
-    @Nullable
-    public String getTokenStringWithoutVerify(HttpServletRequest request) {
-        String authorization = request.getHeader(jwtConfig.getHeader());
-        if (StringUtils.isBlank(authorization)) {
-            return null;
-        }
-        int index = authorization.indexOf(jwtConfig.getTokenType());
-        if (index == -1) {
-            return null;
-        }
-        String token = authorization.substring(index + jwtConfig.getTokenTypeLength());
-        return token.trim();
-    }
-
-    /**
      * 获取token并进行校验
      * @param request
      * @return
      * @throws TokenException 当token缺失、过期、非法时抛出
      */
-    @NotNull
+    @NonNull
     public String requireVaildToken(HttpServletRequest request) {
-        String token = getTokenStringWithoutVerify(request);
+        String token = request.getHeader(jwtConfig.getTokenHeader());
         requireVaildToken(token);
+        assert token != null;
         return token;
     }
 
-    @NotNull
+    /**
+     * 检查token是否有效、过期
+     * @param token
+     */
     public void requireVaildToken(String token) {
         if (StrUtil.isBlank(token)) {
             throw new TokenException(ApiInfo.TOKEN_MISSING);
@@ -105,10 +130,14 @@ public class TokenService {
         if (!verifyToken(token)) {
             throw new TokenException(ApiInfo.TOKEN_INVALID);
         }
-        String username = (String) TokenUtil.parseAndGet(token, "username");
-        // 缓存中没有就说明token过期了
-        if (redisTemplate.opsForValue().get(RedisKey.USER_TOKEN + username) == null) {
+        if (TokenUtil.expiredToken(token)) {
+            // 过期
             throw new TokenException(ApiInfo.TOKEN_EXP);
+        }
+        String username = (String) TokenUtil.parseAndGet(token, "username");
+        if (redisTemplate.opsForValue().get(RedisKeyPrefix.USER_TOKEN_BLACKLIST + username) != null) {
+            // 虽然token还没过期，但username在黑名单中，说明用户已登出，不能使用token，必须重新登录
+            throw new TokenException(ApiInfo.TOKEN_INVALID);
         }
     }
 
@@ -127,8 +156,11 @@ public class TokenService {
     private User createUser(@NotNull JSONObject tokenClaims) {
         User user = new User();
         user.setId(tokenClaims.get("id", Integer.class));
-        user.setEmail(tokenClaims.get("username", String.class));
+        user.setUsername(tokenClaims.get("username", String.class));
         user.setAvatar(tokenClaims.get("avatar", String.class));
+        Assert.notNull(user.getId());
+        Assert.notBlank(user.getUsername());
+        Assert.notBlank(user.getAvatar());
         return user;
     }
 }

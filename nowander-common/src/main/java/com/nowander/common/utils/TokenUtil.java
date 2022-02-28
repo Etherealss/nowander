@@ -2,14 +2,11 @@ package com.nowander.common.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
+import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
-import cn.hutool.jwt.signers.JWTSigner;
-import cn.hutool.jwt.signers.JWTSignerUtil;
-import com.nowander.common.config.JwtConfig;
+import com.nowander.common.security.JwtConfig;
 import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Map;
 
 /**
  * @author wtk
@@ -39,7 +36,7 @@ public class TokenUtil {
      * @return
      */
     public static long getExpiredToken(String token) {
-        return Long.parseLong(parseAndGet(token, "expire_time").toString());
+        return Long.parseLong(parseAndGet(token, JWT.EXPIRES_AT).toString());
     }
 
     /**
@@ -59,9 +56,5 @@ public class TokenUtil {
      */
     public static Object parseAndGet(String token, String name) {
         return JWTUtil.parseToken(token).getPayload().getClaim(name);
-    }
-
-    public static String refleshToken(String refleshToken) {
-        return "";
     }
 }

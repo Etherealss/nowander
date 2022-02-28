@@ -1,4 +1,4 @@
-package com.nowander.common.config;
+package com.nowander.common.security;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,16 +19,31 @@ public class JwtConfig {
     /**
      * 前端 token 存放的请求头的位置
      */
-    private String header;
+    private String tokenHeader = "Auth";
+    /**
+     * 前端 reflesh token 存放的请求头的位置
+     */
+    private String refleshHeader = "reflesh_token";
     /**
      * 密钥
      */
     private String key;
-    private String sub;
     /**
-     * 失效时间间隔 单位：秒
+     * 主题
      */
-    private Long expireSeconds;
+    private String subject;
+    /**
+     * 发行人
+     */
+    private String issuer = "NoWander";
+    /**
+     * token失效时间间隔
+     */
+    private Long expireMs;
+    /**
+     * reflesh token 的失效时间
+     */
+    private Long refleshExpireMs;
     /**
      * key的byte[]
      */
@@ -38,16 +53,6 @@ public class JwtConfig {
     public void postConstruct() {
         keyBytes = key.getBytes();
     }
-
-    /**
-     * token类型
-     */
-    private String tokenType = "Bearer";
-
-    /**
-     * token类型的字符串长度，用于截取字符串
-     */
-    private int tokenTypeLength = tokenType.length() + 1;
 
     public static final String REDIS_CACHE_PREFIX = "token_";
 }

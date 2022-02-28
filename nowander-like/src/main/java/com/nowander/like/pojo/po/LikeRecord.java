@@ -3,8 +3,7 @@ package com.nowander.like.pojo.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.nowander.common.enums.RedisKey;
-import com.nowander.common.exception.AbstractServiceException;
+import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.exception.ServerException;
 import com.nowander.common.pojo.BaseEntity;
 import lombok.Data;
@@ -56,7 +55,7 @@ public class LikeRecord extends BaseEntity {
 
     public String getWatchLikeRecord() {
         if (watchLikeRecord == null) {
-            watchLikeRecord = RedisKey.WACTH_LOCK + "::" + likeRecordKey;
+            watchLikeRecord = RedisKeyPrefix.WACTH_LOCK + "::" + likeRecordKey;
         }
         return watchLikeRecord;
     }
@@ -85,7 +84,7 @@ public class LikeRecord extends BaseEntity {
 
     public String getLikeRecordKey() {
         if (likeRecordKey == null) {
-            likeRecordKey = RedisKey.LIKE_RECORD
+            likeRecordKey = RedisKeyPrefix.LIKE_RECORD
                     + userId + "::"
                     + targetType + "::"
                     + targetId;
@@ -95,7 +94,7 @@ public class LikeRecord extends BaseEntity {
 
     public String getLikeCountKey() {
         if (likeCountKey == null) {
-            likeCountKey = RedisKey.LIKE_COUNT
+            likeCountKey = RedisKeyPrefix.LIKE_COUNT
                     + targetType + "::"
                     + targetId;
         }

@@ -3,13 +3,8 @@ package com.nowander.like.pojo.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-import java.util.Date;
-
-import com.nowander.common.enums.RedisKey;
+import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.pojo.BaseEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,7 +33,7 @@ public class LikeCount extends BaseEntity {
 
     public String getLikeCountKey() {
         if (likeCountKey == null) {
-            likeCountKey = RedisKey.LIKE_COUNT + "::" + targetType + "::" + targetId;
+            likeCountKey = RedisKeyPrefix.LIKE_COUNT + "::" + targetType + "::" + targetId;
         }
         return likeCountKey;
     }

@@ -57,13 +57,13 @@ spring:
       aop-patterns: com.atguigu.admin.*  # 监控这个包下的所有spring组件
       filters: stat,wall,slf4j  # 开启的功能，需要再配置具体的filter
 
-      stat-view-servlet:  # 监控页配置
+      stat-view-servlet: # 监控页配置
         enabled: true # 默认没有开启
         login-username: admin # 登录页限制登录用户
         login-password: admin
         resetEnable: false
 
-      web-stat-filter:  #web监控
+      web-stat-filter: #web监控
         enabled: true
         urlPattern: /*
         exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
@@ -86,14 +86,18 @@ spring:
 # mybatisplus配置
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
-  configuration:  # 指定mybatis全局配置文件中的相关配置项
+  configuration: # 指定mybatis全局配置文件中的相关配置项
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
 logging:
   config: classpath:log4j2.xml
 
 jwt:
   key: "bm93YW5kZXI="
   header: Auth
-  expire-seconds: 360
-  sub: nowander
+  # 五分钟
+  expire-ms: 300000
+  # 两天
+  reflesh-expire-ms: 172800000
+  subject: ${spring.application.name}

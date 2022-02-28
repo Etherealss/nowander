@@ -4,7 +4,7 @@ package com.nowander.common.enums;
  * @author wtk
  * @date 2022-01-26
  */
-public class RedisKey {
+public class RedisKeyPrefix {
     /**
      * 新点赞记录
      */
@@ -24,7 +24,7 @@ public class RedisKey {
      */
     public static final String LIKE_COUNT_INC = "likeCountInr";
 
-    public static final String USER_TOKEN = "token_";
+    public static final String USER_TOKEN_BLACKLIST = "token_blacklist_";
 
     public static final String WACTH_LOCK = "LOCK";
 

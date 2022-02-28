@@ -1,4 +1,4 @@
-package com.nowander.common.config;
+package com.nowander.common.web;
 
 import com.nowander.common.web.CurrentUserArgumentResolver;
 import com.nowander.common.web.JsonArgumentResolver;

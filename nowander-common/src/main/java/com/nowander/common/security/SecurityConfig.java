@@ -42,13 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_PAGE_PATH = "http://localhost:8080/#/login";
     private static final String DEFAULT_SUCCESS_URL = "/test.html";
 
-
-    /** token过期时间（秒） */
-    private static final int TOKEN_VALIDITY_SECONDS = 60 * 60 * 10;
-    /** token刷新时间 */
-    private static final int REFRESH_TOKEN_TIME = 60 * 60 * 10;
-    private static final String PASSWORD = "secret";
-
     private UserDetailsService userDetailsService;
     private AuthenticationSuccessHandler successHandler;
     private AuthenticationFailureHandler failureHandler;
@@ -147,11 +140,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test/**").permitAll()
                 .antMatchers(HttpMethod.GET,
                         "/",
-                        // 放行Oauth2的API
-                        "/oauth/**",
                         "/index.html",
                         "/captcha",
                         LOGIN_MAPPING_URL,
+                        "/users/reflesh",
                         "/users/register",
                         "/lib/**",
                         "/toastr/**",
