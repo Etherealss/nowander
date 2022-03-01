@@ -5,7 +5,6 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import com.nowander.common.security.JwtConfig;
-import com.sun.istack.internal.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -44,7 +43,7 @@ public class TokenUtil {
      * @param token
      * @return
      */
-    public static JSONObject parse(@NotNull String token) {
+    public static JSONObject parse(String token) {
         return JWTUtil.parseToken(token).getPayload().getClaimsJson();
     }
 

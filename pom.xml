@@ -5,7 +5,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>nowander-common</module>
-        <module>nowander-framework</module>
         <module>nowander-blog</module>
         <module>nowander-like</module>
         <module>nowander-chat</module>
@@ -25,6 +24,12 @@
     <name>nowander</name>
     <description>Demo project for Spring Boot</description>
     <properties>
+        <start-class>com.nowander.starter.NowanderApplication</start-class>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.image-name>nowander</project.image-name>
+        <project.build.directory>./</project.build.directory>
+        <java.version>1.8</java.version>
+
         <spring-cloud.version>2021.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.7.RELEASE</spring-cloud-alibaba.version>
         <spring-boot.version>2.6.2</spring-boot.version>
@@ -32,8 +37,6 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <druid.version>1.1.23</druid.version>
         <japidocs.version>1.4.4</japidocs.version>
-        <oauth2-autoconfigure.version>2.3.3.RELEASE</oauth2-autoconfigure.version>
-        <jjwt.version>0.9.1</jjwt.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -111,13 +114,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-jdbc</artifactId>
-                <version>2.6.2</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!--security-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
-                <version>2.6.2</version>
+                <version>${spring-boot.version}</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>spring-boot-starter-logging</artifactId>
@@ -125,31 +128,12 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <!--JJWT-->
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>${jjwt.version}</version>
-            </dependency>
-            <!--security API-->
-            <dependency>
-                <groupId>org.springframework.security.oauth.boot</groupId>
-                <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-                <version>${oauth2-autoconfigure.version}</version>
-            </dependency>
-            <!--oauth2-->
-            <!--        <dependency>-->
-            <!--            <groupId>org.springframework.security.oauth</groupId>-->
-            <!--            <artifactId>spring-security-oauth2</artifactId>-->
-            <!--            <version>2.4.1.RELEASE</version>-->
-            <!--        </dependency>-->
-            <!--java web-->
 
             <!--websocket-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-websocket</artifactId>
-                <version>2.6.2</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!--mybatis-->
             <dependency>
@@ -186,7 +170,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-log4j2</artifactId>
-                <version>2.6.2</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!--异步日志依赖-->
             <dependency>
@@ -199,21 +183,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
-                <version>2.6.2</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!-- Spring Boot 2 集成redis 需要引入连接池 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>2.11.1</version>
-            </dependency>
-            <!--热部署 devtools-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <version>2.6.2</version>
-                <scope>runtime</scope>
-                <optional>true</optional>
             </dependency>
             <!--mysql-->
             <dependency>
@@ -239,7 +215,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <version>2.6.2</version>
+                <version>${spring-boot.version}</version>
                 <scope>test</scope>
                 <exclusions>
                     <exclusion>
@@ -258,14 +234,14 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-aop</artifactId>
-                <version>2.6.2</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!--配置注解执行器-->
             <!--解决：Spring Boot Configuration Annotation Processor not configured-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-processor</artifactId>
-                <version>2.6.2</version>
+                <version>${spring-boot.version}</version>
                 <optional>true</optional>
             </dependency>
             <!-- hutool 工具包-->
@@ -283,4 +259,9 @@
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <plugins>
+
+        </plugins>
+    </build>
 </project>

@@ -7,18 +7,15 @@ import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.nowander.common.security.JwtConfig;
 import com.nowander.common.enums.ApiInfo;
 import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.exception.TokenException;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.utils.TokenUtil;
-import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -153,7 +150,7 @@ public class TokenService {
         return createUser(tokenClaims);
     }
 
-    private User createUser(@NotNull JSONObject tokenClaims) {
+    private User createUser(JSONObject tokenClaims) {
         User user = new User();
         user.setId(tokenClaims.get("id", Integer.class));
         user.setUsername(tokenClaims.get("username", String.class));

@@ -40,9 +40,6 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String header = jwtConfig.getTokenHeader();
-        String authToken = request.getHeader(header);
-
         String token = request.getHeader(jwtConfig.getTokenHeader());
 
         // 校验token是否为有效token

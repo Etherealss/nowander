@@ -20,6 +20,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -41,6 +43,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String LOGIN_MAPPING_URL = "/users/login";
     private static final String LOGIN_PAGE_PATH = "http://localhost:8080/#/login";
     private static final String DEFAULT_SUCCESS_URL = "/test.html";
+    private static final String[] PERMIT_LIST = {
+            "/",
+            "/index.html",
+            "/captcha",
+            LOGIN_MAPPING_URL,
+            "/users/reflesh",
+            "/users/register",
+            "/lib/**",
+            "/toastr/**",
+            "/css/**",
+            "/img/**",
+            "/js/**",
+            "/config/**"
+    };
 
     private UserDetailsService userDetailsService;
     private AuthenticationSuccessHandler successHandler;
@@ -108,9 +124,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
+                //  —————————————— 登录 ——————————————
                 .and()
                 .formLogin()
-                // 登录页面
                 .loginPage(LOGIN_PAGE_PATH)
                 // 登录请求访问的Controller路径
                 .loginProcessingUrl(LOGIN_MAPPING_URL)
@@ -121,49 +137,56 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(successHandler)
                 // 失败处理器
                 .failureHandler(failureHandler)
-//                .usernameParameter("username").passwordParameter("password").permitAll()
 
+
+                // —————————————— 认证失败处理类  ——————————————
                 .and()
-                // 认证失败处理类
                 .exceptionHandling()
-                .authenticationEntryPoint((request, response, authException) -> {
-                    log.debug("认证失败：{}", authException.getMessage());
-                    Msg<Object> msg = new Msg<>(ApiInfo.FORBIDDEN_REQUEST);
-                    msg.setMessage(msg.getMessage() + authException.getMessage());
-                    ResponseUtil.send(response, msg);
-                })
+                .accessDeniedHandler(getAccessDeniedHandler())
+                .authenticationEntryPoint(getAuthenticationEntryPoint())
 
+
+                //  —————————————— 权限校验  ——————————————
                 // 设置哪些路径可以直接访问，不需要认证
                 .and()
                 .authorizeRequests()
                 // 对于登录login 验证码captcha 允许匿名访问
                 .antMatchers("/test/**").permitAll()
-                .antMatchers(HttpMethod.GET,
-                        "/",
-                        "/index.html",
-                        "/captcha",
-                        LOGIN_MAPPING_URL,
-                        "/users/reflesh",
-                        "/users/register",
-                        "/lib/**",
-                        "/toastr/**",
-                        "/css/**",
-                        "/img/**",
-                        "/js/**",
-                        "/config/**"
-                ).permitAll()
+                .antMatchers(HttpMethod.GET, PERMIT_LIST).permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
+
 
                 // 关闭CSRF防护
                 .and()
                 .csrf().disable()
+
 
                 // 添加验证码过滤器
                 .addFilterBefore(jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class)
 
         ;
+    }
+
+    @Bean
+    public AuthenticationEntryPoint getAuthenticationEntryPoint() {
+        return (request, response, authException) -> {
+            log.debug("认证失败：{}", authException.getMessage());
+            Msg<Object> msg = new Msg<>(ApiInfo.AUTHORIZATION_FAILED);
+            msg.setMessage(msg.getMessage() + authException.getMessage());
+            ResponseUtil.send(response, msg);
+        };
+    }
+
+    @Bean
+    public AccessDeniedHandler getAccessDeniedHandler() {
+        return (request, response, authException) -> {
+            log.debug("拒绝访问：{}", authException.getMessage());
+            Msg<Object> msg = new Msg<>(ApiInfo.FORBIDDEN_REQUEST);
+            msg.setMessage(msg.getMessage() + authException.getMessage());
+            ResponseUtil.send(response, msg);
+        };
     }
 
     /**

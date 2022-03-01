@@ -3,20 +3,7 @@ services:
   # 参考：
   # https://juejin.cn/post/6844903872557760526
   # https://blog.csdn.net/qq_27790011/article/details/103015306
-  mysql:
-    image: mysql:8.0.28
-    container_name: mysql # 容器名为'mysql'
-    restart: always # 指定容器退出后的重启策略为始终重启
-    volumes: # 数据卷挂载路径设置,将本机目录映射到容器目录，要确保先创建好
-      - /home/docker/volumes/mysql/logs:/var/log/mysql
-      - /home/docker/volumes/mysql/data:/var/lib/mysql
-      - /home/docker/volumes/mysql/conf:/etc/mysql/conf.d
-    environment: # 设置环境变量,相当于docker run命令中的-e
-      # mysql密码
-      MYSQL_ROOT_PASSWORD: 123456
-    ports: # 映射端口
-      - 3306:3306
-
+  # https://blog.csdn.net/weixin_44953227/article/details/117997825
   redis:
     image: redis:latest
     container_name: redis
@@ -34,31 +21,37 @@ services:
       - bootstrap.memory_lock=true
       - http.cors.enabled=true
       - http.cors.allow-origin=*
-      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      - ES_JAVA_OPTS=-Xms256m -Xmx256m
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - /home/docker/volumes/elasticsearch/data:/opt/modules/elasticsearch/node/elasticsearch/data
-      - /home/docker/volumes/elasticsearch/elasticsearch.yml:/opt/modules/elasticsearch/node/elasticsearch/elasticsearch.yml
+      - /var/lib/docker/volumes/elasticsearch/data:/opt/modules/elasticsearch/node/elasticsearch/data
+      - /var/lib/docker/volumes/elasticsearch/elasticsearch.yml:/opt/modules/elasticsearch/node/elasticsearch/elasticsearch.yml
     ports:
       - 9200:9200
       - 9300:9300
 
   nowander:
-    # 指定服务使用的镜像
-    image: nowander:0.0.1-SNAPSHOT
+    build:
+      # 构建镜像的文件路径, . 当前目录
+      context: .
+      # 构建镜像的文件名称
+      dockerfile: Dockerfile
+    # 如果不自己构建镜像(build) 也可以指定镜像名称或者本地的镜像id,
+    # 如果镜像不存在它会去远程拉取
+    # 如果你指定了 build 的同时又指定了 image, 那么 image 的作用就会变成 镜像名称
+    image: nowander:0.0.1
     # 指定容器名称
     container_name: nowander
+    restart: always
     # 指定服务运行的端口
     ports:
-      - 8080:8080
+      - 8081:8081
     # 指定容器中需要挂载的文件
     volumes:
-      - /home/docker/volumes/nowander/etc/localtime:/etc/localtime
-      - /home/docker/volumes/nowander/logs:/var/logs
-      - /home/docker/volumes/nownader/jar:/data/jar
+      - /var/lib/docker/volumes/nowander/logs:/var/logs
     # java项目的环境变量，yml文件配置
     environment:
       - SPRING_REDIS_HOST=127.0.0.1
@@ -67,8 +60,6 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/nowander?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
-    entrypoint: java -jar /data/jar/nowander.jar
     depends_on:
-      - mysql
       - elasticsearch
       - redis

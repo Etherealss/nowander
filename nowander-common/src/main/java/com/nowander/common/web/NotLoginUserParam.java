@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * 添加该注解可以跳过 CurrentUserArgumentResolver
- * @see com.nowander.common.web.CurrentUserArgumentResolver
+ * @see LoginUserArgumentResolver
  * @author wtk
  * @date 2022-01-26
  */
 @Target({ElementType.PARAMETER})  //表示贴在参数上
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NotCurrentUserParam {
+public @interface NotLoginUserParam {
 }
