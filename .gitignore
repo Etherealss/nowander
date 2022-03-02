@@ -37,4 +37,4 @@ build/
 /out/
 /target/
 *.drawio
-/log/
+/logs/

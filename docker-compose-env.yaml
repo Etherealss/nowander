@@ -1,0 +1,30 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --appendonly yes --requirepass "123456"
+    ports:
+      - "6379:6379"
+    volumes:
+      - /home/docker/volumes/redis/data:/data
+
+  elasticsearch:
+    image: elasticsearch-with-ik:7.9.3
+    container_name: elasticsearch
+    environment:
+      - cluster.name=elasticsearch-docker-cluster
+      - bootstrap.memory_lock=true
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - ES_JAVA_OPTS=-Xms256m -Xmx256m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - /var/lib/docker/volumes/elasticsearch/data:/opt/modules/elasticsearch/node/elasticsearch/data
+      - /var/lib/docker/volumes/elasticsearch/elasticsearch.yml:/opt/modules/elasticsearch/node/elasticsearch/elasticsearch.yml
+    ports:
+      - 9200:9200
+      - 9300:9300
