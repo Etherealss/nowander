@@ -35,3 +35,12 @@
 ### 获取当前登录用户的参数解析器
 
 ### 路径参数检查的拦截器
+
+
+# 踩坑
+
+## 多模块打包
+
+https://blog.csdn.net/qq_36636154/article/details/109060638
+https://blog.csdn.net/weixin_44066622/article/details/105916607?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&utm_relevant_index=2
+https://www.jb51.net/article/196059.htm

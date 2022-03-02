@@ -31,6 +31,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!--jdbc-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,7 +89,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
         <!--配置注解执行器-->
         <!--解决：Spring Boot Configuration Annotation Processor not configured-->
@@ -103,12 +107,6 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <version>5.6.1</version>
-            <scope>test</scope>
-        </dependency>
 
         <!--AOP-->
         <dependency>
@@ -133,13 +131,12 @@
             <artifactId>velocity-engine-core</artifactId>
         </dependency>
 
-
     </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-jar-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
