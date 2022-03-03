@@ -8,11 +8,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Slf4j
 @DisplayName("ArticleMapperTest测试")
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = com.nowander.starter.NowanderApplication.class)
+@ComponentScan(basePackages = "com.nowander.blog.mapper")
 class ArticleMapperTest {
 
     @Autowired
@@ -29,5 +35,17 @@ class ArticleMapperTest {
         page.getRecords().forEach((a) -> {
             log.debug("{}", a);
         });
+    }
+
+
+    @Test
+    void testInsert() {
+        Article article = new Article();
+        article.setAuthorId(1);
+        article.setCategory(1);
+        Set<String> labels = new HashSet<>(Arrays.asList("test1", "test2", "test3"));
+        article.setLabels(labels);
+        article.setTitle("test article");
+        articleMapper.insert(article);
     }
 }

@@ -1,8 +1,8 @@
-package com.nowander.blog.service.impl;
+package com.nowander.blog.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.blog.mapper.StickyNoteMapper;
-import com.nowander.blog.service.StickyNoteService;
 import com.nowander.common.pojo.po.StickyNote;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2022-01-05
  */
 @Service
-public class StickyNoteServiceImpl extends ServiceImpl<StickyNoteMapper, StickyNote> implements StickyNoteService {
+public class StickyNoteServiceImpl extends ServiceImpl<StickyNoteMapper, StickyNote> {
 
 }

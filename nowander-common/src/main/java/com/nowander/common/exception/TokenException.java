@@ -41,4 +41,12 @@ public class TokenException extends AuthenticationException {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+    @Override
+    public String toString() {
+        return "TokenException{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
 }

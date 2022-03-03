@@ -6,8 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.nowander.common.pojo.IdentifiedEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,7 +14,9 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author wtk
  * @since 2022-01-05
  */
-@Data
+@Setter
+@Getter
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @TableName("user")
 public class User extends IdentifiedEntity implements UserDetails {
@@ -90,11 +91,6 @@ public class User extends IdentifiedEntity implements UserDetails {
 
     @TableField(exist = false)
     private String token;
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
 
     /**
      * 账号是否未过期

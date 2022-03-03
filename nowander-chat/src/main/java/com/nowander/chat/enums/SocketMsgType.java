@@ -5,7 +5,7 @@ package com.nowander.chat.enums;
  * @description
  * @date 2020/11/18
  */
-public enum InfoType {
+public enum SocketMsgType {
 	/** 新用户进入 */
 	NEW_USER_ENTER,
 

@@ -23,10 +23,10 @@ public class TokenUtil {
     /**
      * 校验token是否过期
      * @param token
-     * @return
+     * @return true则过期
      */
     public static boolean expiredToken(String token) {
-        return System.currentTimeMillis() < getExpiredToken(token);
+        return System.currentTimeMillis() > getExpiredToken(token);
     }
 
     /**

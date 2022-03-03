@@ -1,5 +1,6 @@
-package com.nowander.blog.pojo.dto;
+package com.nowander.blog.pojo.vo;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -11,8 +12,9 @@ import java.util.Date;
  * @author wang tengkun
  * @date 2022/2/23
  */
+@Data
 @Document(indexName = "doc")
-public class DocEsDto {
+public class DocEsVO {
 
     /**
      * 文章Id
@@ -20,6 +22,9 @@ public class DocEsDto {
     @Id
     private Integer id;
 
+    /**
+     * 文章还是帖子？
+     */
     @Field(type = FieldType.Text)
     private String docType;
 

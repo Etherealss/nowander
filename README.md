@@ -116,3 +116,21 @@ alter user test identified with mysql_native_password by 'xxx'; # 明文加密�
 Grant all privileges on nowander.* to 'nowander_user'@'%';
 Grant all privileges on nowander.* to 'nowander_user'@'%'; # 执行两次
 ```
+
+## 其他
+
+### 测戳
+#### 多模块测试
+
+```java
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = com.nowander.starter.NowanderApplication.class)
+@ComponentScan(basePackages = "com.nowander.blog.mapper")
+```
+
+#### Websocket测试
+
+引入websocket 后使用junit测试保存 javax.websocket.server.ServerContainer not available
+在测试类上面加上注解
+```java
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+```

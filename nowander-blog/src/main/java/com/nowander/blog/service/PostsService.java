@@ -1,17 +1,15 @@
 package com.nowander.blog.service;
 
-
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.nowander.blog.pojo.po.Posts;
+import com.nowander.blog.mapper.PostsMapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>
- *  服务类
- * </p>
- *
  * @author wtk
  * @since 2022-01-05
  */
-public interface PostsService extends IService<Posts> {
+@Service
+public class PostsService extends ServiceImpl<PostsMapper, Posts> {
 
 }

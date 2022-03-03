@@ -1,7 +1,7 @@
 package com.nowander.chat.config;
 
-import com.nowander.chat.socket.WebSocketConnectionHandler;
-import com.nowander.chat.socket.WebSocketHandshakeInterceptor;
+import com.nowander.chat.core.socket.WebSocketConnectionHandler;
+import com.nowander.chat.core.socket.WebSocketHandshakeInterceptor;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,7 @@
 package com.nowander.common.security;
 
 import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.exception.TokenException;
 import com.nowander.common.pojo.vo.Msg;
 import com.nowander.common.utils.ResponseUtil;
 import lombok.AllArgsConstructor;
@@ -172,9 +173,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationEntryPoint getAuthenticationEntryPoint() {
         return (request, response, authException) -> {
-            log.debug("认证失败：{}", authException.getMessage());
-            Msg<Object> msg = new Msg<>(ApiInfo.AUTHORIZATION_FAILED);
-            msg.setMessage(msg.getMessage() + authException.getMessage());
+            Object e = request.getAttribute("tokenException");
+            Msg<Object> msg;
+            if (e == null) {
+                log.debug("认证失败：{}", authException.getMessage());
+                msg = new Msg<>(ApiInfo.AUTHORIZATION_FAILED);
+                msg.setMessage(msg.getMessage() + authException.getMessage());
+            } else {
+                TokenException tokenException = (TokenException) e;
+                log.debug("认证失败：{}", tokenException.toString());
+                msg = new Msg<>();
+                msg.setCode(tokenException.getCode());
+                msg.setMessage(tokenException.getMessage());
+            }
             ResponseUtil.send(response, msg);
         };
     }

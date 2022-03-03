@@ -102,19 +102,6 @@ public class TokenService {
         return JWTUtil.verify(token, jwtConfig.getKeyBytes());
     }
 
-    /**
-     * 获取token并进行校验
-     * @param request
-     * @return
-     * @throws TokenException 当token缺失、过期、非法时抛出
-     */
-    @NonNull
-    public String requireVaildToken(HttpServletRequest request) {
-        String token = request.getHeader(jwtConfig.getTokenHeader());
-        requireVaildToken(token);
-        assert token != null;
-        return token;
-    }
 
     /**
      * 检查token是否有效、过期
@@ -140,21 +127,24 @@ public class TokenService {
 
     /**
      * 通过req获取JWT中包含的User信息
-     * @param request
+     * @param token
      * @return
      * @throws TokenException
      */
-    public User requireUserByToken(HttpServletRequest request) throws TokenException {
-        String vaildToken = requireVaildToken(request);
-        JSONObject tokenClaims = TokenUtil.parse(vaildToken);
+    public User requireUserByToken(String token) throws TokenException {
+        requireVaildToken(token);
+        JSONObject tokenClaims = TokenUtil.parse(token);
         return createUser(tokenClaims);
     }
 
     private User createUser(JSONObject tokenClaims) {
+        Integer id = tokenClaims.get("id", Integer.class);
+        String username = tokenClaims.get("username", String.class);
+        String avatar = tokenClaims.get("avatar", String.class);
         User user = new User();
-        user.setId(tokenClaims.get("id", Integer.class));
-        user.setUsername(tokenClaims.get("username", String.class));
-        user.setAvatar(tokenClaims.get("avatar", String.class));
+        user.setId(id);
+        user.setUsername(username);
+        user.setAvatar(avatar);
         Assert.notNull(user.getId());
         Assert.notBlank(user.getUsername());
         Assert.notBlank(user.getAvatar());
