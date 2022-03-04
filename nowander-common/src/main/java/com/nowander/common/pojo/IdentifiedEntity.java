@@ -9,10 +9,8 @@ import lombok.*;
  * @date 2022/2/23
  */
 @EqualsAndHashCode(callSuper = true)
-@Setter
-@Getter
-@ToString(callSuper = true)
+@Data
 public abstract class IdentifiedEntity extends BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    protected Integer id;
 }

@@ -36,6 +36,14 @@
 
 ### 路径参数检查的拦截器
 
+## 持久层
+
+### MyBatis自定义类型处理器 TypeHandler
+
+可以用于将 集合 自动转为 JSON 格式存在数据库中
+
+见 JsonSetTypeHandler
+
 
 # 踩坑
 
@@ -117,9 +125,7 @@ Grant all privileges on nowander.* to 'nowander_user'@'%';
 Grant all privileges on nowander.* to 'nowander_user'@'%'; # 执行两次
 ```
 
-## 其他
-
-### 测戳
+## 测试
 #### 多模块测试
 
 ```java

@@ -1,9 +1,9 @@
 package com.nowander.blog.pojo.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.nowander.common.pojo.IdentifiedEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.nowander.common.repository.JsonSetTypeHandler;
+import lombok.*;
 
 import java.util.List;
 import java.util.Set;
@@ -12,27 +12,28 @@ import java.util.Set;
  * @author wang tengkun
  * @date 2022/3/3
  */
+@EqualsAndHashCode(callSuper = true)
 @Setter
 @Getter
-@ToString
 public abstract class NoWanderDocument extends IdentifiedEntity {
     /**
      * 分区
      */
-    private Integer category;
+    protected Integer category;
 
     /**
      * 作者Id
      */
-    private Integer authorId;
+    protected Integer authorId;
 
     /**
      * 标题
      */
-    private String title;
+    protected String title;
 
     /**
      * 标签
      */
-    Set<String> labels;
+    @TableField(typeHandler = JsonSetTypeHandler.class)
+    protected Set<String> labels;
 }

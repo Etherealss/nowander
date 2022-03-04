@@ -13,7 +13,6 @@ import lombok.ToString;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@ToString(callSuper = true)
 @TableName("posts")
 public class Posts extends NoWanderDocument {
 
@@ -26,6 +25,22 @@ public class Posts extends NoWanderDocument {
      * 关注数
      */
     private Integer follow;
+
+    @Override
+    public String toString() {
+        return "Posts{" +
+                "id=" + id +
+                ", category=" + category +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", authorId=" + authorId +
+                ", labels=" + labels +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", follow=" + follow +
+                '}';
+    }
+
 
 
 }

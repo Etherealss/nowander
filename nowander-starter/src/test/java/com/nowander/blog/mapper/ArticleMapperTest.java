@@ -48,4 +48,11 @@ class ArticleMapperTest {
         article.setTitle("test article");
         articleMapper.insert(article);
     }
+
+    @Test
+    void get() {
+        Article article = articleMapper.selectById(28);
+        log.debug("{}",article);
+        log.debug("{}", Arrays.toString(article.getLabels().toArray()));
+    }
 }

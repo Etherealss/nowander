@@ -9,11 +9,7 @@
         <result column="author_id" property="authorId" />
         <result column="title" property="title" />
         <result column="content" property="content" />
-        <result column="label1" property="label1" />
-        <result column="label2" property="label2" />
-        <result column="label3" property="label3" />
-        <result column="label4" property="label4" />
-        <result column="label5" property="label5" />
+        <result column="labels" property="labels"  typeHandler="com.nowander.common.repository.JsonSetTypeHandler"/>
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="follow" property="follow" />
