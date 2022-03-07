@@ -25,7 +25,7 @@ spring:
         min-idle: 0
     client-type: lettuce
     timeout: 1800000
-    password: 123456
+    password: baotaredis123456
 
   # 项目配置
   application:
@@ -50,7 +50,7 @@ spring:
   datasource:
     url: jdbc:mysql://119.23.214.198:3306/nowander?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: nowander_user
-    password: 12345678
+    password: baotamysql123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     # druid配置
@@ -96,7 +96,7 @@ logging:
 
 jwt:
   key: "bm93YW5kZXI="
-  header: Auth
+  token-header: Auth
   # 五分钟
   expire-ms: 300000
   # 两天

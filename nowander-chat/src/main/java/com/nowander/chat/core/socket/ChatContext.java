@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2022/3/3
  */
 @Component
-public class ChatContextHolder {
+public class ChatContext {
     private final ThreadLocal<User> userHolder = new ThreadLocal<>();
     private static final ConcurrentHashMap<Integer, WebSocketSession> SESSION_POOLS = new ConcurrentHashMap<>();
 

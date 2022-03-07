@@ -1,7 +1,6 @@
 package com.nowander.chat.domain.event.connect;
 
 import com.nowander.chat.domain.DomainEvent;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -10,13 +9,7 @@ import lombok.Getter;
  */
 @Getter
 public abstract class ConnectionEvent extends DomainEvent {
-
-    private final Integer userId;
-    private final String username;
-
     public ConnectionEvent(Integer userId, String username) {
-        super(userId);
-        this.userId = userId;
-        this.username = username;
+        super(userId, userId, username);
     }
 }

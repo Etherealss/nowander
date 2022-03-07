@@ -1,6 +1,6 @@
 package com.nowander.chat.core.socket;
 
-import com.nowander.chat.domain.event.connect.ConnectionClosedEvent;
+import com.nowander.chat.domain.event.connect.CloseConnectionEvent;
 import com.nowander.common.pojo.po.User;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -17,11 +17,11 @@ import java.io.IOException;
 @Component
 public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final ChatContextHolder chatContextHolder;
+    private final ChatContext chatContext;
 
-    public WebSocketConnectionHandler(ApplicationEventPublisher applicationEventPublisher, ChatContextHolder chatContextHolder) {
+    public WebSocketConnectionHandler(ApplicationEventPublisher applicationEventPublisher, ChatContext chatContext) {
         this.applicationEventPublisher = applicationEventPublisher;
-        this.chatContextHolder = chatContextHolder;
+        this.chatContext = chatContext;
     }
 
     /**
@@ -29,15 +29,18 @@ public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws IOException {
-        User user = chatContextHolder.getUser();
-        chatContextHolder.putSession(user.getId(), session);
+        User user = chatContext.getUser();
+        chatContext.putSession(user.getId(), session);
     }
 
     /**
      * 接收消息事件
+     * @param session 发送者
+     * @param message 发送的数据
      */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+
     }
 
     /**
@@ -45,11 +48,11 @@ public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        User user = chatContextHolder.getUser();
-        chatContextHolder.removeUser();
+        User user = chatContext.getUser();
+        chatContext.removeUser();
         Integer userId = user.getId();
-        chatContextHolder.removeSession(userId);
-        applicationEventPublisher.publishEvent(new ConnectionClosedEvent(userId, user.getUsername()));
+        chatContext.removeSession(userId);
+        applicationEventPublisher.publishEvent(new CloseConnectionEvent(userId, user.getUsername()));
     }
 
 }

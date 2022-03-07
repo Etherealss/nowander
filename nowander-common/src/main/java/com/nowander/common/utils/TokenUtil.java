@@ -4,6 +4,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
+import com.nowander.common.exception.ServerException;
 import com.nowander.common.security.JwtConfig;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +33,7 @@ public class TokenUtil {
     /**
      * 获取token过期时间
      * @param token
-     * @return
+     * @return 未过期为false，已过期为true
      */
     public static long getExpiredToken(String token) {
         return Long.parseLong(parseAndGet(token, JWT.EXPIRES_AT).toString());
@@ -54,6 +55,10 @@ public class TokenUtil {
      * @return
      */
     public static Object parseAndGet(String token, String name) {
-        return JWTUtil.parseToken(token).getPayload().getClaim(name);
+        Object field = JWTUtil.parseToken(token).getPayload().getClaim(name);
+        if (field == null) {
+            throw new ServerException("JWT中不存在payload：" + name);
+        }
+        return field;
     }
 }

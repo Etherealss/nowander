@@ -24,7 +24,7 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
 
     private TokenService tokenService;
 
-    private ChatContextHolder chatContextHolder;
+    private ChatContext chatContext;
 
     /**
      * 握手之前校验token，校验不通过则抛异常
@@ -34,7 +34,7 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
             response, WebSocketHandler wsHandler, Map<String, Object> attributes) {
         String token = request.getHeaders().getFirst(jwtConfig.getTokenHeader());
         User user = tokenService.requireUserByToken(token);
-        chatContextHolder.setUser(user);
+        chatContext.setUser(user);
         return true;
     }
 
