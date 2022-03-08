@@ -1,10 +1,10 @@
-环境
+# 环境
 
-功能
+# 功能
 
-缓存
+## 缓存
 
-草稿缓存
+### 草稿缓存
 
 网上看到的思路：
 
@@ -12,13 +12,13 @@
 再使用draft_userId:articleId缓存最后的更新时间。
 获取最新的草稿时，先获取最后的更新时间，再拼接key获取。而之前的缓存还没过期之前也不会被访问到
 
-页面侧栏缓存
+### 页面侧栏缓存
 
 每一行都是一个缓存项popular_article，整个侧栏合起来是一个大的缓存项all_popular_articles
 
 当有一个popular_article更新时，移除all_popular_articles
 
-页面分层缓存
+### 页面分层缓存
 
 一个大页面（比如首页）会由多个板块组成，这些板块又由更小的部分组成。
 
@@ -39,11 +39,11 @@ article_1_0_userId:articleId article data
 article_1_1_userId:articleId comments data
 article_2_0_userId:articleId comment:
 
-技术架构
+# 技术架构
 
-SpringSecurity
+## SpringSecurity
 
-基于token的登录和登出
+### 基于token的登录和登出
 
 token黑名单
 
@@ -55,37 +55,38 @@ token黑名单
 
 在jwt filter中检查token时，检查username是否在黑名单中，如果有，则token失效，需要登录
 
-reflesh token
+### reflesh token
 
 本质上也是一个token，它可以用来申请一个新的token，但本身并没有特别的功能
 
 通过reflesh token获取新token的接口是开放的
 
-验证码功能
+### 验证码功能
 
-Web
+##Web
 
-全局异常处理器
+### 全局异常处理器
 
-全局返回值处理器
 
-获取当前登录用户的参数解析器
+### 全局返回值处理器
 
-路径参数检查的拦截器
+### 获取当前登录用户的参数解析器
 
-持久层
+### 路径参数检查的拦截器
 
-MyBatis自定义类型处理器 TypeHandler
+## 持久层
+
+### MyBatis自定义类型处理器 TypeHandler
 
 可以用于将 集合 自动转为 JSON 格式存在数据库中
 
 见 JsonSetTypeHandler
 
-踩坑
+# 踩坑
 
-docker的使用
+## docker的使用
 
-多模块打包
+## 多模块打包
 
 参考连接1
 
@@ -96,7 +97,7 @@ docker的使用
 只需要对启动类模块打包。在启动类模块下使用mvn package
 
 其他模块的pom插件：
-
+```xml
         <build>
             <plugins>
                 <plugin>
@@ -105,9 +106,9 @@ docker的使用
                 </plugin>
             </plugins>
         </build>
-
+```
 启动类模块的：
-
+```xml
         <build>
             <plugins>
                 <plugin>
@@ -140,7 +141,7 @@ docker的使用
                 </plugin>
             </plugins>
         </build>
-
+```
 服务器mysql访问权限
 
 问题：项目运行时访问数据库，出现：java.net.ConnectException: Connection refused (Connection refused)
@@ -150,22 +151,23 @@ docker的使用
 参考链接1
 
 注意：mysql 8 以后不允许在 GRANT 命令后设置密码
-
+```shell
     update user set host='%' where user='nowander_user';
     alter user nowander_user identified with mysql_native_password by 'baotamysql123456'; # 明文加密方式
     Grant all privileges on nowander.* to 'nowander_user'@'%';
     Grant all privileges on nowander.* to 'nowander_user'@'%'; # 执行两次
-
+```
 测试
 
 多模块测试
-
+```java
     @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = com.nowander.starter.NowanderApplication.class)
     @ComponentScan(basePackages = "com.nowander.blog.mapper")
-
+```
 Websocket测试
 
 引入websocket 后使用junit测试保存 javax.websocket.server.ServerContainer not available
 在测试类上面加上注解
-
+```java
     @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+```
