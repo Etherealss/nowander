@@ -1,10 +1,10 @@
-package com.nowander.common.controller;
+package com.nowander.common.user.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.pojo.vo.Msg;
-import com.nowander.common.service.UserService;
+import com.nowander.common.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

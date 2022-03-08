@@ -1,11 +1,11 @@
-package com.nowander.common.service;
+package com.nowander.common.user.service;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.common.enums.RedisKeyPrefix;
-import com.nowander.common.mapper.UserMapper;
+import com.nowander.common.user.mapper.UserMapper;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.security.JwtConfig;
 import com.nowander.common.utils.TokenUtil;
@@ -28,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 public class UserService extends ServiceImpl<UserMapper, User> {
 
     RedisTemplate<String, Object> redisTemplate;
-    UserMapper userMapper;
     JwtConfig jwtConfig;
 
 

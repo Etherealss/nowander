@@ -1,4 +1,4 @@
-package com.nowander.common.service;
+package com.nowander.common.user.service;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;

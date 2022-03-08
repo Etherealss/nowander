@@ -1,4 +1,4 @@
-package com.nowander.blog.pojo.vo;
+package com.nowander.blog.pojo.dto;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * @author wang tengkun
@@ -14,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @Document(indexName = "doc")
-public class DocEsVO {
+public class DocEsDTO {
 
     /**
      * 文章Id
@@ -37,6 +38,7 @@ public class DocEsVO {
     /**
      * 作者Id
      */
+    @Field(type = FieldType.Integer)
     private Integer authorId;
 
     /**
@@ -51,36 +53,11 @@ public class DocEsVO {
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
 
-
     /**
-     * 标签1
+     * 标签
      */
-    @Field(type = FieldType.Text)
-    private String label1;
-
-    /**
-     * 标签2
-     */
-    @Field(type = FieldType.Text)
-    private String label2;
-
-    /**
-     * 标签3
-     */
-    @Field(type = FieldType.Text)
-    private String label3;
-
-    /**
-     * 标签4
-     */
-    @Field(type = FieldType.Text)
-    private String label4;
-
-    /**
-     * 标签5
-     */
-    @Field(type = FieldType.Text)
-    private String label5;
+    @Field(type = FieldType.Keyword)
+    private Set<String> labels;
 
     /**
      * 创建时间

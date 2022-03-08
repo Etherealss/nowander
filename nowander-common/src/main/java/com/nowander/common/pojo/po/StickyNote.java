@@ -1,8 +1,10 @@
 package com.nowander.common.pojo.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.Date;
@@ -16,7 +18,6 @@ import lombok.EqualsAndHashCode;
  * <p>
  * 便利贴
  * </p>
- *
  * @author wtk
  * @since 2022-01-05
  */
@@ -38,44 +39,13 @@ public class StickyNote extends IdentifiedEntity {
     private String content;
 
     /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
      * 获赞数
      */
     private Integer likeCount;
 
     /**
-     * 便利贴形状
+     * 其他属性
      */
-    private Integer shape;
-
-    /**
-     * ARBG 透明度 0-100
-     */
-    private Integer alpha;
-
-    /**
-     * ARBG 红
-     */
-    private Integer red;
-
-    /**
-     * ARBG 绿
-     */
-    private Integer green;
-
-    /**
-     * ARBG 蓝
-     */
-    private Integer blue;
-
-    /**
-     * 便利贴顺时针倾斜角度
-     */
-    private Integer angle;
-
+    private Object props;
 
 }

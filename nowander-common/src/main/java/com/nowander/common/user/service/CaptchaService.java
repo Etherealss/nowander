@@ -1,4 +1,4 @@
-package com.nowander.common.service;
+package com.nowander.common.user.service;
 
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;

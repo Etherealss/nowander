@@ -103,7 +103,7 @@ insert  into `comment`(`id`,`author_id`,`parent_id`,`parent_type`,`target_id`,`c
 
 /*Table structure for table `friend_relation` */
 
-DROP TABLE IF EXISTS `friend_relation`;
+DROP TABLE IF EXISTS friendship;
 
 CREATE TABLE `friend_relation` (
   `user_id` int unsigned NOT NULL COMMENT '用户id',
@@ -118,7 +118,7 @@ CREATE TABLE `friend_relation` (
 
 /*Data for the table `friend_relation` */
 
-insert  into `friend_relation`(`user_id`,`friend_id`,`create_time`,`update_time`) values (1,4,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(2,4,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(3,4,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(4,1,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(4,2,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(4,3,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(4,6,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(6,5,'2022-01-26 18:24:06','2022-01-26 18:24:44');
+insert  into friendship(`user_id`,`friend_id`,`create_time`,`update_time`) values (1,4,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(2,4,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(3,4,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(4,1,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(4,2,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(4,3,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(4,6,'2022-01-26 18:24:06','2022-01-26 18:24:06'),(6,5,'2022-01-26 18:24:06','2022-01-26 18:24:44');
 
 /*Table structure for table `like_count` */
 

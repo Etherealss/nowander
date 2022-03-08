@@ -1,4 +1,4 @@
-package com.nowander.common.mapper;
+package com.nowander.common.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.nowander.common.pojo.po.User;

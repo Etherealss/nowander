@@ -1,7 +1,7 @@
 package com.nowander.common.web;
 
 import com.nowander.common.pojo.po.User;
-import com.nowander.common.service.TokenService;
+import com.nowander.common.user.service.TokenService;
 import com.nowander.common.utils.SecurityUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;

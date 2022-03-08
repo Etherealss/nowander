@@ -1,14 +1,10 @@
-package com.nowander.common.controller;
+package com.nowander.common.user.controller;
 
 
 import cn.hutool.captcha.AbstractCaptcha;
-import cn.hutool.captcha.CaptchaUtil;
-import com.nowander.common.enums.AppAttribute;
 import com.nowander.common.pojo.vo.Msg;
-import com.nowander.common.service.CaptchaService;
+import com.nowander.common.user.service.CaptchaService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author wtk

@@ -3,7 +3,7 @@ package com.nowander.common.security;
 import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.pojo.vo.Msg;
-import com.nowander.common.service.TokenService;
+import com.nowander.common.user.service.TokenService;
 import com.nowander.common.utils.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

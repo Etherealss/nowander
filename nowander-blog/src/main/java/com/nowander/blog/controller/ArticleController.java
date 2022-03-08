@@ -3,6 +3,7 @@ package com.nowander.blog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.blog.pojo.po.Article;
+import com.nowander.blog.pojo.vo.ArticleDetailVO;
 import com.nowander.blog.service.ArticleService;
 import com.nowander.common.annotation.ResponseAdvice;
 import lombok.AllArgsConstructor;
@@ -25,19 +26,19 @@ public class ArticleController {
     public static final int ARTICLE_PAGE_SIZE = 10;
 
     @GetMapping("/{articleId}")
-    public Article getArticle(@PathVariable Long articleId) {
+    public Article getArticle(@PathVariable Integer articleId) {
         log.trace("获取文章");
         return articleService.getById(articleId);
     }
 
     @PostMapping("/publish")
-    public void publishArticle(Article article) {
+    public void publishArticle(ArticleDetailVO article) {
         articleService.save(article);
     }
 
     @PutMapping("/update")
-    public void updateArticle(Article article) {
-        articleService.updateById(article);
+    public void updateArticle(ArticleDetailVO article) {
+        articleService.update(article);
     }
 
     @DeleteMapping("/{articleId}")

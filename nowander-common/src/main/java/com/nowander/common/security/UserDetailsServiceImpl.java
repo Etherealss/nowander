@@ -1,6 +1,6 @@
 package com.nowander.common.security;
 
-import com.nowander.common.mapper.UserMapper;
+import com.nowander.common.user.mapper.UserMapper;
 import com.nowander.common.pojo.po.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

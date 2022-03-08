@@ -1,8 +1,8 @@
-package com.nowander.common.controller;
+package com.nowander.common.user.controller;
 
 import com.nowander.common.pojo.po.User;
-import com.nowander.common.service.TokenService;
-import com.nowander.common.service.UserService;
+import com.nowander.common.user.service.TokenService;
+import com.nowander.common.user.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

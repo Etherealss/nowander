@@ -11,4 +11,5 @@ public class ChatMessage extends IdentifiedEntity {
     private Integer receverId;
     private String senderUsername;
     private String receverUsername;
+    private String content;
 }
