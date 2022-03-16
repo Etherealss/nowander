@@ -14,7 +14,7 @@ import org.springframework.web.socket.WebSocketSession;
  */
 @Getter
 public abstract class ConnectionEvent extends ChatEvent {
-    public ConnectionEvent(WebSocketSession session, TextMessage message, JSONObject attrs, User user) {
-        super(session, message, attrs, user);
+    public ConnectionEvent(WebSocketSession session, JSONObject attrs, User user) {
+        super(session, attrs, user);
     }
 }

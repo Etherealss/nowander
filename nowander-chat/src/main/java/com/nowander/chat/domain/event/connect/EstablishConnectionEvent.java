@@ -12,7 +12,7 @@ import org.springframework.web.socket.WebSocketSession;
  */
 public class EstablishConnectionEvent extends ConnectionEvent {
 
-    public EstablishConnectionEvent(WebSocketSession session, TextMessage message, JSONObject attrs, User user) {
-        super(session, message, attrs, user);
+    public EstablishConnectionEvent(WebSocketSession session,  JSONObject attrs, User user) {
+        super(session, attrs, user);
     }
 }

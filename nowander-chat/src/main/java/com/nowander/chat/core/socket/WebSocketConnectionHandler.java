@@ -50,7 +50,7 @@ public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
         chatContext.removeUser();
         Integer userId = user.getId();
         chatContext.removeSession(userId);
-        applicationEventPublisher.publishEvent(new CloseConnectionEvent(session, null, null, user));
+        applicationEventPublisher.publishEvent(new CloseConnectionEvent(session, null, user));
     }
 
 }
