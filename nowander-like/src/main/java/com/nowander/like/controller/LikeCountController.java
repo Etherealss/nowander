@@ -2,7 +2,6 @@ package com.nowander.like.controller;
 
 
 import com.nowander.like.pojo.po.LikeCount;
-import com.nowander.common.pojo.vo.Msg;
 import com.nowander.like.service.LikeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

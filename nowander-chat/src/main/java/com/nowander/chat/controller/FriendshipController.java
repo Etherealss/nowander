@@ -27,8 +27,7 @@ public class FriendshipController {
     }
 
     @PostMapping
-    public void addFriend(User user, @JsonParam("targetId") Integer targetId, @JsonParam("message") String message) {
-
+    public void requestAddFriend(User user, @JsonParam("targetId") Integer targetId, @JsonParam("message") String message) {
 
     }
 }

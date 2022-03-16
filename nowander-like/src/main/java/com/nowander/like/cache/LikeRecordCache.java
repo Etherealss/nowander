@@ -23,7 +23,7 @@ import java.util.Set;
 public class LikeRecordCache {
     @Resource
     private RedisTemplate<String, String> redis;
-    private HashOperations<String, String, Boolean> hash;
+    private final HashOperations<String, String, Boolean> hash;
 
     @Autowired
     public LikeRecordCache(RedisTemplate<String, String> redis) {
@@ -102,6 +102,10 @@ public class LikeRecordCache {
     public List<LikeRecord> getAndDelAllRecentLikeRecord() {
         // 只有Recent点赞记录需要持久化
         return getAndDelAllLikeRecord(RedisKeyPrefix.RECENT_LIKE_RECORD);
+    }
+
+    public Set<String> getAllKeys() {
+        return hash.keys(RedisKeyPrefix.RECENT_LIKE_RECORD);
     }
 
     /**

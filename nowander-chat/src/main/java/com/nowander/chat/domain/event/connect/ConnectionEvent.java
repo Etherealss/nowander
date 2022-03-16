@@ -1,6 +1,6 @@
 package com.nowander.chat.domain.event.connect;
 
-import com.nowander.chat.domain.DomainEvent;
+import com.nowander.common.pojo.DomainEvent;
 import lombok.Getter;
 
 /**

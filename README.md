@@ -39,8 +39,6 @@ article_1_0_userId:articleId article data
 article_1_1_userId:articleId comments data
 article_2_0_userId:articleId comment:
 
-# 技术架构
-
 ## SpringSecurity
 
 ### 基于token的登录和登出
@@ -81,6 +79,59 @@ token黑名单
 可以用于将 集合 自动转为 JSON 格式存在数据库中
 
 见 JsonSetTypeHandler
+
+## 多线程
+
+### 检查是否已点赞
+
+模拟行级锁 LikeServiceImpl#likeOrUnlike
+
+## 消息通知
+
+### 消息通用要素
+
+1. 是否已读
+2. 消息模板
+3. 消息其他属性（json）
+
+### 添加好友
+
+要素：
+1. 申请人
+2. 申请对象
+3. 申请信息
+4. 是否通过
+
+### 点赞
+
+要素
+1. 点赞用户
+2. 点赞目标id
+3. 点赞目标类型（哪个表的id）
+4. 附加属性（比如，点赞的文章的url以及文章标题）
+
+### 评论
+
+要素
+1. 评论用户
+2. 评论内容
+3. 评论目标id
+4. 评论目标类型
+5. 附加属性（比如，评论的文章的url以及文章标题）
+
+### 关注
+
+要素
+1. 关注用户
+2. 附加属性（从哪里关注的）
+
+### 私信
+
+要素
+1. 发送者
+2. 接收者
+3. 内容
+
 
 # 踩坑
 

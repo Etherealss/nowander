@@ -1,6 +1,5 @@
-package com.nowander.chat.domain;
+package com.nowander.common.pojo;
 
-import com.nowander.chat.enums.SocketMsgType;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
@@ -16,6 +15,10 @@ public abstract class DomainEvent extends ApplicationEvent {
     private final Integer userId;
     private final String username;
     private final LocalDateTime occurredOn;
+
+    public DomainEvent(Integer userId, String username) {
+        this(userId, userId, username);
+    }
 
     public DomainEvent(Object o, Integer userId, String username) {
         super(o);

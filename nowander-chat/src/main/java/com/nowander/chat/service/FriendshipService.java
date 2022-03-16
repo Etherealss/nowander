@@ -4,6 +4,7 @@ import com.nowander.chat.manage.FriendshipManage;
 import com.nowander.chat.pojo.po.Friendship;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.user.manage.UserManage;
+import com.nowander.common.web.JsonParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,10 @@ public class FriendshipService {
 
     public void delete(User user, Integer friendId) {
         friendshipManage.deleteByUserIdAndFriendId(user.getId(), friendId);
+    }
+
+    public void requestAddFriend(User user, Integer targetId, String message) {
+
     }
 
 

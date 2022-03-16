@@ -3,7 +3,6 @@ package com.nowander.like.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.like.pojo.po.LikeCount;
 import com.nowander.like.mapper.LikeCountMapper;
-import com.nowander.like.service.LikeCountService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +14,6 @@ import org.springframework.stereotype.Service;
  * @since 2022-01-28
  */
 @Service
-public class LikeCountServiceImpl extends ServiceImpl<LikeCountMapper, LikeCount> implements LikeCountService {
+public class LikeCountService extends ServiceImpl<LikeCountMapper, LikeCount> implements com.nowander.like.service.LikeCountService {
 
 }
