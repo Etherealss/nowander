@@ -1,6 +1,10 @@
 package com.nowander.chat.domain.event.connect;
 
+import cn.hutool.json.JSONObject;
+import com.nowander.common.pojo.po.User;
 import lombok.Getter;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 /**
  * WebSocket 连接断开事件
@@ -9,12 +13,7 @@ import lombok.Getter;
 @Getter
 public class CloseConnectionEvent extends ConnectionEvent {
 
-    public CloseConnectionEvent(Integer userId, String username) {
-        super(userId, username);
-    }
-
-    @Override
-    public String supportType() {
-        return "close_connection";
+    public CloseConnectionEvent(WebSocketSession session, TextMessage message, JSONObject attrs, User user) {
+        super(session, message, attrs, user);
     }
 }

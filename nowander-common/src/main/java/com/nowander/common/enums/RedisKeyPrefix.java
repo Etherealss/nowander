@@ -27,6 +27,7 @@ public class RedisKeyPrefix {
     public static final String USER_TOKEN_BLACKLIST = "token_blacklist_";
 
     public static final String WACTH_LOCK = "LOCK";
+    public static final String LOCK_LIKE = "LOCK_like";
 
 
 }

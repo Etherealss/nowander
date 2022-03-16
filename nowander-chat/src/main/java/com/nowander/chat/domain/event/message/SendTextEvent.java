@@ -1,18 +1,23 @@
 package com.nowander.chat.domain.event.message;
 
+import cn.hutool.json.JSONObject;
+import com.nowander.chat.domain.event.ChatEvent;
 import com.nowander.common.pojo.DomainEvent;
+import com.nowander.common.pojo.po.User;
+import lombok.*;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 /**
  * @author wtk
  * @date 2022-03-05
  */
-public class SendTextEvent extends DomainEvent {
-    public SendTextEvent(Integer userId, String username) {
-        super(userId, userId, username);
-    }
+@Getter
+@Setter
+@ToString
+public class SendTextEvent extends ChatEvent {
 
-    @Override
-    public String supportType() {
-        return "send_text";
+    public SendTextEvent(WebSocketSession session, JSONObject attrs, User user) {
+        super(session, attrs, user);
     }
 }

@@ -27,12 +27,4 @@ public abstract class DomainEvent extends ApplicationEvent {
         occurredOn = LocalDateTime.now();
         id = UUID.randomUUID().toString().replace("-", "");
     }
-
-    public boolean match(String type) {
-        return supportType() != null && supportType().equals(type);
-    }
-
-    public String supportType() {
-        return null;
-    }
 }

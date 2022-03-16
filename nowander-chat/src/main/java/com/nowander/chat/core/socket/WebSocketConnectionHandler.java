@@ -2,6 +2,7 @@ package com.nowander.chat.core.socket;
 
 import com.nowander.chat.domain.event.connect.CloseConnectionEvent;
 import com.nowander.common.pojo.po.User;
+import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -15,14 +16,11 @@ import java.io.IOException;
  * @author wtk
  */
 @Component
+@AllArgsConstructor
 public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
     private final ApplicationEventPublisher applicationEventPublisher;
     private final ChatContext chatContext;
-
-    public WebSocketConnectionHandler(ApplicationEventPublisher applicationEventPublisher, ChatContext chatContext) {
-        this.applicationEventPublisher = applicationEventPublisher;
-        this.chatContext = chatContext;
-    }
+    private final EventDispatcher eventDispatcher;
 
     /**
      * socket 建立成功事件
@@ -40,7 +38,7 @@ public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
      */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
+        eventDispatcher.doDispatch(session, message);
     }
 
     /**
@@ -52,7 +50,7 @@ public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
         chatContext.removeUser();
         Integer userId = user.getId();
         chatContext.removeSession(userId);
-        applicationEventPublisher.publishEvent(new CloseConnectionEvent(userId, user.getUsername()));
+        applicationEventPublisher.publishEvent(new CloseConnectionEvent(session, null, null, user));
     }
 
 }

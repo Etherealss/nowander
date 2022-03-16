@@ -2,6 +2,7 @@ package com.nowander.like.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.exception.SimpleException;
 import com.nowander.like.pojo.po.LikeCount;
 import com.nowander.like.pojo.po.LikeRecord;
@@ -13,6 +14,7 @@ import com.nowander.like.pool.SaveLikeThreadPool;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -40,11 +43,7 @@ public class LikeService extends ServiceImpl<LikeRecordMapper, LikeRecord> {
     private final LikeCountMapper likeCountMapper;
     private final SaveLikeThreadPool threadPool;
     private final ApplicationEventPublisher applicationEventPublisher;
-
-    /**
-     * 用于解决点赞时存在的竞态条件（先检查后执行）
-     */
-    private final Map<String, ReentrantLock> likeLocks = new ConcurrentHashMap<>();
+    private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * 点赞 需要注意竞态条件
@@ -53,33 +52,30 @@ public class LikeService extends ServiceImpl<LikeRecordMapper, LikeRecord> {
      */
     public void likeOrUnlike(LikeRecord likeRecord, Boolean isLike) {
         String key = likeRecord.getLikeRecordKey();
-        // 模拟行级锁
-        // 双重检查获取或创建行级锁
-        ReentrantLock lock = likeLocks.get(key);
-        if (lock == null) {
-            synchronized (likeLocks) {
-                lock = likeLocks.get(key);
-                if (lock == null) {
-                    lock = new ReentrantLock();
-                    likeLocks.put(key, lock);
+        String lock = RedisKeyPrefix.LOCK_LIKE + key;
+        int retry = 10;
+        while (retry > 0) {
+            // redis锁
+            Boolean locked = redisTemplate.opsForValue().setIfAbsent(lock, "1", 1000L, TimeUnit.MILLISECONDS);
+            try {
+                if (Boolean.TRUE.equals(locked)) {
+                    // 点赞
+                    Boolean hasLiked = this.checkHasLiked(likeRecord);
+                    if (hasLiked.equals(isLike)) {
+                        // 重复点赞
+                        throw new SimpleException(ApiInfo.LIKE_DUPLICATE);
+                    }
+                    likeRecordCache.setRecentLike(likeRecord, isLike);
+                    break;
                 }
+            } finally {
+                // 只要将点赞记录放到likeRecordCache中，就不怕重复点赞了。所以就可以解锁了
+                redisTemplate.opsForValue().getAndDelete(lock);
             }
+            // 获取不到就重试
+            retry--;
         }
-        // 点赞
-        try {
-            lock.wait();
-            Boolean hasLiked = this.checkHasLiked(likeRecord);
-            if (hasLiked.equals(isLike)) {
-                // 重复点赞
-                throw new SimpleException(ApiInfo.LIKE_DUPLICATE);
-            }
-            likeRecordCache.setRecentLike(likeRecord, isLike);
-            // 只要将点赞记录放到likeRecordCache中，就不怕重复点赞了。所以就可以解锁了
-        } catch (InterruptedException e) {
-            log.warn("点赞锁中断！", e);
-        } finally {
-            lock.unlock();
-        }
+        // 前面已经检查了重复点赞，可以避免刷赞
         likeCountCache.increRecentLike(likeRecord, isLike);
     }
 
@@ -153,10 +149,10 @@ public class LikeService extends ServiceImpl<LikeRecordMapper, LikeRecord> {
                 .map(likeCountCache::getAndDelRecentLikeCount)
                 .filter(Objects::nonNull)
                 .forEach(likeCount -> {
-            Integer count = likeCountMapper.getLikeCountForUpdate(likeCount);
-            likeCount.addCount(count);
-            likeCountMapper.updateLikeCount(likeCount);
-        });
+                    Integer count = likeCountMapper.getLikeCountForUpdate(likeCount);
+                    likeCount.addCount(count);
+                    likeCountMapper.updateLikeCount(likeCount);
+                });
     }
 
 }
