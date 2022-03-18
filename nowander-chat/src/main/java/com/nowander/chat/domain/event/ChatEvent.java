@@ -11,7 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
  * @date 2022/3/16
  */
 @Getter
-public class ChatEvent extends DomainEvent {
+public abstract class ChatEvent extends DomainEvent {
     private final WebSocketSession session;
     private final JSONObject attrs;
 

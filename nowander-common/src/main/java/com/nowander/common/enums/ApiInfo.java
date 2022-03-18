@@ -1,5 +1,6 @@
 package com.nowander.common.enums;
 
+import com.nowander.common.exception.ServerExceptionAssert;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,7 +12,7 @@ import lombok.Getter;
 @SuppressWarnings("AlibabaEnumConstantsMustHaveComment")
 @Getter
 @AllArgsConstructor
-public enum ApiInfo {
+public enum ApiInfo implements ServerExceptionAssert {
 
     OK(200, "OK"),
 
@@ -51,9 +52,8 @@ public enum ApiInfo {
 
     ;
 
-    int code;
-    String message;
-
+    final int code;
+    final String message;
 
     @Override
     public String toString() {

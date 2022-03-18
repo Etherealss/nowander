@@ -8,7 +8,7 @@ import com.nowander.common.enums.ApiInfo;
  * @description
  * @date 2021-08-13
  */
-public class UnsupportedOperationException extends AbstractServiceException {
+public class UnsupportedOperationException extends BaseException {
     public UnsupportedOperationException() {
         super(ApiInfo.OPERATE_UNSUPPORTED);
     }

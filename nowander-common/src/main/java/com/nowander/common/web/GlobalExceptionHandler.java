@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,7 +33,7 @@ public class GlobalExceptionHandler {
             MismatchException.class,
             MissingParamException.class
     })
-    public Msg<Object> handle(AbstractServiceException e) {
+    public Msg<Object> handle(BaseException e) {
         log.info("Bad Request异常：" + e.getMessage());
         return new Msg<>(e);
     }
@@ -49,7 +48,7 @@ public class GlobalExceptionHandler {
             NotFoundException.class,
             CaptchaException.class
     })
-    public Msg<Object> handleOk(AbstractServiceException e) {
+    public Msg<Object> handleOk(BaseException e) {
         return new Msg<>(e);
     }
 
@@ -61,7 +60,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Msg<Object> handle(MissingServletRequestParameterException e) {
         log.warn("前后端交接的接口参数缺失:" + e.getMessage());
-        return Msg.paramsError("前后端交接的接口参数缺失引起MissingServletRequestParameterException异常：" + e.getMessage());
+        return new Msg<>(ApiInfo.ERROR_PARAM, "前后端交接的接口参数缺失引起MissingServletRequestParameterException异常：" + e.getMessage());
     }
 
     /**
@@ -71,7 +70,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Msg<Object> handle(HttpMessageNotReadableException e) {
         log.warn("参数不可读异常：" + e.getMessage());
-        return Msg.paramsError("参数不可读，请检查参数列表是否完整：" + e.getMessage());
+        return new Msg<>(ApiInfo.ERROR_PARAM, "参数不可读，请检查参数列表是否完整：" + e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

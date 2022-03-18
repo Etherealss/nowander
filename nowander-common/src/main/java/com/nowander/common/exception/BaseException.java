@@ -14,22 +14,21 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public abstract class AbstractServiceException extends RuntimeException {
+public class BaseException extends RuntimeException {
 
     private int code;
+    private String message;
 
-    public AbstractServiceException(ApiInfo apiInfo) {
+    public BaseException(ApiInfoGetter apiInfo) {
         super(apiInfo.getMessage());
-        code = apiInfo.getCode();
+        this.message = apiInfo.getMessage();
+        this.code = apiInfo.getCode();
     }
 
-    public AbstractServiceException(String message) {
-        this(ApiInfo.SERVER_ERROR, message);
-    }
-
-    public AbstractServiceException(ApiInfo apiInfo, String message) {
+    public BaseException(ApiInfoGetter apiInfo, String message) {
         super(apiInfo.getMessage() + message);
-        code = apiInfo.getCode();
+        this.message = apiInfo.getMessage();
+        this.code = apiInfo.getCode();
     }
 
     /**
@@ -37,7 +36,7 @@ public abstract class AbstractServiceException extends RuntimeException {
      * @param message
      * @param e 原始异常
      */
-    public AbstractServiceException(ApiInfo apiInfo, String message, Exception e) {
+    public BaseException(ApiInfoGetter apiInfo, String message, Throwable e) {
         super(apiInfo.getMessage() + message, e);
         code = apiInfo.getCode();
     }

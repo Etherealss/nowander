@@ -7,7 +7,7 @@ import com.nowander.common.enums.ApiInfo;
  * @author wang tengkun
  * @date 2022/2/23
  */
-public class ServerException  extends AbstractServiceException {
+public class ServerException  extends BaseException {
     public ServerException() {
         super(ApiInfo.SERVER_ERROR);
     }

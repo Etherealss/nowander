@@ -4,9 +4,7 @@ import cn.hutool.json.JSONObject;
 import com.nowander.chat.core.socket.EventProvider;
 import com.nowander.chat.domain.event.ChatEvent;
 import com.nowander.chat.domain.event.message.SendTextEvent;
-import com.nowander.common.pojo.DomainEvent;
 import com.nowander.common.pojo.po.User;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
@@ -15,13 +13,17 @@ import org.springframework.web.socket.WebSocketSession;
  */
 public class SendTextEventProvider implements EventProvider {
     @Override
-    public String support() {
-        return "send_text";
+    public String supportType() {
+        return "sendText";
     }
 
     @Override
     public ChatEvent get(WebSocketSession session, JSONObject attrs, User user) {
-        return new SendTextEvent(session, attrs, user);
+        SendTextEvent sendTextEvent = new SendTextEvent(session, attrs, user);
+        sendTextEvent.setContent(attrs.get("text", String.class));
+        sendTextEvent.setReceverUserId(attrs.get("receverUserId", Integer.class));
+        sendTextEvent.setReceverUsername(attrs.get("receverUsername", String.class));
+        return sendTextEvent;
     }
 
 }

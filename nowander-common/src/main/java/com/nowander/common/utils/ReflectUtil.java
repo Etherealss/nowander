@@ -1,6 +1,5 @@
 package com.nowander.common.utils;
 
-import com.nowander.common.exception.AbstractServiceException;
 import com.nowander.common.exception.ServerException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

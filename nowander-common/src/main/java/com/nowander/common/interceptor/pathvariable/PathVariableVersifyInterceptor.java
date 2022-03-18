@@ -1,5 +1,6 @@
 package com.nowander.common.interceptor.pathvariable;
 
+import com.nowander.common.enums.ApiInfo;
 import com.nowander.common.exception.ErrorParamException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
