@@ -4,7 +4,7 @@ package com.nowander.common.exception;
  * @author wang tengkun
  * @date 2022/3/18
  */
-public interface ServerExceptionAssert extends ApiInfoGetter {
+public interface ApiExceptionThrower extends ApiInfoGetter {
     default BaseException newException(String message) {
         return new BaseException(this, message);
     }
