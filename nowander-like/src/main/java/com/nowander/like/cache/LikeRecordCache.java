@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +24,7 @@ import java.util.Set;
 public class LikeRecordCache {
     @Resource
     private RedisTemplate<String, String> redis;
-    private final HashOperations<String, String, Boolean> hash;
+    private final HashOperations<String, String, String> hash;
 
     @Autowired
     public LikeRecordCache(RedisTemplate<String, String> redis) {
@@ -32,11 +33,11 @@ public class LikeRecordCache {
     }
 
     public void setRecentLike(LikeRecord likeRecord, Boolean isLike) {
-        hash.put(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
+        hash.put(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getRecentLikeRecordKey(), isLike ? "1": "0");
     }
 
     public void setLike(LikeRecord likeRecord, Boolean isLike) {
-        hash.put(RedisKeyPrefix.LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
+        redis.opsForValue().set(likeRecord.getLikeRecordKey(), isLike ? "1": "0", Duration.ofSeconds(600));
     }
 
     /**
@@ -57,13 +58,13 @@ public class LikeRecordCache {
         redis.multi();
         redis.opsForValue().set(likeRecord.getWatchLikeRecord(), isLike.toString());
         // 如果上面这个操作没问题，那么说明watch没有冲突
-        Boolean o = hash.get(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
+        String o = hash.get(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
         if (o == null) {
             // 数据一致，将数据库的点赞记录添加到缓存中
-            hash.put(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike);
+            hash.put(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey(), isLike ? "1": "0");
             redis.exec();
             return true;
-        } else if (!isLike.equals(o)) {
+        } else if (!isLike.equals("1".equals(o))) {
             // 数据不一致，丢弃事务
             redis.discard();
             return false;
@@ -79,7 +80,7 @@ public class LikeRecordCache {
      * @return
      */
     public Boolean getLike(LikeRecord likeRecord) {
-        return hash.get(RedisKeyPrefix.LIKE_RECORD, likeRecord.getLikeRecordKey());
+        return "1".equals(redis.opsForValue().get(likeRecord.getLikeRecordKey()));
     }
 
     /**
@@ -88,11 +89,11 @@ public class LikeRecordCache {
      * @return
      */
     public Boolean getRecentLike(LikeRecord likeRecord) {
-        return hash.get(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getLikeRecordKey());
+        return "1".equals(hash.get(RedisKeyPrefix.RECENT_LIKE_RECORD, likeRecord.getRecentLikeRecordKey()));
     }
 
     public void delLike(LikeRecord likeRecord) {
-        hash.delete(RedisKeyPrefix.LIKE_RECORD, likeRecord.getLikeRecordKey());
+        redis.opsForValue().getAndDelete(likeRecord.getLikeRecordKey());
     }
 
     public void delRecentLike(LikeRecord likeRecord) {
@@ -104,10 +105,6 @@ public class LikeRecordCache {
         return getAndDelAllLikeRecord(RedisKeyPrefix.RECENT_LIKE_RECORD);
     }
 
-    public Set<String> getAllKeys() {
-        return hash.keys(RedisKeyPrefix.RECENT_LIKE_RECORD);
-    }
-
     /**
      * 获取并删除所有
      * @return
@@ -116,7 +113,7 @@ public class LikeRecordCache {
         Set<String> keys = hash.keys(keyType);
         List<LikeRecord> res = new ArrayList<>(keys.size());
         for (String key : keys) {
-            Boolean value = hash.get(keyType, key);
+            Boolean value = "1".equals(hash.get(keyType, key));
             hash.delete(keyType, key);
             res.add(new LikeRecord(key, value));
         }

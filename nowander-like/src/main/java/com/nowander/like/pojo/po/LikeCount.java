@@ -33,7 +33,7 @@ public class LikeCount extends BaseEntity {
 
     public String getLikeCountKey() {
         if (likeCountKey == null) {
-            likeCountKey = RedisKeyPrefix.LIKE_COUNT + "::" + targetType + "::" + targetId;
+            likeCountKey = RedisKeyPrefix.LIKE_COUNT + targetType + "::" + targetId;
         }
         return likeCountKey;
     }
@@ -46,8 +46,8 @@ public class LikeCount extends BaseEntity {
 
     public LikeCount(String redisLikeCountKey, int count) {
         String[] split = redisLikeCountKey.split("::");
-        this.targetId = Integer.valueOf(split[0]);
         this.targetType = Integer.valueOf(split[1]);
+        this.targetId = Integer.valueOf(split[2]);
         this.count = count;
     }
 

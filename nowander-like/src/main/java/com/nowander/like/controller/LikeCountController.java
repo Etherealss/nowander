@@ -34,11 +34,11 @@ public class LikeCountController {
      * @return
      */
     @GetMapping("/{targetType}/{targetId}")
-    public LikeCount getLikeCount(@PathVariable Integer targetType, @PathVariable Integer targetId){
+    public Integer getLikeCount(@PathVariable Integer targetType, @PathVariable Integer targetId){
         LikeCount likeCount = new LikeCount();
         likeCount.setTargetId(targetId);
         likeCount.setTargetType(targetType);
-        return likeService.getTotalLikeCount(likeCount);
+        return likeService.getTotalLikeCount(likeCount).getCount();
     }
 }
 

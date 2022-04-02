@@ -97,6 +97,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public Msg<Object> handle(Exception e) {
+        if (e instanceof IllegalStateException) {
+            if (e.getMessage().contains("argument type mismatch\nController")) {
+                log.warn("参数类型错误:", e);
+                return new Msg<>(new ErrorParamException("参数类型错误"));
+            }
+        }
         log.warn("[全局异常处理器]其他异常:", e);
         return new Msg<>(e);
     }

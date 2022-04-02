@@ -104,6 +104,7 @@ public class LikeService extends ServiceImpl<LikeRecordMapper, LikeRecord> {
     }
 
     public LikeCount getTotalLikeCount(LikeCount likeCount) {
+        // TODO 布隆过滤器
         // 获取已有点赞数，如果缓存未命中则更新缓存
         Integer count = likeCountCache.getLikeCount(likeCount);
         if (count == null) {

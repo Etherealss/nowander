@@ -56,7 +56,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/css/**",
             "/img/**",
             "/js/**",
-            "/config/**"
+            "/config/**",
+            "/likes/**",
+            "/likeCount/**",
+            "/test/**"
     };
 
     private UserDetailsService userDetailsService;
@@ -152,10 +155,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 对于登录login 验证码captcha 允许匿名访问
-                .antMatchers("/test/**").permitAll()
                 .antMatchers(HttpMethod.GET, PERMIT_LIST).permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
 
 
                 // 关闭CSRF防护

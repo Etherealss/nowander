@@ -27,28 +27,21 @@ public class LikeRecordController {
 
     /**
      * 点赞或取消点赞
-     * @param user
-     * @param targetId
-     * @param targetType
-     * @param isLike
      * @return
      */
     @PostMapping("/do")
-    public void doLike(User user, @JsonParam Integer targetId, @JsonParam Integer targetType,
+    public void doLike(@JsonParam Integer userId, @JsonParam Integer targetId, @JsonParam Integer targetType,
                          @JsonParam Boolean isLike) {
-        likeService.likeOrUnlike(new LikeRecord(user.getId(), targetId, targetType), isLike);
+        likeService.likeOrUnlike(new LikeRecord(userId, targetId, targetType), isLike);
     }
 
     /**
      * 是否已点赞
-     * @param user
-     * @param targetId
-     * @param targetType
      * @return
      */
     @GetMapping("/check")
-    public Boolean checkHasLike(User user, @JsonParam Integer targetId, @JsonParam Integer targetType) {
-        return likeService.checkHasLiked(new LikeRecord(user.getId(), targetId, targetType));
+    public Boolean checkHasLike(@JsonParam Integer userId, @JsonParam Integer targetId, @JsonParam Integer targetType) {
+        return likeService.checkHasLiked(new LikeRecord(userId, targetId, targetType));
     }
 }
 

@@ -1,6 +1,7 @@
 package com.nowander.common.schedule;
 
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.nowander.common.enums.ScheduleConstants;
 import com.nowander.common.schedule.domain.JobInfo;
@@ -24,23 +25,25 @@ public abstract class AbstractQuartzJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         try {
             JobInfo jobInfo = getJobInfo(context);
-            doBefore(context, jobInfo);
+            DateTime start = DateUtil.date();
+            doBefore(context, jobInfo, start);
             this.doExecute(context, jobInfo);
-            doAfter(context, jobInfo);
+            doAfter(context, jobInfo, start);
         } catch (Exception e) {
             log.warn("任务执行异常", e);
             throw new JobExecutionException("任务执行异常", e);
         }
     }
 
-    private void doBefore(JobExecutionContext context, JobInfo jobInfo) {
+    private void doBefore(JobExecutionContext context, JobInfo jobInfo, Date date) {
         log.info("--- START --- 定时任务'{}'开始执行。当前时间：{}。JobInfo消息：{}",
-                jobInfo.getJobName(), DateUtil.formatDateTime(new Date()), jobInfo);
+                jobInfo.getJobName(), date, jobInfo);
     }
 
-    private void doAfter(JobExecutionContext context, JobInfo jobInfo) {
-        log.info("--- FINISH --- 定时任务 '{}' 执行完毕。完成时间：{}。JobInfo消息：{}",
-                jobInfo.getJobName(), DateUtil.formatDateTime(new Date()), jobInfo);
+    private void doAfter(JobExecutionContext context, JobInfo jobInfo,  Date start) {
+        DateTime finish = DateUtil.date();
+        log.info("--- FINISH --- 定时任务 '{}' 执行完毕。耗时：{}ms。完成时间：{}。JobInfo消息：{}",
+                jobInfo.getJobName(), finish.getTime() - start.getTime(), finish, jobInfo);
     }
 
     /**

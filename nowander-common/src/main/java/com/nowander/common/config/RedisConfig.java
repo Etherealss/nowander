@@ -38,9 +38,9 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Long> redis(RedisConnectionFactory factory) {
-        RedisTemplate<String, Long> template = new RedisTemplate<>();
-        redisTemplate(factory, template, Long.class);
+    public RedisTemplate<String, Integer> redis(RedisConnectionFactory factory) {
+        RedisTemplate<String, Integer> template = new RedisTemplate<>();
+        redisTemplate(factory, template, Integer.class);
         return template;
     }
 
@@ -53,19 +53,6 @@ public class RedisConfig {
         template.setHashKeySerializer(redisSerializer);
 
         // value序列化
-        // Jackson2JsonRedisSerializer替换为通用的GenericJackson2JsonRedisSerializer
-        /*
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer
-                = new Jackson2JsonRedisSerializer(clazz);
-        // 解决查询缓存异常转换异常的问题
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        jackson2JsonRedisSerializer.setObjectMapper(mapper);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
-        template.setHashValueSerializer(jackson2JsonRedisSerializer);
-        */
         GenericJackson2JsonRedisSerializer jsonRedisSerializer
                 = new GenericJackson2JsonRedisSerializer();
         template.setValueSerializer(jsonRedisSerializer);

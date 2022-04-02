@@ -69,7 +69,7 @@ public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
             // 如果是JSONObject，需要转化为方法参数的对应类型，否则会报错：argument type mismatch
             attribute = JSONUtil.toBean((JSONObject) attribute, parameter.getParameterType());
         }
-        log.info("param:{}\nattribute:{}", paramName, attribute);
+        log.trace("param:{}\nattribute:{}", paramName, attribute);
 
         return attribute;
     }
@@ -104,7 +104,7 @@ public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
     private void setAllJsonParam2Request(HttpServletRequest req, JSONObject json) {
         for (Map.Entry<String, Object> entry : json.entrySet()) {
             Object value = entry.getValue();
-            log.info("key:{}\nvalue:{}", entry.getKey(), value);
+            log.trace("key:{}\nvalue:{}", entry.getKey(), value);
             req.setAttribute(entry.getKey(), value);
         }
     }

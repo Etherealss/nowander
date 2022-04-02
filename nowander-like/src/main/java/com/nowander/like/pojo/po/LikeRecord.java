@@ -69,12 +69,12 @@ public class LikeRecord extends BaseEntity {
 
     public LikeRecord(String likeRecordKey) {
         String[] split = likeRecordKey.split("::");
-        if (split.length != 3) {
+        if (split.length != 4) {
             throw new ServerException("LikeRecord构造失败！传入的参数不对！");
         }
-        userId = Integer.valueOf(split[0]);
-        targetType = Integer.valueOf(split[1]);
-        targetId = Integer.valueOf(split[2]);
+        userId = Integer.valueOf(split[1]);
+        targetType = Integer.valueOf(split[2]);
+        targetId = Integer.valueOf(split[3]);
     }
 
     public LikeRecord(String likeRecordKey, Boolean state) {
@@ -92,6 +92,16 @@ public class LikeRecord extends BaseEntity {
         return likeRecordKey;
     }
 
+    public String getRecentLikeRecordKey() {
+        if (likeRecordKey == null) {
+            likeRecordKey = RedisKeyPrefix.RECENT_LIKE_RECORD
+                    + userId + "::"
+                    + targetType + "::"
+                    + targetId;
+        }
+        return likeRecordKey;
+    }
+
     public String getLikeCountKey() {
         if (likeCountKey == null) {
             likeCountKey = RedisKeyPrefix.LIKE_COUNT
@@ -101,4 +111,12 @@ public class LikeRecord extends BaseEntity {
         return likeCountKey;
     }
 
+    public String getRecentLikeCountKey() {
+        if (likeCountKey == null) {
+            likeCountKey = RedisKeyPrefix.RECENT_LIKE_COUNT
+                    + targetType + "::"
+                    + targetId;
+        }
+        return likeCountKey;
+    }
 }

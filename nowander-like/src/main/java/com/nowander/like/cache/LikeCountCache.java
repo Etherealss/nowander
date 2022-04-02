@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.Set;
 
 /**
@@ -16,11 +17,13 @@ import java.util.Set;
  */
 @Component
 public class LikeCountCache {
+    private RedisTemplate<String, Integer> redis;
     private HashOperations<String, String, Integer> hash;
 
     @Autowired
-    public LikeCountCache(RedisTemplate<String, Long> redis) {
-        hash = redis.opsForHash();
+    public LikeCountCache(RedisTemplate<String, Integer> redis) {
+        this.redis = redis;
+        this.hash = redis.opsForHash();
     }
 
 
@@ -28,21 +31,21 @@ public class LikeCountCache {
      * 增加某个目标的点赞数
      */
     public void increRecentLike(LikeRecord likeRecord, Boolean isLike) {
-        hash.increment(RedisKeyPrefix.RECENT_LIKE_COUNT, likeRecord.getLikeCountKey(), (isLike ? 1L : -1L));
+        hash.increment(RedisKeyPrefix.RECENT_LIKE_COUNT, likeRecord.getRecentLikeCountKey(), (isLike ? 1L : -1L));
     }
 
     /**
      * 缓存某个目标的点赞数
      */
     public void setLikeCount(LikeCount likeCount) {
-        hash.put(RedisKeyPrefix.LIKE_COUNT, likeCount.getLikeCountKey(), likeCount.getCount());
+        redis.opsForValue().set(likeCount.getLikeCountKey(), likeCount.getCount(), Duration.ofSeconds(600));
     }
 
     /**
      * 获取某个目标的点赞数缓存
      */
     public Integer getLikeCount(LikeCount likeCount) {
-        return hash.get(RedisKeyPrefix.LIKE_COUNT, likeCount.getLikeCountKey());
+        return redis.opsForValue().get(likeCount.getLikeCountKey());
     }
 
     /**
