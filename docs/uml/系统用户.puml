@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+
+actor 系统用户 as user
+
+usecase (登录) as sign_in
+usecase (注册) as sign_up
+usecase (个人信息管理) as user_info_manage
+usecase (提交用户认证信息) as user_auth_create
+usecase (修改用户认证信息) as user_auth_update
+usecase (接收消息通知) as notification
+
+user --> sign_in
+user --> sign_up
+user --> user_info_manage
+user --> user_auth_create
+user --> user_auth_update
+user --> notification
+
+@enduml

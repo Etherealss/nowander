@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+
+actor 举办方 as organizer
+actor 系统用户 as user
+user <|-r- organizer
+
+usecase (赛事创建) as competition_create
+usecase (赛事管理) as competition_manage
+usecase (自定义页面模板) as templates_create
+usecase (页面模板管理) as template_manage
+usecase (页面创建) as page_create
+usecase (页面管理) as page_manage
+usecase (参赛选手管理) as contestant_manage
+
+organizer --> competition_create
+organizer --> competition_manage
+organizer --> templates_create
+organizer --> template_manage
+organizer --> page_create
+organizer --> page_manage
+organizer --> contestant_manage
+
+@enduml
