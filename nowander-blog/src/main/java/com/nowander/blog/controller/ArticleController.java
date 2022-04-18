@@ -25,7 +25,7 @@ public class ArticleController {
 
     public static final int ARTICLE_PAGE_SIZE = 10;
 
-    @GetMapping("/{articleId}")
+    @GetMapping("/public/{articleId}")
     public Article getArticle(@PathVariable Integer articleId) {
         log.trace("获取文章");
         return articleService.getById(articleId);
@@ -41,7 +41,7 @@ public class ArticleController {
         articleService.update(article);
     }
 
-    @DeleteMapping("/{articleId}")
+    @DeleteMapping("/public/{articleId}")
     public void deleteArticle(@PathVariable Long articleId) {
         articleService.removeById(articleId);
     }
@@ -69,7 +69,7 @@ public class ArticleController {
     @GetMapping("/public/pages/{curPage}")
     public IPage<Article> getPageCompetition(
             @PathVariable(value = "curPage") int curPage,
-            @MatrixVariable(value = "orderBy", pathVar = "curPage", required = false) String orderBy) {
+            @MatrixVariable(value = "orderBy", pathVar = "curPage", defaultValue = "time") String orderBy) {
         log.debug("获取分页数据：当前页curPage = {}, orderBy = {}", curPage, orderBy);
         return articleService.page(curPage, ARTICLE_PAGE_SIZE, orderBy);
     }

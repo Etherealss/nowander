@@ -1,6 +1,6 @@
 # 服务配置
 server:
-  port: 8081
+  port: 8083
 spring:
   # 环境
   profiles:
@@ -97,8 +97,7 @@ logging:
 jwt:
   key: "bm93YW5kZXI="
   token-header: Auth
-  # 五分钟
-  expire-ms: 300000
+  expire-ms: 3000000
   # 两天
   reflesh-expire-ms: 172800000
   subject: ${spring.application.name}

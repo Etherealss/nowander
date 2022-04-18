@@ -73,6 +73,7 @@ public class ArticleService {
             case "like":
                 page = articleMapper.pageByLike(p);
                 break;
+            case "all":
             default:
                 page = articleManage.page(p);
         }

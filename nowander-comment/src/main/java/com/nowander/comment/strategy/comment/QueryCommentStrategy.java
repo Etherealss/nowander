@@ -48,7 +48,9 @@ public abstract class QueryCommentStrategy extends QueryCommentAndReplyStrategy 
         List<CommentDto> dtos = new ArrayList<>(commentSize);
         for (Comment comment : comments.getRecords()) {
             // 判断当前用户是否为作者
-            comment.setIsAuthor(comment.getAuthorId().equals(curUser.getId()));
+            if (curUser != null) {
+                comment.setIsAuthor(comment.getAuthorId().equals(curUser.getId()));
+            }
             // 添加评论作者的id，后续会通过这些id获取User记录，保存到Map中
             this.addAuthorId2Set(comment.getAuthorId());
             CommentDto dto = new CommentDto();

@@ -212,6 +212,10 @@ token黑名单
 
 ## docker的使用
 
+```shell
+docker-compose -f docker-compose-app.yaml up
+```
+
 ## 多模块打包
 
 参考连接1

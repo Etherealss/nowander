@@ -33,7 +33,6 @@ public class TokenUtil {
     /**
      * 获取token过期时间
      * @param token
-     * @return 未过期为false，已过期为true
      */
     public static long getExpiredToken(String token) {
         return Long.parseLong(parseAndGet(token, JWT.EXPIRES_AT).toString());

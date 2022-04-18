@@ -59,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/config/**",
             "/likes/**",
             "/likeCount/**",
-            "/test/**"
+            "/test/**",
+            "/**/public/**"
     };
 
     private UserDetailsService userDetailsService;
@@ -157,8 +158,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 对于登录login 验证码captcha 允许匿名访问
                 .antMatchers(HttpMethod.GET, PERMIT_LIST).permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
+//                .anyRequest().authenticated()
                 .anyRequest().permitAll()
-
 
                 // 关闭CSRF防护
                 .and()
@@ -183,7 +184,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 msg.setMessage(msg.getMessage() + authException.getMessage());
             } else {
                 TokenException tokenException = (TokenException) e;
-                log.debug("认证失败：{}", tokenException.toString());
+                log.debug("认证失败：{}", tokenException.getMessage());
                 msg = new Msg<>();
                 msg.setCode(tokenException.getCode());
                 msg.setMessage(tokenException.getMessage());
