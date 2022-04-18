@@ -1,0 +1,30 @@
+@startuml
+
+class UserSignController {
+    + SysUser signIn(String username, String password)
+    + SysUser signUp(SysUser initUser)
+    + void update(SysUser updateUser)
+}
+class UserSignService {
+    + SysUser signIn(String username, String password)
+    + SysUser signUp(SysUser initUser)
+    + void updateUserInfo(SysUser updateUser)
+    + void updateUserAvatar(Long userId, byte[] avatarData)
+}
+interface UserRepository {
+    + SysUser insert(SysUser user)
+    + SysUser update(SysUser user)
+    + SysUser findByUsername(String username)
+}
+class OssService {
+    + void uploadFile(byte[] data)
+}
+class SmsService {
+    + void publishSms()
+}
+UserSignController --> UserSignService
+UserSignService --> UserRepository
+UserSignService ..> OssService : 事件发布
+UserSignService ..> SmsService : 事件发布
+
+@enduml

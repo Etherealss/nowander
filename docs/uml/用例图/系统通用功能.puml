@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+
+actor 系统用户 as user
+actor 系统管理员 as admin
+actor 举办方 as organizer
+actor 参赛选手 as contestant
+
+user <|-u- admin
+user <|-u- organizer
+user <|-u- contestant
+
+usecase (登录) as sign_in
+usecase (注册) as sign_up
+usecase (账号管理) as user_info_manage
+
+user --> sign_in
+user --> sign_up
+user --> user_info_manage
+
+@enduml

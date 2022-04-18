@@ -1,0 +1,41 @@
+@startuml
+
+class ComponentController {
+    + List<Component> findAll()
+    + List<Component> findAllPublished(Long componentId)
+    + Component findById(Long componentId)
+    + void insert(Component component)
+    + void updateById(Component component)
+    + void updateStateById(Long componentId, ComponentState state)
+    + void deleteById(Long componentId)
+}
+
+class ComponentService {
+    + List<Component> findAll()
+    + List<Component> findAllPublished(Long componentId)
+    + Component findById(Long componentId)
+    + void insert(Component component)
+    + void updateById(Component component)
+    + void updateStateById(Long componentId, ComponentState state)
+    + void deleteById(Long componentId)
+}
+
+interface ComponentRepository {
+    + List<Component> findAll()
+    + List<Component> findAllByComponentState(ComponentState state)
+    + Component findById(Long componentId)
+    + void insert(Component component)
+    + void updateById(Component component)
+    + void updateStateById(Long componentId, ComponentState state)
+    + void deleteById(Long componentId)
+}
+
+enum ComponentState {
+    Unpublish
+    Published
+    Disable
+}
+
+ComponentController --> ComponentService
+ComponentService -r-> ComponentRepository
+@enduml

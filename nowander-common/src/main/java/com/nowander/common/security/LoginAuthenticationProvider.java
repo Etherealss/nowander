@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 重写 AbstractUserDetailsAuthenticationProvider，它的默认实现是 DaoAuthenticationProvider
- * 我们要仿照 DaoAuthenticationProvider，实现新功能，在登录是校验验证码
+ * 我们要仿照 DaoAuthenticationProvider，实现新功能，在登录时校验验证码
  * @author wang tengkun
  * @date 2022/2/23
  * @see org.springframework.security.authentication.dao.DaoAuthenticationProvider

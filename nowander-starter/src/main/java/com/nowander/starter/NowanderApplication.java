@@ -14,6 +14,8 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication()
 public class NowanderApplication {
     public static void main(String[] args) {
+        StringBuilder builder = new StringBuilder();
+        builder.insert(0, "1");
         SpringApplication.run(NowanderApplication.class, args);
     }
 }

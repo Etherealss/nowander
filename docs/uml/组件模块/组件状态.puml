@@ -1,0 +1,19 @@
+@startuml
+@startuml
+state 不可使用 {
+  state unpublished {
+  }
+  state disable {
+  }
+}
+
+state published {
+}
+
+[*] -> unpublished : 创建
+unpublished --> published : 发布
+disable --> published : 发布
+published --> disable : 停用
+@enduml
+
+@enduml

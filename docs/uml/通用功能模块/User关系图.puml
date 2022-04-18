@@ -1,0 +1,29 @@
+@startuml
+class BaseEntity {
+    - id: Long
+    - createTime: Date
+    - updateTime: Date
+}
+class SysUser {
+    - username: String
+    - password: String
+    - name: String
+    - phone: String
+}
+class SysAdmin {
+
+}
+class Organizer {
+    - organizationId: Long
+    - organizationName: String
+}
+class Contestant {
+    - birthday: Date
+    - sex: boolean
+}
+BaseEntity <|-r- SysUser
+SysUser <|-- SysAdmin
+SysUser <|-- Organizer
+SysUser <|-- Contestant
+
+@enduml

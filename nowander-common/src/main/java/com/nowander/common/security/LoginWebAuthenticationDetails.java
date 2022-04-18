@@ -2,7 +2,6 @@ package com.nowander.common.security;
 
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import javax.servlet.http.HttpServletRequest;
