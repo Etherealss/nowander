@@ -40,7 +40,7 @@ public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
             throws IOException {
 
         User user = (User) authentication.getPrincipal();
-        log.info("登录成功：{}", user.getUsername());
+        log.info("登录成功，user：{}", user);
 
         // 获取token
         String token = tokenService.createToken(user);

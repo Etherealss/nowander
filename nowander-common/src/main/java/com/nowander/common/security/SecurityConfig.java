@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -176,18 +177,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationEntryPoint getAuthenticationEntryPoint() {
         return (request, response, authException) -> {
-            Object e = request.getAttribute("tokenException");
             Msg<Object> msg;
+            Object e = request.getAttribute("tokenException");
             if (e == null) {
                 log.debug("认证失败：{}", authException.getMessage());
                 msg = new Msg<>(ApiInfo.AUTHORIZATION_FAILED);
                 msg.setMessage(msg.getMessage() + authException.getMessage());
+                response.setStatus(HttpStatus.BAD_REQUEST.value());
             } else {
                 TokenException tokenException = (TokenException) e;
                 log.debug("认证失败：{}", tokenException.getMessage());
                 msg = new Msg<>();
                 msg.setCode(tokenException.getCode());
                 msg.setMessage(tokenException.getMessage());
+                response.setStatus(HttpStatus.BAD_REQUEST.value());
             }
             ResponseUtil.send(response, msg);
         };
@@ -199,6 +202,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             log.debug("拒绝访问：{}", authException.getMessage());
             Msg<Object> msg = new Msg<>(ApiInfo.FORBIDDEN_REQUEST);
             msg.setMessage(msg.getMessage() + authException.getMessage());
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
             ResponseUtil.send(response, msg);
         };
     }
