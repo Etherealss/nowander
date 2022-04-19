@@ -41,7 +41,7 @@ public enum ApiInfo implements ApiExceptionThrower {
 
     CAPTCHA_MISSING(400301, "[未输入验证码]"),
     CAPTCHA_NOT_MATCH(400302, "[验证码不匹配]"),
-    CAPTCHA_INVALID(400303, "[验证码已失效]"),
+    CAPTCHA_INVALID(400303, "[验证码无效或已过期]"),
     CAPTCHA_ERROR(400304, "[验证码异常]"),
 
     TOKEN_MISSING(400401, "[token缺失]"),

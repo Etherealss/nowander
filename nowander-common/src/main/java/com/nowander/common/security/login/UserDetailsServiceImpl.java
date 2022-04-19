@@ -1,4 +1,4 @@
-package com.nowander.common.security;
+package com.nowander.common.security.login;
 
 import com.nowander.common.user.mapper.UserMapper;
 import com.nowander.common.pojo.po.User;
@@ -30,9 +30,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.debug("UserDetailsService 用户信息检查：username = " + username);
+        log.info("UserDetailsService 用户信息检查：username = " + username);
         // 根据用户名查询数据库
         User user = userMapper.selectUserByUsername(username);
+        log.info("UserDetailsService 登录用户user:{}", user);
         //判断
         if (user == null) {
             log.info("登录用户不存在,username = '{}'", username);

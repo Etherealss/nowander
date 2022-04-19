@@ -4,15 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.nowander.blog.pojo.po.Posts">
-        <id column="id" property="id" />
-        <result column="category" property="category" />
-        <result column="author_id" property="authorId" />
-        <result column="title" property="title" />
-        <result column="content" property="content" />
-        <result column="labels" property="labels"  typeHandler="com.nowander.common.repository.JsonSetTypeHandler"/>
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="follow" property="follow" />
+        <id column="id" property="id"/>
+        <result column="category" property="category"/>
+        <result column="author_id" property="authorId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="labels" property="labels" typeHandler="com.nowander.common.repository.JsonSetTypeHandler"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="follow" property="follow"/>
     </resultMap>
 
+    <select id="pageByLike" resultType="com.nowander.blog.pojo.po.Posts">
+        SELECT *
+        FROM `posts` p
+                 LEFT JOIN `like_count` `l`
+                           ON p.`id` = `l`.`target_id`
+                               AND `l`.`target_type` = 0
+        ORDER BY `l`.`count` DESC
+    </select>
 </mapper>

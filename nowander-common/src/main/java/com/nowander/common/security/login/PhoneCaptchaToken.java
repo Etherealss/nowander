@@ -1,4 +1,4 @@
-package com.nowander.common.security;
+package com.nowander.common.security.login;
 
 import cn.hutool.core.lang.Assert;
 import com.nowander.common.security.login.LoginParamName;

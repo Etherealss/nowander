@@ -1,7 +1,7 @@
 package com.nowander.common.user.controller;
 
 import com.nowander.common.pojo.po.User;
-import com.nowander.common.security.login.LoginSuccessHandlerImpl;
+import com.nowander.common.security.login.LoginSuccessHandler;
 import com.nowander.common.user.service.TokenService;
 import com.nowander.common.user.service.UserService;
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class SignController {
     private TokenService tokenService;
 
     /**
-     * 具体业务见 {@link LoginSuccessHandlerImpl }
+     * 具体业务见 {@link LoginSuccessHandler }
      */
     @PostMapping("/login")
     public User login() {
@@ -35,7 +35,7 @@ public class SignController {
         return user;
     }
 
-    @GetMapping("/login")
+    @GetMapping("/logout")
     public void logout(HttpServletRequest request) {
         userService.logout(request);
     }

@@ -55,8 +55,11 @@ public class LikeCount extends BaseEntity {
      * @param add null值会被视为0
      */
     public void addCount(@Nullable Integer add) {
-        if (add != null) {
-            count += add;
+        int a = add == null ? 0 : add;
+        if (count == null) {
+            count = a;
+        } else {
+            count += a;
         }
     }
 

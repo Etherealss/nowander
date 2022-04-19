@@ -4,12 +4,12 @@ import com.nowander.common.enums.ApiInfo;
 import com.nowander.common.exception.TokenException;
 import com.nowander.common.pojo.vo.Msg;
 import com.nowander.common.security.jwt.MyJwtAuthenticationFilter;
+import com.nowander.common.security.login.LoginAuthenticationFilter;
+import com.nowander.common.security.login.LoginFailureHandler;
+import com.nowander.common.security.login.UsernamePasswordCaptchaAuthProvider;
 import com.nowander.common.utils.ResponseUtil;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -31,16 +31,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
@@ -84,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final RequestMappingHandlerMapping handlerMapping;
     private final UserDetailsService userDetailsService;
     private final AuthenticationSuccessHandler successHandler;
+    private final LoginFailureHandler failureHandler;
     private final MyJwtAuthenticationFilter jwtAuthenticationFilter;
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -98,7 +96,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LoginAuthenticationFilter loginAuthenticationFilter() {
-        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter();
+        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter(failureHandler);
         loginAuthenticationFilter.setAuthenticationManager(providerManager());
         return loginAuthenticationFilter;
     }
@@ -183,13 +181,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 // 成功处理器
                 .successHandler(successHandler)
+                // 失败处理器
+                .failureHandler(failureHandler)
 
                 // —————————————— 认证失败处理类  ——————————————
                 .and()
                 .exceptionHandling()
                 .accessDeniedHandler(getAccessDeniedHandler())
                 .authenticationEntryPoint(getAuthenticationEntryPoint())
-
 
                 //  —————————————— 权限校验  ——————————————
                 // 设置哪些路径可以直接访问，不需要认证
@@ -206,7 +205,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
 
                 // 跨域。不知道实际作用，先注释掉
-                .cors().disable()
+//                .cors().disable()
 
                 // 添加token过滤器
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

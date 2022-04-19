@@ -109,7 +109,7 @@ public class LikeService extends ServiceImpl<LikeRecordMapper, LikeRecord> {
         Integer count = likeCountCache.getLikeCount(likeCount);
         if (count == null) {
             count = likeCountMapper.getLikeCount(likeCount);
-            likeCount.setCount(count);
+            likeCount.setCount(count == null ? 0 : count);
             likeCountCache.setLikeCount(likeCount);
         }
 

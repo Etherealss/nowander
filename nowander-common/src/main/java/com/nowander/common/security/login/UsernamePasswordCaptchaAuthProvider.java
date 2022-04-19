@@ -1,4 +1,4 @@
-package com.nowander.common.security;
+package com.nowander.common.security.login;
 
 import cn.hutool.core.util.StrUtil;
 import com.nowander.common.enums.ApiInfo;
@@ -15,7 +15,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 /**
  * 重写 AbstractUserDetailsAuthenticationProvider，它的默认实现是 DaoAuthenticationProvider
@@ -46,7 +45,7 @@ public class UsernamePasswordCaptchaAuthProvider extends AbstractUserDetailsAuth
         String password = auth.getPassword();
         User user = (User) userDetailsService.loadUserByUsername(username);
         //密码是否一致
-        if (passwordEncoder.matches(password, user.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("密码错误");
         }
 
@@ -56,9 +55,14 @@ public class UsernamePasswordCaptchaAuthProvider extends AbstractUserDetailsAuth
     private void validateCaptcha(String userInputCaptcha) {
         String code = redisTemplate.opsForValue().getAndDelete(AppAttribute.CAPTCHAC_CACHE);
 
-        //验证码是否为空co rs
+        //验证码是否为空
         if (StrUtil.isBlank(userInputCaptcha)) {
             throw new CaptchaException(ApiInfo.CAPTCHA_MISSING);
+        }
+
+        // TODO 用于测试
+        if (userInputCaptcha.equals("1234")) {
+            return;
         }
 
         // 验证码失效

@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -42,6 +43,7 @@ public class ArticleService {
         return articleManage.findDetailById(id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void save(ArticleDetailVO entity) {
         articleManage.save(entity);
         articleEsManage.save(buildDocEsDTO(entity));

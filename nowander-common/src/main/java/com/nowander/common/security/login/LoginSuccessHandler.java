@@ -27,7 +27,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class LoginSuccessHandlerImpl implements AuthenticationSuccessHandler {
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private TokenService tokenService;
 

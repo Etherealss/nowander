@@ -272,7 +272,7 @@ docker-compose -f docker-compose-app.yaml up
             </plugins>
         </build>
 ```
-服务器mysql访问权限
+### 服务器mysql访问权限
 
 问题：项目运行时访问数据库，出现：java.net.ConnectException: Connection refused (Connection refused)
 
@@ -287,9 +287,20 @@ docker-compose -f docker-compose-app.yaml up
     Grant all privileges on nowander.* to 'nowander_user'@'%';
     Grant all privileges on nowander.* to 'nowander_user'@'%'; # 执行两次
 ```
-测试
 
-多模块测试
+### 更新项目
+
+1.  maven 项目clean - install
+2.  对启动类所在的包进行clean - install （也许可以省略这一步）
+3.  将jar发到服务器
+4.  通过Dockerfile构建新镜像
+    docker build -f 文件路径 -t 镜像名 . # 文件名为Dockerfile时可省略，最后的.不要忽略
+5.  通过docker-compose创建并运行容器
+
+
+##测试
+
+### 多模块测试
 ```java
     @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = com.nowander.starter.NowanderApplication.class)
     @ComponentScan(basePackages = "com.nowander.blog.mapper")

@@ -3,21 +3,18 @@ package com.nowander.blog.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.blog.pojo.po.Article;
+import com.nowander.blog.pojo.po.NoWanderDocument;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 /**
  * @author wtk
- * @since 2022-01-05
+ * @date 2022-04-19
  */
-@Repository
-public interface ArticleMapper extends NoWanderDocumentMapper<Article> {
+public interface NoWanderDocumentMapper<T extends NoWanderDocument> extends BaseMapper<T> {
     /**
      * 按点赞数查询分页
      * @param page
      * @return
      */
-    @Override
-    IPage<Article> pageByLike(@Param("page") Page<?> page);
+    IPage<T> pageByLike(@Param("page") Page<?> page);
 }

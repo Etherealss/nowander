@@ -27,7 +27,7 @@ public class BaseException extends RuntimeException {
 
     public BaseException(ApiInfoGetter apiInfo, String message) {
         super(apiInfo.getMessage() + message);
-        this.message = apiInfo.getMessage();
+        this.message = apiInfo.getMessage() + message;
         this.code = apiInfo.getCode();
     }
 
