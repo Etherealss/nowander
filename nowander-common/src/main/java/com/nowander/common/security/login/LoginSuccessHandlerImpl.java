@@ -1,8 +1,9 @@
-package com.nowander.common.security;
+package com.nowander.common.security.login;
 
 import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.security.jwt.JwtConfig;
 import com.nowander.common.user.service.TokenService;
 import com.nowander.common.utils.ResponseUtil;
 import lombok.AllArgsConstructor;

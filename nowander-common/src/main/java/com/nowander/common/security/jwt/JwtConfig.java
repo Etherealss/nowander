@@ -1,4 +1,4 @@
-package com.nowander.common.security;
+package com.nowander.common.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

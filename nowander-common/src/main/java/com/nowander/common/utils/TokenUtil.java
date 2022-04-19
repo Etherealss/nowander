@@ -5,7 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import com.nowander.common.exception.ServerException;
-import com.nowander.common.security.JwtConfig;
+import com.nowander.common.security.jwt.JwtConfig;
 import lombok.extern.slf4j.Slf4j;
 
 /**

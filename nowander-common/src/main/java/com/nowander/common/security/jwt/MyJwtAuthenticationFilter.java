@@ -1,9 +1,10 @@
-package com.nowander.common.security;
+package com.nowander.common.security.jwt;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.nowander.common.exception.TokenException;
 import com.nowander.common.pojo.po.User;
+import com.nowander.common.security.jwt.JwtConfig;
 import com.nowander.common.user.service.TokenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 过滤已登陆（有token）和未登录的用户
  * @author wang tengkun
  * @date 2022/2/23
  */

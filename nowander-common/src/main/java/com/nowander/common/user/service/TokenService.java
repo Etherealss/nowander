@@ -7,7 +7,7 @@ import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
-import com.nowander.common.security.JwtConfig;
+import com.nowander.common.security.jwt.JwtConfig;
 import com.nowander.common.enums.ApiInfo;
 import com.nowander.common.enums.RedisKeyPrefix;
 import com.nowander.common.exception.TokenException;

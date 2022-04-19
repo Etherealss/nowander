@@ -1,7 +1,7 @@
 package com.nowander.chat.core.socket;
 
 import com.nowander.common.pojo.po.User;
-import com.nowander.common.security.JwtConfig;
+import com.nowander.common.security.jwt.JwtConfig;
 import com.nowander.common.user.service.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.server.ServerHttpRequest;

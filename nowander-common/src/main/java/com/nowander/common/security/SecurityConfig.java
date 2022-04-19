@@ -3,19 +3,26 @@ package com.nowander.common.security;
 import com.nowander.common.enums.ApiInfo;
 import com.nowander.common.exception.TokenException;
 import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.security.jwt.MyJwtAuthenticationFilter;
 import com.nowander.common.utils.ResponseUtil;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -29,6 +36,18 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.util.pattern.PathPattern;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author wtk
@@ -38,17 +57,15 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
     public static final String LOGIN_MAPPING_URL = "/users/login";
     private static final String LOGIN_PAGE_PATH = "http://localhost:8080/#/login";
     private static final String DEFAULT_SUCCESS_URL = "/test.html";
     private static final String[] PERMIT_LIST = {
             "/",
             "/index.html",
-            "/captcha",
             LOGIN_MAPPING_URL,
             "/users/reflesh",
             "/users/register",
@@ -64,10 +81,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/**/public/**"
     };
 
-    private UserDetailsService userDetailsService;
-    private AuthenticationSuccessHandler successHandler;
-    private AuthenticationFailureHandler failureHandler;
-    private MyJwtAuthenticationFilter jwtAuthenticationFilter;
+    private final RequestMappingHandlerMapping handlerMapping;
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationSuccessHandler successHandler;
+    private final MyJwtAuthenticationFilter jwtAuthenticationFilter;
+    private final RedisTemplate<String, String> redisTemplate;
+
+    @Bean
+    public UsernamePasswordCaptchaAuthProvider usernamePasswordCaptchaAuthProvider() {
+        return new UsernamePasswordCaptchaAuthProvider(
+                userDetailsService,
+                redisTemplate,
+                getPasswordEncoder()
+        );
+    }
+
+    @Bean
+    public LoginAuthenticationFilter loginAuthenticationFilter() {
+        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter();
+        loginAuthenticationFilter.setAuthenticationManager(providerManager());
+        return loginAuthenticationFilter;
+    }
+
+    @Bean
+    public ProviderManager providerManager() {
+        ProviderManager providerManager = new ProviderManager(Collections.singletonList(
+                usernamePasswordCaptchaAuthProvider()
+        ));
+        return providerManager;
+    }
 
     /**
      * 自定义配置 DaoAuthenticationProvider，
@@ -141,9 +183,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 // 成功处理器
                 .successHandler(successHandler)
-                // 失败处理器
-                .failureHandler(failureHandler)
-
 
                 // —————————————— 认证失败处理类  ——————————————
                 .and()
@@ -157,7 +196,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 对于登录login 验证码captcha 允许匿名访问
-                .antMatchers(HttpMethod.GET, PERMIT_LIST).permitAll()
+                .antMatchers(HttpMethod.GET, PERMIT_LIST).anonymous()
                 // 除上面外的所有请求全部需要鉴权认证
 //                .anyRequest().authenticated()
                 .anyRequest().permitAll()
@@ -166,12 +205,77 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
 
+                // 跨域。不知道实际作用，先注释掉
+                .cors().disable()
 
-                // 添加验证码过滤器
-                .addFilterBefore(jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class)
+                // 添加token过滤器
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                // 添加登录过滤器
+                .addFilterAfter(loginAuthenticationFilter(), MyJwtAuthenticationFilter.class);
 
         ;
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+        // 跳过Security过滤链
+        web.ignoring().antMatchers(HttpMethod.GET, PERMIT_LIST);
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
+        handlerMethods.forEach((info, method) -> {
+            // 带IgnoreAuth注解的方法直接放行
+            // 根据请求类型做不同的处理
+            for (RequestMethod requestMethod : info.getMethodsCondition().getMethods()) {
+                if (Objects.isNull(method.getMethodAnnotation(IgnoreAuth.class))) {
+                    return;
+                }
+                switch (requestMethod) {
+                    case GET:
+                        // getPatternsCondition得到请求url数组，遍历处理
+                        ignoreAuth(method, web, HttpMethod.GET);
+                        break;
+                    case POST:
+                        ignoreAuth(method, web, HttpMethod.POST);
+                        break;
+                    case DELETE:
+                        ignoreAuth(method, web, HttpMethod.DELETE);
+                        break;
+                    case PUT:
+                        ignoreAuth(method, web, HttpMethod.PUT);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    private void ignoreAuth(HandlerMethod method, WebSecurity web, HttpMethod httpMethod) {
+//        // 获取方法上的注解
+//        RequestMapping mapping = method.getMethodAnnotation(RequestMapping.class);
+//        if (mapping == null) {
+//            return;
+//        }
+//        // 获取类的注解
+//        RequestMapping mappingClass = method.getBeanType().getAnnotation(RequestMapping.class);
+//        String path = (mappingClass == null ? "" : mappingClass.value()[0]) + mapping.value()[0];
+//        path = path.replaceAll("\\{\\w+\\}", "*");
+//        path = path.trim();
+//        if (StringUtils.isBlank(path)) {
+//            return;
+//        }
+//        log.info("Spring Security 忽略的路径：{}", path);
+//        web.ignoring().antMatchers(httpMethod, path);
+    }
+    private void ignoreAuth(RequestMappingInfo info, WebSecurity web, HttpMethod httpMethod) {
+        PathPatternsRequestCondition condition = info.getPathPatternsCondition();
+        if (condition == null) {
+            return;
+        }
+        for (PathPattern pattern : condition.getPatterns()) {
+            String ignroePath = pattern.getPatternString().replaceAll("\\{\\w+\\}", "*");
+            log.info("Spring Security 忽略的路径：{}", ignroePath);
+            web.ignoring().antMatchers(httpMethod, ignroePath);
+        }
     }
 
     @Bean

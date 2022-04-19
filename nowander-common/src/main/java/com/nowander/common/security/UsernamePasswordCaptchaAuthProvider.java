@@ -2,6 +2,7 @@ package com.nowander.common.security;
 
 import cn.hutool.core.util.StrUtil;
 import com.nowander.common.enums.ApiInfo;
+import com.nowander.common.enums.AppAttribute;
 import com.nowander.common.exception.CaptchaException;
 import com.nowander.common.pojo.po.User;
 import lombok.AllArgsConstructor;
@@ -23,9 +24,8 @@ import org.springframework.stereotype.Component;
  * @date 2022/2/23
  * @see org.springframework.security.authentication.dao.DaoAuthenticationProvider
  */
-@Component
 @AllArgsConstructor
-public class LoginAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+public class UsernamePasswordCaptchaAuthProvider extends AbstractUserDetailsAuthenticationProvider {
 
     private UserDetailsService userDetailsService;
     private RedisTemplate<String, String> redisTemplate;
@@ -33,32 +33,30 @@ public class LoginAuthenticationProvider extends AbstractUserDetailsAuthenticati
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        LoginWebAuthenticationDetails loginWebAuthenticationDetails =
-                (LoginWebAuthenticationDetails) authentication.getDetails();
+        UsernamePasswordCaptchaToken auth =
+                (UsernamePasswordCaptchaToken) authentication;
         //验证码value
-        String captchaCode = loginWebAuthenticationDetails.getCaptchaCode();
-        //验证码key
-        String captchaKey = loginWebAuthenticationDetails.getCaptchaKey();
+        String captchaCode = auth.getCaptchaCode();
         //检验验证码是否正确
-        validateCaptcha(captchaCode, captchaKey);
+        validateCaptcha(captchaCode);
 
         //用户名
-        String username = authentication.getName();
+        String username = auth.getUsername();
         //密码
-        String password = authentication.getCredentials().toString();
+        String password = auth.getPassword();
         User user = (User) userDetailsService.loadUserByUsername(username);
         //密码是否一致
         if (passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("密码错误");
         }
 
-        return this.createSuccessAuthentication(user, authentication, user);
+        return this.createSuccessAuthentication(user, auth, user);
     }
 
-    private void validateCaptcha(String userInputCaptcha, String cacheKey) {
-        String code = redisTemplate.opsForValue().getAndDelete(cacheKey);
+    private void validateCaptcha(String userInputCaptcha) {
+        String code = redisTemplate.opsForValue().getAndDelete(AppAttribute.CAPTCHAC_CACHE);
 
-        //验证码是否为空
+        //验证码是否为空co rs
         if (StrUtil.isBlank(userInputCaptcha)) {
             throw new CaptchaException(ApiInfo.CAPTCHA_MISSING);
         }
@@ -67,10 +65,16 @@ public class LoginAuthenticationProvider extends AbstractUserDetailsAuthenticati
         if (code == null) {
             throw new CaptchaException(ApiInfo.CAPTCHA_INVALID);
         }
+
         // 验证码不匹配
         if (!code.equals(userInputCaptcha)) {
             throw new CaptchaException(ApiInfo.CAPTCHA_NOT_MATCH);
         }
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return (UsernamePasswordCaptchaToken.class.isAssignableFrom(authentication));
     }
 
     @Override
