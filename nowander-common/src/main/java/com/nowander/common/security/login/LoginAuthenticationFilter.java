@@ -25,12 +25,14 @@ import java.io.IOException;
 @Slf4j
 public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
+    public static final AntPathRequestMatcher DEFAULT_REQUEST_MATCHER
+            = new AntPathRequestMatcher("/users/login", HttpMethod.POST.name());
     private final LoginFailureHandler loginFailureHandler;
 
     public LoginAuthenticationFilter(LoginFailureHandler loginFailureHandler) {
-        super(new AntPathRequestMatcher(SecurityConfig.LOGIN_MAPPING_URL, HttpMethod.POST.name()));
+        super(DEFAULT_REQUEST_MATCHER);
         this.loginFailureHandler = loginFailureHandler;
-//        this.setAuthenticationFailureHandler(loginFailureHandler);
+        this.setAuthenticationFailureHandler(loginFailureHandler);
     }
 
     @Override
