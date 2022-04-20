@@ -5,16 +5,25 @@ import com.nowander.common.enums.ApiInfo;
 import com.nowander.common.enums.AppAttribute;
 import com.nowander.common.exception.CaptchaException;
 import com.nowander.common.pojo.po.User;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.Assert;
 
 /**
  * 重写 AbstractUserDetailsAuthenticationProvider，它的默认实现是 DaoAuthenticationProvider
@@ -22,16 +31,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author wang tengkun
  * @date 2022/2/23
  * @see org.springframework.security.authentication.dao.DaoAuthenticationProvider
+ * @see org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider
  */
-@AllArgsConstructor
-public class UsernamePasswordCaptchaAuthProvider extends AbstractUserDetailsAuthenticationProvider {
+@Slf4j
+@RequiredArgsConstructor
+public class UsernamePasswordCaptchaAuthProvider implements AuthenticationProvider, InitializingBean, MessageSourceAware {
 
-    private UserDetailsService userDetailsService;
-    private RedisTemplate<String, String> redisTemplate;
-    private PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+    private final RedisTemplate<String, String> redisTemplate;
+    private final PasswordEncoder passwordEncoder;
+    private final GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+    private MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        Assert.isInstanceOf(UsernamePasswordCaptchaToken.class, authentication,
+                () -> messages.getMessage(
+                        "CaptchaAuthenticationProvider.onlySupports",
+                        "Only CaptchaAuthenticationToken is supported"));
         UsernamePasswordCaptchaToken auth =
                 (UsernamePasswordCaptchaToken) authentication;
         //验证码value
@@ -52,6 +69,23 @@ public class UsernamePasswordCaptchaAuthProvider extends AbstractUserDetailsAuth
         return this.createSuccessAuthentication(user, auth, user);
     }
 
+    /**
+     * 认证成功将非授信凭据转为授信凭据.
+     * 封装用户信息 角色信息。
+     *
+     * @param authentication the authentication
+     * @param user           the user
+     * @return the authentication
+     */
+    protected Authentication createSuccessAuthentication(Object principal, Authentication authentication,
+                                                         UserDetails user) {
+        UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(principal,
+                authentication.getCredentials(), this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
+        result.setDetails(authentication.getDetails());
+        log.debug("User已鉴权");
+        return result;
+    }
+
     private void validateCaptcha(String userInputCaptcha) {
         String code = redisTemplate.opsForValue().getAndDelete(AppAttribute.CAPTCHAC_CACHE);
 
@@ -61,7 +95,7 @@ public class UsernamePasswordCaptchaAuthProvider extends AbstractUserDetailsAuth
         }
 
         // TODO 用于测试
-        if (userInputCaptcha.equals("1234")) {
+        if ("1234".equals(userInputCaptcha)) {
             return;
         }
 
@@ -82,12 +116,13 @@ public class UsernamePasswordCaptchaAuthProvider extends AbstractUserDetailsAuth
     }
 
     @Override
-    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(userDetailsService, "userDetailsService must not be null");
+        Assert.notNull(redisTemplate, "redisTemplate must not be null");
     }
 
     @Override
-    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        return null;
+    public void setMessageSource(MessageSource messageSource) {
+        this.messages = new MessageSourceAccessor(messageSource);
     }
 }

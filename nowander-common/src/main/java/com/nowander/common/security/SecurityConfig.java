@@ -6,6 +6,7 @@ import com.nowander.common.pojo.vo.Msg;
 import com.nowander.common.security.jwt.MyJwtAuthenticationFilter;
 import com.nowander.common.security.login.LoginAuthenticationFilter;
 import com.nowander.common.security.login.LoginFailureHandler;
+import com.nowander.common.security.login.LoginSuccessHandler;
 import com.nowander.common.security.login.UsernamePasswordCaptchaAuthProvider;
 import com.nowander.common.utils.ResponseUtil;
 import lombok.RequiredArgsConstructor;
@@ -80,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final RequestMappingHandlerMapping handlerMapping;
     private final UserDetailsService userDetailsService;
-    private final AuthenticationSuccessHandler successHandler;
+    private final LoginSuccessHandler successHandler;
     private final LoginFailureHandler failureHandler;
     private final MyJwtAuthenticationFilter jwtAuthenticationFilter;
     private final RedisTemplate<String, String> redisTemplate;
@@ -96,15 +97,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public LoginAuthenticationFilter loginAuthenticationFilter() {
-        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter(failureHandler);
+        LoginAuthenticationFilter loginAuthenticationFilter = new LoginAuthenticationFilter(successHandler, failureHandler);
         loginAuthenticationFilter.setAuthenticationManager(providerManager());
         return loginAuthenticationFilter;
     }
 
     @Bean
     public ProviderManager providerManager() {
+        UsernamePasswordCaptchaAuthProvider provider = usernamePasswordCaptchaAuthProvider();
         ProviderManager providerManager = new ProviderManager(Collections.singletonList(
-                usernamePasswordCaptchaAuthProvider()
+                provider
         ));
         return providerManager;
     }

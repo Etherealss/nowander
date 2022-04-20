@@ -27,10 +27,11 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     private final LoginFailureHandler loginFailureHandler;
 
-    public LoginAuthenticationFilter(LoginFailureHandler loginFailureHandler) {
+    public LoginAuthenticationFilter(LoginSuccessHandler loginSuccessHandler, LoginFailureHandler loginFailureHandler) {
         super(new AntPathRequestMatcher(SecurityConfig.LOGIN_MAPPING_URL, HttpMethod.POST.name()));
         this.loginFailureHandler = loginFailureHandler;
-//        this.setAuthenticationFailureHandler(loginFailureHandler);
+        this.setAuthenticationFailureHandler(loginFailureHandler);
+        this.setAuthenticationSuccessHandler(loginSuccessHandler);
     }
 
     @Override
@@ -67,6 +68,8 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
                               AbstractAuthenticationToken authRequest) {
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
+
+
 
 
 }
