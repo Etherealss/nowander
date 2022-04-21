@@ -1,8 +1,7 @@
-package com.nowander.like.mapper;
+package com.nowander.like.likecount;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.nowander.like.pojo.po.LikeCount;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

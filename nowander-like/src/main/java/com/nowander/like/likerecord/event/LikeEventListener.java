@@ -1,6 +1,6 @@
-package com.nowander.like.event;
+package com.nowander.like.likerecord.event;
 
-import com.nowander.like.service.LikeService;
+import com.nowander.like.LikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;

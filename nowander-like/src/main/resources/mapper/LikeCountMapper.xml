@@ -3,7 +3,7 @@
 <mapper namespace="com.nowander.like.mapper.LikeCountMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.like.pojo.po.LikeCount">
+    <resultMap id="BaseResultMap" type="com.nowander.like.likecount.LikeCount">
         <id column="target_id" property="targetId" />
         <result column="target_type" property="targetType" />
         <result column="count" property="count" />

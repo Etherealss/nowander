@@ -1,8 +1,8 @@
 package com.nowander.starter.controller;
 
 
-import com.nowander.like.pojo.po.LikeCount;
-import com.nowander.like.service.LikeService;
+import com.nowander.like.likecount.LikeCount;
+import com.nowander.like.LikeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

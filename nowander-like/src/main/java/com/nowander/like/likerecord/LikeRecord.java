@@ -1,4 +1,4 @@
-package com.nowander.like.pojo.po;
+package com.nowander.like.likerecord;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

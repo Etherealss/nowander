@@ -1,12 +1,10 @@
-package com.nowander.like.mapper;
+package com.nowander.like.likerecord;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.nowander.like.pojo.po.LikeRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author wtk

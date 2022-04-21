@@ -3,7 +3,7 @@
 <mapper namespace="com.nowander.like.mapper.LikeRecordMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.like.pojo.po.LikeRecord">
+    <resultMap id="BaseResultMap" type="com.nowander.like.likerecord.LikeRecord">
         <id column="user_id" property="userId" />
         <result column="target_id" property="targetId" />
         <result column="target_type" property="targetType" />

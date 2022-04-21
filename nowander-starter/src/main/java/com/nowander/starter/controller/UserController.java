@@ -39,7 +39,5 @@ public class UserController {
         int count = userService.count(new QueryWrapper<User>().eq("email", email));
         return Msg.ok(count == 1);
     }
-
-
 }
 
