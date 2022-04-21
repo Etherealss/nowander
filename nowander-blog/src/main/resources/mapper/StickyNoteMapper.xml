@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nowander.blog.mapper.StickyNoteMapper">
+<mapper namespace="com.nowander.blog.stickynote.StickyNoteMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.common.pojo.po.StickyNote">
+    <resultMap id="BaseResultMap" type="com.nowander.blog.stickynote.StickyNote">
         <id column="id" property="id" />
         <result column="author_id" property="authorId" />
         <result column="content" property="content" />
         <result column="create_time" property="createTime" />
         <result column="like_count" property="likeCount" />
-        <result column="shape" property="shape" />
-        <result column="alpha" property="alpha" />
-        <result column="red" property="red" />
-        <result column="green" property="green" />
-        <result column="blue" property="blue" />
-        <result column="angle" property="angle" />
+        <result column="props" property="props" />
     </resultMap>
 
 </mapper>

@@ -1,4 +1,4 @@
-package com.nowander.blog.properties;
+package com.nowander.blog.document;
 
 import com.nowander.common.config.CompositePropertySourceFactory;
 import lombok.Getter;

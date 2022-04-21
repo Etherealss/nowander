@@ -1,10 +1,10 @@
-package com.nowander.blog.pojo.po;
+package com.nowander.blog.document.posts;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.nowander.blog.document.NoWanderDocument;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * 问贴

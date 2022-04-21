@@ -1,4 +1,4 @@
-package com.nowander.common.pojo.po;
+package com.nowander.blog.stickynote;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

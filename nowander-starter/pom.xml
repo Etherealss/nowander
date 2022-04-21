@@ -36,10 +36,6 @@
         </dependency>
         <dependency>
             <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-user</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wanderfour</groupId>
             <artifactId>nowander-blog</artifactId>
         </dependency>
         <dependency>

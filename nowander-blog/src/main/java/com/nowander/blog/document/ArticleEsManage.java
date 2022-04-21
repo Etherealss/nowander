@@ -1,10 +1,10 @@
-package com.nowander.blog.manage;
+package com.nowander.blog.document;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.blog.pojo.po.Article;
-import com.nowander.blog.pojo.dto.DocEsDTO;
-import com.nowander.blog.properties.EsSearchProperties;
+import com.nowander.blog.document.article.Article;
+import com.nowander.blog.document.DocEsDTO;
+import com.nowander.blog.document.EsSearchProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;

@@ -1,4 +1,4 @@
-package com.nowander.blog.pojo.dto;
+package com.nowander.blog.document.article;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2022/3/3
  */
 @Data
-public class ArticleDetailDTO {
+public class ArticleDetailVO {
     private Integer id;
     /**
      * 分区

@@ -1,18 +1,11 @@
-package com.nowander.blog.service;
+package com.nowander.blog.document.article;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.blog.manage.ArticleEsManage;
-import com.nowander.blog.manage.ArticleManage;
-import com.nowander.blog.mapper.ArticleContentMapper;
-import com.nowander.blog.pojo.dto.ArticleDetailDTO;
-import com.nowander.blog.pojo.po.ArticleContent;
-import com.nowander.blog.pojo.vo.ArticleDetailVO;
-import com.nowander.blog.pojo.dto.DocEsDTO;
-import com.nowander.blog.mapper.ArticleMapper;
-import com.nowander.blog.pojo.po.Article;
+import com.nowander.blog.document.ArticleEsManage;
+import com.nowander.blog.document.DocEsDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

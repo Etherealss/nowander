@@ -93,6 +93,8 @@ mybatis-plus:
 
 logging:
   config: classpath:log4j2.xml
+  level:
+    root: trace
 
 jwt:
   key: "bm93YW5kZXI="

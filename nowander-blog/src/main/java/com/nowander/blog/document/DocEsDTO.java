@@ -1,4 +1,4 @@
-package com.nowander.blog.pojo.dto;
+package com.nowander.blog.document;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

@@ -1,13 +1,7 @@
-package com.nowander.blog.manage;
+package com.nowander.blog.document.article;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nowander.blog.mapper.ArticleContentMapper;
-import com.nowander.blog.mapper.ArticleMapper;
-import com.nowander.blog.pojo.dto.ArticleDetailDTO;
-import com.nowander.blog.pojo.po.Article;
-import com.nowander.blog.pojo.po.ArticleContent;
-import com.nowander.blog.pojo.vo.ArticleDetailVO;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -19,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Slf4j
-public class ArticleManage extends ServiceImpl<ArticleMapper, Article> {
+@AllArgsConstructor
+class ArticleManage extends ServiceImpl<ArticleMapper, Article> {
     private ArticleMapper articleMapper;
     private ArticleContentMapper articleContentMapper;
 

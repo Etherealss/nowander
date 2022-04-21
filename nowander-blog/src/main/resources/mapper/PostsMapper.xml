@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nowander.blog.mapper.PostsMapper">
+<mapper namespace="com.nowander.blog.document.posts.PostsMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.blog.pojo.po.Posts">
+    <resultMap id="BaseResultMap" type="com.nowander.blog.document.posts.Posts">
         <id column="id" property="id"/>
         <result column="category" property="category"/>
         <result column="author_id" property="authorId"/>
@@ -15,7 +15,7 @@
         <result column="follow" property="follow"/>
     </resultMap>
 
-    <select id="pageByLike" resultType="com.nowander.blog.pojo.po.Posts">
+    <select id="pageByLike" resultType="com.nowander.blog.document.posts.Posts">
         SELECT *
         FROM `posts` p
                  LEFT JOIN `like_count` `l`

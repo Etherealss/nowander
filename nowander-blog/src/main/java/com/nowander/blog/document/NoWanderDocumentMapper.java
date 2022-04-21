@@ -1,9 +1,9 @@
-package com.nowander.blog.mapper;
+package com.nowander.blog.document;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.blog.pojo.po.NoWanderDocument;
+import com.nowander.blog.document.NoWanderDocument;
 import org.apache.ibatis.annotations.Param;
 
 /**

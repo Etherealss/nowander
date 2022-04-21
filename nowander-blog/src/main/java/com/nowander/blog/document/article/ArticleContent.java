@@ -1,4 +1,4 @@
-package com.nowander.blog.pojo.po;
+package com.nowander.blog.document.article;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;

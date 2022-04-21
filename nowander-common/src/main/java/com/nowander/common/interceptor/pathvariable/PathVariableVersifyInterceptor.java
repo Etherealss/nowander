@@ -6,13 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -26,9 +26,10 @@ public class PathVariableVersifyInterceptor implements HandlerInterceptor {
     private final Map<String, PathVariableValidator> validators;
 
     @Autowired
-    public PathVariableVersifyInterceptor(List<PathVariableValidator> validators) {
-        this.validators = validators.stream()
+    public PathVariableVersifyInterceptor(List<PathVariableValidator> validatorList) {
+        Map<String, PathVariableValidator> validators = validatorList.stream()
                 .collect(Collectors.toMap((PathVariableValidator::validateTarget), (v -> v)));
+        this.validators = Collections.unmodifiableMap(validators);
     }
 
     @SuppressWarnings("unchecked")

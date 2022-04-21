@@ -9,7 +9,6 @@
         <module>nowander-like</module>
         <module>nowander-chat</module>
         <module>nowander-comment</module>
-        <module>nowander-user</module>
         <module>nowander-starter</module>
     </modules>
     <parent>
@@ -59,11 +58,6 @@
             <dependency>
                 <groupId>com.wanderfour</groupId>
                 <artifactId>nowander-comment</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.wanderfour</groupId>
-                <artifactId>nowander-user</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

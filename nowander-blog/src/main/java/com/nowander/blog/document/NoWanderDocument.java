@@ -1,4 +1,4 @@
-package com.nowander.blog.pojo.po;
+package com.nowander.blog.document;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.nowander.common.pojo.IdentifiedEntity;

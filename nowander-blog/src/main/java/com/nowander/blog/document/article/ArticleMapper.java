@@ -1,9 +1,10 @@
-package com.nowander.blog.mapper;
+package com.nowander.blog.document.article;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.blog.pojo.po.Article;
+import com.nowander.blog.document.NoWanderDocumentMapper;
+import com.nowander.blog.document.article.Article;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Repository;
  * @author wtk
  * @since 2022-01-05
  */
+@Mapper
 @Repository
-public interface ArticleMapper extends NoWanderDocumentMapper<Article> {
+interface ArticleMapper extends NoWanderDocumentMapper<Article> {
     /**
      * 按点赞数查询分页
      * @param page

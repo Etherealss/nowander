@@ -1,7 +1,5 @@
-package com.nowander.blog.service;
+package com.nowander.blog.document.posts;
 
-import com.nowander.blog.pojo.po.Posts;
-import com.nowander.blog.mapper.PostsMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

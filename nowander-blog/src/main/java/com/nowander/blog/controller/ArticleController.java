@@ -2,9 +2,9 @@ package com.nowander.blog.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.blog.pojo.po.Article;
-import com.nowander.blog.pojo.vo.ArticleDetailVO;
-import com.nowander.blog.service.ArticleService;
+import com.nowander.blog.document.article.Article;
+import com.nowander.blog.document.article.ArticleDetailVO;
+import com.nowander.blog.document.article.ArticleService;
 import com.nowander.common.annotation.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

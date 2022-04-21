@@ -1,4 +1,4 @@
-package com.nowander.blog.service;
+package com.nowander.blog.document;
 
 /**
  * @author wang tengkun

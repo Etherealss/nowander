@@ -3,6 +3,7 @@ package com.nowander.comment.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.comment.pojo.po.Comment;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
  * @author wtk
  * @since 2022-01-05
  */
+@Mapper
 @Repository
 public interface CommentMapper extends BaseMapper<Comment> {
 

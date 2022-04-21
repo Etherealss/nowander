@@ -2,6 +2,7 @@ package com.nowander.common.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.nowander.common.pojo.po.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @author wtk
  * @since 2022-01-05
  */
+@Mapper
 @Repository
 public interface UserMapper extends BaseMapper<User> {
     /**
