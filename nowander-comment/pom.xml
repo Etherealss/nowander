@@ -19,7 +19,7 @@
         <!-- 其他子模块的依赖 -->
         <dependency>
             <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-common</artifactId>
+            <artifactId>nowander-infrastructure</artifactId>
         </dependency>
     </dependencies>
     <build>
