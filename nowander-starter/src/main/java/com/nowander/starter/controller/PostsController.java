@@ -1,4 +1,4 @@
-package com.nowander.blog.controller;
+package com.nowander.starter.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

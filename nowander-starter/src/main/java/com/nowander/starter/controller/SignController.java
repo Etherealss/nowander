@@ -1,4 +1,4 @@
-package com.nowander.common.user.controller;
+package com.nowander.starter.controller;
 
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.security.login.LoginSuccessHandler;

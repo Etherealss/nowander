@@ -1,4 +1,4 @@
-package com.nowander.common.user.controller;
+package com.nowander.starter.controller;
 
 
 import cn.hutool.captcha.AbstractCaptcha;

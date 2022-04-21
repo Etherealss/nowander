@@ -1,5 +1,4 @@
-package com.nowander.blog.controller;
-
+package com.nowander.starter.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.blog.document.article.Article;

@@ -1,4 +1,4 @@
-package com.nowander.like.controller;
+package com.nowander.starter.controller;
 
 
 import com.nowander.common.pojo.po.User;

@@ -1,4 +1,4 @@
-package com.nowander.chat.controller;
+package com.nowander.starter.controller;
 
 
 import com.nowander.chat.service.FriendshipService;

@@ -1,4 +1,4 @@
-package com.nowander.comment.controller;
+package com.nowander.starter.controller;
 
 
 import com.nowander.comment.pojo.po.Comment;
