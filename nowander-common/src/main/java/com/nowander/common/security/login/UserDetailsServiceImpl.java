@@ -33,7 +33,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         log.info("UserDetailsService 用户信息检查：username = " + username);
         // 根据用户名查询数据库
         User user = userMapper.selectUserByUsername(username);
-        log.info("UserDetailsService 登录用户user:{}", user);
         //判断
         if (user == null) {
             log.info("登录用户不存在,username = '{}'", username);

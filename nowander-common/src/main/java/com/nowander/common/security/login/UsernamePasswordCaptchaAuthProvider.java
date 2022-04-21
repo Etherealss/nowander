@@ -22,6 +22,7 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
@@ -51,6 +52,7 @@ public class UsernamePasswordCaptchaAuthProvider implements AuthenticationProvid
                         "Only CaptchaAuthenticationToken is supported"));
         UsernamePasswordCaptchaToken auth =
                 (UsernamePasswordCaptchaToken) authentication;
+
         //验证码value
         String captchaCode = auth.getCaptchaCode();
         //检验验证码是否正确
@@ -82,7 +84,6 @@ public class UsernamePasswordCaptchaAuthProvider implements AuthenticationProvid
         UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(principal,
                 authentication.getCredentials(), this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
         result.setDetails(authentication.getDetails());
-        log.debug("User已鉴权");
         return result;
     }
 
