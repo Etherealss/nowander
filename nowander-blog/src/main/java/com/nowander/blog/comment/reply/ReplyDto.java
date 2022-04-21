@@ -1,6 +1,6 @@
-package com.nowander.comment.reply;
+package com.nowander.blog.comment.reply;
 
-import com.nowander.comment.Comment;
+import com.nowander.blog.comment.Comment;
 import lombok.Data;
 
 /**

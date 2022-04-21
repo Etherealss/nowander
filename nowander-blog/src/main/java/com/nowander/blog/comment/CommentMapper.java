@@ -1,4 +1,4 @@
-package com.nowander.comment;
+package com.nowander.blog.comment;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

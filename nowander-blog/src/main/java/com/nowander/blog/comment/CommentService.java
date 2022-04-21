@@ -1,14 +1,14 @@
-package com.nowander.comment;
+package com.nowander.blog.comment;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nowander.comment.strategy.QueryCommentByLike;
-import com.nowander.comment.strategy.QueryCommentByTime;
-import com.nowander.comment.strategy.QueryCommentStrategy;
-import com.nowander.comment.reply.strategy.QueryReplyByLike;
-import com.nowander.comment.reply.strategy.QueryReplyByTime;
-import com.nowander.comment.reply.strategy.QueryReplyStrategy;
+import com.nowander.blog.comment.reply.strategy.QueryReplyByLike;
+import com.nowander.blog.comment.reply.strategy.QueryReplyByTime;
+import com.nowander.blog.comment.reply.strategy.QueryReplyStrategy;
+import com.nowander.blog.comment.strategy.QueryCommentByLike;
+import com.nowander.blog.comment.strategy.QueryCommentByTime;
+import com.nowander.blog.comment.strategy.QueryCommentStrategy;
 import com.nowander.common.exception.NotAuthorException;
 import com.nowander.common.exception.NotFoundException;
 import com.nowander.common.pojo.po.User;

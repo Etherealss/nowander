@@ -1,7 +1,6 @@
-package com.nowander.comment;
+package com.nowander.blog.comment;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.nowander.comment.CommentMapper;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.user.mapper.UserMapper;
 import lombok.Data;

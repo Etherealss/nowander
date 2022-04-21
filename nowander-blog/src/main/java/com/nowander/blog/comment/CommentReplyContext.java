@@ -1,9 +1,9 @@
-package com.nowander.comment;
+package com.nowander.blog.comment;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.comment.reply.ReplyDto;
-import com.nowander.comment.strategy.QueryCommentStrategy;
-import com.nowander.comment.reply.strategy.QueryReplyStrategy;
+import com.nowander.blog.comment.reply.strategy.QueryReplyStrategy;
+import com.nowander.blog.comment.strategy.QueryCommentStrategy;
+import com.nowander.blog.comment.reply.ReplyDto;
 import com.nowander.common.pojo.po.User;
 
 import java.util.HashMap;
