@@ -1,19 +1,14 @@
-package com.nowander.comment.service.impl;
+package com.nowander.comment;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nowander.comment.mapper.CommentMapper;
-import com.nowander.comment.pojo.dto.CommentDto;
-import com.nowander.comment.pojo.po.Comment;
-import com.nowander.comment.service.CommentService;
-import com.nowander.comment.strategy.CommentReplyContext;
-import com.nowander.comment.strategy.comment.QueryCommentByLike;
-import com.nowander.comment.strategy.comment.QueryCommentByTime;
-import com.nowander.comment.strategy.comment.QueryCommentStrategy;
-import com.nowander.comment.strategy.reply.QueryReplyByLike;
-import com.nowander.comment.strategy.reply.QueryReplyByTime;
-import com.nowander.comment.strategy.reply.QueryReplyStrategy;
+import com.nowander.comment.strategy.QueryCommentByLike;
+import com.nowander.comment.strategy.QueryCommentByTime;
+import com.nowander.comment.strategy.QueryCommentStrategy;
+import com.nowander.comment.reply.strategy.QueryReplyByLike;
+import com.nowander.comment.reply.strategy.QueryReplyByTime;
+import com.nowander.comment.reply.strategy.QueryReplyStrategy;
 import com.nowander.common.exception.NotAuthorException;
 import com.nowander.common.exception.NotFoundException;
 import com.nowander.common.pojo.po.User;
@@ -32,16 +27,14 @@ import java.util.Map;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
+public class CommentService extends ServiceImpl<CommentMapper, Comment> {
 
     private CommentMapper commentMapper;
 
-    @Override
     public Msg<IPage<CommentDto>> getHotComments(Long parentId, Long userId) {
         return null;
     }
 
-    @Override
     public Map<String, Object> pageComments(
             Integer parentId, Integer parentType, int curPage,
             int pageSize, int replySize, String orderBy, User user) {
@@ -61,7 +54,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return map;
     }
 
-    @Override
     public Map<String, Object> pageReplys(
             Integer commentId, int curPage, int replySize, String orderBy, User user) {
         QueryReplyStrategy strategy;
@@ -81,7 +73,6 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return map;
     }
 
-    @Override
     public void deleteComment(Integer commentId, Integer authorId) {
         int i = commentMapper.deleteByAuthor(commentId, authorId);
         if (i == 0) {

@@ -1,7 +1,7 @@
-package com.nowander.comment.strategy;
+package com.nowander.comment;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.nowander.comment.mapper.CommentMapper;
+import com.nowander.comment.CommentMapper;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.user.mapper.UserMapper;
 import lombok.Data;
@@ -64,7 +64,10 @@ public abstract class QueryCommentAndReplyStrategy {
      * @return
      */
     public Map<Integer, User> getAuthorsData() {
-        // TODO 获取部分信息
+        if (userIdSet.isEmpty()) {
+            return new HashMap<>(0);
+        }
+        // TODO 获取用户数据的部分信息
         List<User> users = userMapper.selectBatchIds(userIdSet);
         return users.stream()
                 .collect(Collectors.toMap((User::getId), (user -> user)));

@@ -1,4 +1,4 @@
-package com.nowander.comment.pojo.po;
+package com.nowander.comment;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

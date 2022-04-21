@@ -1,10 +1,7 @@
-package com.nowander.comment.pojo.dto;
+package com.nowander.comment;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.comment.pojo.po.Comment;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * @author wtk

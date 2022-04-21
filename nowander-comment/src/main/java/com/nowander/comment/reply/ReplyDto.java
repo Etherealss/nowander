@@ -1,6 +1,6 @@
-package com.nowander.comment.pojo.dto;
+package com.nowander.comment.reply;
 
-import com.nowander.comment.pojo.po.Comment;
+import com.nowander.comment.Comment;
 import lombok.Data;
 
 /**

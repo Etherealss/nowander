@@ -1,8 +1,8 @@
 package com.nowander.starter.controller;
 
 
-import com.nowander.comment.pojo.po.Comment;
-import com.nowander.comment.service.CommentService;
+import com.nowander.comment.Comment;
+import com.nowander.comment.CommentService;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.annotation.ResponseAdvice;
 import lombok.AllArgsConstructor;

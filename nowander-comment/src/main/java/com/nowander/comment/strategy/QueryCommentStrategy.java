@@ -1,10 +1,10 @@
-package com.nowander.comment.strategy.comment;
+package com.nowander.comment.strategy;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.comment.pojo.dto.CommentDto;
-import com.nowander.comment.pojo.po.Comment;
-import com.nowander.comment.strategy.QueryCommentAndReplyStrategy;
+import com.nowander.comment.CommentDto;
+import com.nowander.comment.Comment;
+import com.nowander.comment.QueryCommentAndReplyStrategy;
 import com.nowander.common.pojo.po.User;
 import com.nowander.common.utils.PageUtil;
 
