@@ -5,7 +5,7 @@ participant 服务器 as server
 participant 其他服务器 as otherServer
 collections redis as redis
 collections 数据库 as db
-actor 用户 as user
+actor 用户 as sysUser
 
 server -> server ++: 定时任务到期执行，开启事务
 server -> server ++--: 执行任务
@@ -26,9 +26,9 @@ return 定时任务的信息
 server -> server ++--: 检查定时任务是否为空、是否已改变
 
 alt #LightBlue 定时任务不为空，且未发生改变
-    server -> user  : 推送定时任务结果
-    activate user
-    deactivate user
+    server -> sysUser  : 推送定时任务结果
+    activate sysUser
+    deactivate sysUser
     server -> db ++: 任务执行结果保存到数据库
     return ok
 

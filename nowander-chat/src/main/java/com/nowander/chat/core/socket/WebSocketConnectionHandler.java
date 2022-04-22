@@ -1,7 +1,7 @@
 package com.nowander.chat.core.socket;
 
+import com.nowander.basesystem.user.SysUser;
 import com.nowander.chat.domain.event.connect.CloseConnectionEvent;
-import com.nowander.common.pojo.po.User;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
@@ -27,8 +27,8 @@ public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
      */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws IOException {
-        User user = chatContext.getUser();
-        chatContext.putSession(user.getId(), session);
+        SysUser sysUser = chatContext.getUser();
+        chatContext.putSession(sysUser.getId(), session);
     }
 
     /**
@@ -46,11 +46,11 @@ public class WebSocketConnectionHandler extends AbstractWebSocketHandler {
      */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-        User user = chatContext.getUser();
+        SysUser sysUser = chatContext.getUser();
         chatContext.removeUser();
-        Integer userId = user.getId();
+        Integer userId = sysUser.getId();
         chatContext.removeSession(userId);
-        applicationEventPublisher.publishEvent(new CloseConnectionEvent(session, null, user));
+        applicationEventPublisher.publishEvent(new CloseConnectionEvent(session, null, sysUser));
     }
 
 }

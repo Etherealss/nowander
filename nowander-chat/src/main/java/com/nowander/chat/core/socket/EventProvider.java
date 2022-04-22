@@ -2,7 +2,7 @@ package com.nowander.chat.core.socket;
 
 import cn.hutool.json.JSONObject;
 import com.nowander.chat.domain.event.ChatEvent;
-import com.nowander.common.pojo.po.User;
+import com.nowander.basesystem.user.SysUser;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
@@ -11,5 +11,5 @@ import org.springframework.web.socket.WebSocketSession;
  */
 public interface EventProvider {
     String supportType();
-    ChatEvent get(WebSocketSession session, JSONObject attrs, User user);
+    ChatEvent get(WebSocketSession session, JSONObject attrs, SysUser sysUser);
 }

@@ -2,8 +2,8 @@
 left to right direction
 
 actor 参赛选手 as contestant
-actor 系统用户 as user
-user <|-r- contestant
+actor 系统用户 as sysUser
+sysUser <|-r- contestant
 
 usecase (赛事浏览) as competition_scan
 usecase (赛事报名) as competition_sign_up

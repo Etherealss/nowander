@@ -12,8 +12,8 @@ class UserSignService {
     + void updateUserAvatar(Long userId, byte[] avatarData)
 }
 interface UserRepository {
-    + SysUser insert(SysUser user)
-    + SysUser update(SysUser user)
+    + SysUser insert(SysUser sysUser)
+    + SysUser update(SysUser sysUser)
     + SysUser findByUsername(String username)
 }
 class OssService {

@@ -1,8 +1,8 @@
 package com.nowander.chat.domain.event;
 
 import cn.hutool.json.JSONObject;
+import com.nowander.basesystem.user.SysUser;
 import com.nowander.common.pojo.DomainEvent;
-import com.nowander.common.pojo.po.User;
 import lombok.Getter;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -15,8 +15,8 @@ public abstract class ChatEvent extends DomainEvent {
     private final WebSocketSession session;
     private final JSONObject attrs;
 
-    public ChatEvent(WebSocketSession session, JSONObject attrs, User user) {
-        super(user.getId(), user.getUsername());
+    public ChatEvent(WebSocketSession session, JSONObject attrs, SysUser sysUser) {
+        super(sysUser.getId(), sysUser.getUsername());
         this.session = session;
         this.attrs = attrs;
     }

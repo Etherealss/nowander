@@ -1,6 +1,6 @@
 package com.nowander.chat.core.socket;
 
-import com.nowander.common.pojo.po.User;
+import com.nowander.basesystem.user.SysUser;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -12,14 +12,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Component
 public class ChatContext {
-    private final ThreadLocal<User> userHolder = new ThreadLocal<>();
+    private final ThreadLocal<SysUser> userHolder = new ThreadLocal<>();
     private static final ConcurrentHashMap<Integer, WebSocketSession> SESSION_POOLS = new ConcurrentHashMap<>();
 
-    public void setUser(User user) {
-        userHolder.set(user);
+    public void setUser(SysUser sysUser) {
+        userHolder.set(sysUser);
     }
 
-    public User getUser() {
+    public SysUser getUser() {
         return userHolder.get();
     }
 

@@ -2,8 +2,8 @@
 left to right direction
 
 actor 举办方 as organizer
-actor 系统用户 as user
-user <|-r- organizer
+actor 系统用户 as sysUser
+sysUser <|-r- organizer
 
 usecase (自定义页面模板) as templates_create
 usecase (页面模板管理) as template_manage

@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-infrastructure</artifactId>
+            <artifactId>nowander-base-system</artifactId>
         </dependency>
         <!-- websocket -->
         <dependency>

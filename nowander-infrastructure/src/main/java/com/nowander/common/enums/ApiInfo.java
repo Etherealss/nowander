@@ -1,7 +1,6 @@
 package com.nowander.common.enums;
 
 import com.nowander.common.exception.ApiExceptionThrower;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 

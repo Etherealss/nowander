@@ -1,10 +1,10 @@
 package com.nowander.starter.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.blog.document.article.Article;
-import com.nowander.blog.document.article.ArticleDetailVO;
-import com.nowander.blog.document.article.ArticleService;
-import com.nowander.common.annotation.ResponseAdvice;
+import com.nowander.forum.blog.article.Article;
+import com.nowander.forum.blog.article.ArticleDetailVO;
+import com.nowander.forum.blog.article.ArticleService;
+import com.nowander.common.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

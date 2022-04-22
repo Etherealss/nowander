@@ -38,7 +38,7 @@ CREATE TABLE `article` (
   KEY `FK_Article_User_On_Author_id` (`author_id`),
   KEY `IDX_Article_Category` (`category`),
   CONSTRAINT `FK_Article_Category_On_Category` FOREIGN KEY (`category`) REFERENCES `category` (`id`),
-  CONSTRAINT `FK_Article_User_On_Author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `FK_Article_User_On_Author_id` FOREIGN KEY (`author_id`) REFERENCES `sysUser` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `article` */
@@ -94,7 +94,7 @@ CREATE TABLE `comment` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_Article_comment_User_On_User_id` (`author_id`),
-  CONSTRAINT `FK_Article_comment_User_On_User_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `FK_Article_comment_User_On_User_id` FOREIGN KEY (`author_id`) REFERENCES `sysUser` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `comment` */
@@ -112,8 +112,8 @@ CREATE TABLE `friend_relation` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`,`friend_id`),
   KEY `FK_Friend_relation_User_On_Friend_id` (`friend_id`),
-  CONSTRAINT `FK_Friend_relation_User_On_Friend_id` FOREIGN KEY (`friend_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_Friend_relation_User_On_User_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Friend_relation_User_On_Friend_id` FOREIGN KEY (`friend_id`) REFERENCES `sysUser` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Friend_relation_User_On_User_id` FOREIGN KEY (`user_id`) REFERENCES `sysUser` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `friend_relation` */
@@ -149,7 +149,7 @@ CREATE TABLE `like_record` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`,`target_id`),
   KEY `IDX_Like_record_Type` (`target_type`),
-  CONSTRAINT `FK_Article_like_record_User_On_Id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `FK_Article_like_record_User_On_Id` FOREIGN KEY (`user_id`) REFERENCES `sysUser` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `like_record` */
@@ -208,7 +208,7 @@ CREATE TABLE `posts` (
   KEY `FK_Posts_Category_On_Name` (`category`),
   KEY `FK_Posts_User_On_Author_id` (`author_id`),
   CONSTRAINT `FK_Posts_Category_On_Name` FOREIGN KEY (`category`) REFERENCES `category` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_Posts_User_On_Author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `FK_Posts_User_On_Author_id` FOREIGN KEY (`author_id`) REFERENCES `sysUser` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `posts` */
@@ -265,16 +265,16 @@ CREATE TABLE `sticky_note` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_Sticky_note_User_On_Author_id` (`author_id`),
-  CONSTRAINT `FK_Sticky_note_User_On_Author_id` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_Sticky_note_User_On_Author_id` FOREIGN KEY (`author_id`) REFERENCES `sysUser` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `sticky_note` */
 
-/*Table structure for table `user` */
+/*Table structure for table `sysUser` */
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `sysUser`;
 
-CREATE TABLE `user` (
+CREATE TABLE `sysUser` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(20) DEFAULT NULL,
   `email` varchar(20) NOT NULL COMMENT '邮箱注册',
@@ -297,9 +297,9 @@ CREATE TABLE `user` (
   CONSTRAINT `FK_User_UserType_On_Type` FOREIGN KEY (`user_type`) REFERENCES `user_role` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-/*Data for the table `user` */
+/*Data for the table `sysUser` */
 
-insert  into `user`(`id`,`username`,`email`,`password`,`nickname`,`birthday`,`sex`,`avatar`,`user_type`,`liked_count`,`collected_count`,`school`,`major`,`create_time`,`update_time`) values (1,'123123','111111@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','李四1','2020-10-06',0,'D:\\WanderFourAvatar\\default-girl.png',2,0,0,NULL,NULL,'2020-10-06 00:00:00','2022-02-21 23:07:11'),(2,'234234','123123@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','小莫',NULL,0,'D:\\WanderFourAvatar\\default-girl.png',1,0,0,NULL,NULL,'2020-10-10 00:00:00','2022-02-21 23:07:11'),(3,'345345','123333@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','小明',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-17 00:00:00','2022-02-21 23:07:11'),(4,'zhaoliu','123456@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','张三','2020-10-06',1,'D:\\WanderFourAvatar\\default-boy.png',1,0,0,NULL,'0','2020-10-06 00:00:00','2022-02-21 23:07:11'),(5,'sunqiq','123456789@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','小王',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',2,0,0,NULL,NULL,'2020-10-15 00:00:00','2022-02-21 23:07:11'),(6,'laobaba','222222@qq.com','-3pkqe4q9rlcvnt9me7pj4l8td7','王五','2020-10-06',1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-06 00:00:00','2022-02-21 23:07:11'),(7,'aiaiaq','333333@qq.com','lhu6gt4jibqrt6b0bekvk2mnf','小红',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-17 00:00:00','2022-02-21 23:07:11'),(8,'elthwqqe','121189@qq.com','dl9c2bnukgit4tko9f59p4v62','小刚',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-18 00:00:00','2022-02-21 23:07:11'),(11,'qweadaqe','123456799@qq.com','-24pa8psu73j6624sgt238qfl7l','张三',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-30 00:00:00','2022-02-21 23:07:11'),(14,'qweqwewqda','1212313123@qq.com','-17q83t8m7bo41daear9aieaqtm','123123123@qq.com',NULL,0,'D:\\WanderFourAvatar\\default-girl.png',1,0,0,NULL,NULL,'2020-11-01 00:00:00','2022-02-21 23:07:11'),(15,'asdasdg','159159@qq.com','35sfplar82oqbqr2qig4od6u6l','159',NULL,0,'D:\\WanderFourAvatar\\default-girl.png',2,0,0,NULL,NULL,'2020-11-20 00:00:00','2022-02-21 23:07:11'),(17,'qweqweq','789789@qq.com','3jvir9hoou5udcp4nrcvfgj89h','2222','2021-03-14',0,'D:\\WanderFourAvatar\\default-girl.png',1,0,0,NULL,'0','2020-11-20 00:00:00','2022-02-21 23:07:11'),(18,'xvsdfq','123123@test.com','123123','testMyBatis',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',1,0,0,NULL,NULL,'2021-03-17 00:00:00','2022-02-21 23:07:11'),(19,'qwerty','234234@test.com','pqclnddqhto5pv7o9ppb5l5te','测试',NULL,0,'D:\\WanderFourAvatar\\default-girl.png',2,0,0,NULL,NULL,'2021-04-06 00:00:00','2022-02-21 23:07:11'),(20,'qqweqrt','1234567891@qq.com','-bh74fn780o4isegnmavplhv9m','张三',NULL,1,'D:/WanderFourAvatar/20.png',3,0,0,NULL,NULL,'2021-04-15 00:00:00','2022-02-21 23:07:11');
+insert  into `sysUser`(`id`,`username`,`email`,`password`,`nickname`,`birthday`,`sex`,`avatar`,`user_type`,`liked_count`,`collected_count`,`school`,`major`,`create_time`,`update_time`) values (1,'123123','111111@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','李四1','2020-10-06',0,'D:\\WanderFourAvatar\\default-girl.png',2,0,0,NULL,NULL,'2020-10-06 00:00:00','2022-02-21 23:07:11'),(2,'234234','123123@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','小莫',NULL,0,'D:\\WanderFourAvatar\\default-girl.png',1,0,0,NULL,NULL,'2020-10-10 00:00:00','2022-02-21 23:07:11'),(3,'345345','123333@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','小明',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-17 00:00:00','2022-02-21 23:07:11'),(4,'zhaoliu','123456@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','张三','2020-10-06',1,'D:\\WanderFourAvatar\\default-boy.png',1,0,0,NULL,'0','2020-10-06 00:00:00','2022-02-21 23:07:11'),(5,'sunqiq','123456789@qq.com','$2a$10$yT2khWw8zLCvbvC15v/LU.Qau0GbLnSqpH890/9i.ad3OiaydQsdO','小王',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',2,0,0,NULL,NULL,'2020-10-15 00:00:00','2022-02-21 23:07:11'),(6,'laobaba','222222@qq.com','-3pkqe4q9rlcvnt9me7pj4l8td7','王五','2020-10-06',1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-06 00:00:00','2022-02-21 23:07:11'),(7,'aiaiaq','333333@qq.com','lhu6gt4jibqrt6b0bekvk2mnf','小红',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-17 00:00:00','2022-02-21 23:07:11'),(8,'elthwqqe','121189@qq.com','dl9c2bnukgit4tko9f59p4v62','小刚',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-18 00:00:00','2022-02-21 23:07:11'),(11,'qweadaqe','123456799@qq.com','-24pa8psu73j6624sgt238qfl7l','张三',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',3,0,0,NULL,NULL,'2020-10-30 00:00:00','2022-02-21 23:07:11'),(14,'qweqwewqda','1212313123@qq.com','-17q83t8m7bo41daear9aieaqtm','123123123@qq.com',NULL,0,'D:\\WanderFourAvatar\\default-girl.png',1,0,0,NULL,NULL,'2020-11-01 00:00:00','2022-02-21 23:07:11'),(15,'asdasdg','159159@qq.com','35sfplar82oqbqr2qig4od6u6l','159',NULL,0,'D:\\WanderFourAvatar\\default-girl.png',2,0,0,NULL,NULL,'2020-11-20 00:00:00','2022-02-21 23:07:11'),(17,'qweqweq','789789@qq.com','3jvir9hoou5udcp4nrcvfgj89h','2222','2021-03-14',0,'D:\\WanderFourAvatar\\default-girl.png',1,0,0,NULL,'0','2020-11-20 00:00:00','2022-02-21 23:07:11'),(18,'xvsdfq','123123@test.com','123123','testMyBatis',NULL,1,'D:\\WanderFourAvatar\\default-boy.png',1,0,0,NULL,NULL,'2021-03-17 00:00:00','2022-02-21 23:07:11'),(19,'qwerty','234234@test.com','pqclnddqhto5pv7o9ppb5l5te','测试',NULL,0,'D:\\WanderFourAvatar\\default-girl.png',2,0,0,NULL,NULL,'2021-04-06 00:00:00','2022-02-21 23:07:11'),(20,'qqweqrt','1234567891@qq.com','-bh74fn780o4isegnmavplhv9m','张三',NULL,1,'D:/WanderFourAvatar/20.png',3,0,0,NULL,NULL,'2021-04-15 00:00:00','2022-02-21 23:07:11');
 
 /*Table structure for table `user_permission` */
 
@@ -313,7 +313,7 @@ CREATE TABLE `user_permission` (
   PRIMARY KEY (`user_id`,`permission_id`),
   KEY `FK_User_permission_Permission_Permission_id` (`permission_id`),
   CONSTRAINT `FK_User_permission_Permission_Permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_User_permission_User_User_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_User_permission_User_User_id` FOREIGN KEY (`user_id`) REFERENCES `sysUser` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `user_permission` */

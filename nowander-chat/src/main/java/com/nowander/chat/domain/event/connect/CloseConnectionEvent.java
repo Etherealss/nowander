@@ -1,9 +1,8 @@
 package com.nowander.chat.domain.event.connect;
 
 import cn.hutool.json.JSONObject;
-import com.nowander.common.pojo.po.User;
+import com.nowander.basesystem.user.SysUser;
 import lombok.Getter;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.web.socket.WebSocketSession;
 @Getter
 public class CloseConnectionEvent extends ConnectionEvent {
 
-    public CloseConnectionEvent(WebSocketSession session, JSONObject attrs, User user) {
-        super(session, attrs, user);
+    public CloseConnectionEvent(WebSocketSession session, JSONObject attrs, SysUser sysUser) {
+        super(session, attrs, sysUser);
     }
 }

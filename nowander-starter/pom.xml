@@ -24,6 +24,10 @@
     <dependencies>
         <dependency>
             <groupId>com.wanderfour</groupId>
+            <artifactId>nowander-base-system</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.wanderfour</groupId>
             <artifactId>nowander-infrastructure</artifactId>
         </dependency>
         <dependency>
@@ -32,11 +36,7 @@
         </dependency>
         <dependency>
             <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-comment</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.wanderfour</groupId>
-            <artifactId>nowander-blog</artifactId>
+            <artifactId>nowander-forum</artifactId>
         </dependency>
         <dependency>
             <groupId>com.wanderfour</groupId>

@@ -2,7 +2,7 @@ package com.nowander.common.web;
 
 import com.nowander.common.enums.ApiInfo;
 import com.nowander.common.exception.*;
-import com.nowander.common.pojo.vo.Msg;
+import com.nowander.common.pojo.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;

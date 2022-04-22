@@ -2,7 +2,7 @@ package com.nowander.starter.controller;
 
 
 import com.nowander.chat.service.FriendshipService;
-import com.nowander.common.pojo.po.User;
+import com.nowander.basesystem.user.SysUser;
 import com.nowander.common.web.JsonParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +22,12 @@ public class FriendshipController {
     private FriendshipService friendshipService;
 
     @GetMapping
-    public List<User> getFriends(User user) {
-        return friendshipService.getFriends(user);
+    public List<SysUser> getFriends(SysUser sysUser) {
+        return friendshipService.getFriends(sysUser);
     }
 
     @PostMapping
-    public void requestAddFriend(User user, @JsonParam("targetId") Integer targetId, @JsonParam("message") String message) {
+    public void requestAddFriend(SysUser sysUser, @JsonParam("targetId") Integer targetId, @JsonParam("message") String message) {
 
     }
 }

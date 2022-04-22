@@ -1,8 +1,8 @@
 package com.nowander.chat.core.socket;
 
-import com.nowander.common.pojo.po.User;
-import com.nowander.common.security.jwt.JwtConfig;
-import com.nowander.common.user.service.TokenService;
+import com.nowander.basesystem.user.SysUser;
+import com.nowander.basesystem.user.security.jwt.JwtConfig;
+import com.nowander.basesystem.user.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -33,8 +33,8 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse
             response, WebSocketHandler wsHandler, Map<String, Object> attributes) {
         String token = request.getHeaders().getFirst(jwtConfig.getTokenHeader());
-        User user = tokenService.requireUserByToken(token);
-        chatContext.setUser(user);
+        SysUser sysUser = tokenService.requireUserByToken(token);
+        chatContext.setUser(sysUser);
         return true;
     }
 

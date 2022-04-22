@@ -5,11 +5,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>nowander-infrastructure</module>
-        <module>nowander-blog</module>
+        <module>nowander-forum</module>
         <module>nowander-like</module>
         <module>nowander-chat</module>
-        <module>nowander-comment</module>
         <module>nowander-starter</module>
+        <module>nowander-base-system</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -41,22 +41,22 @@
         <dependencies>
             <dependency>
                 <groupId>com.wanderfour</groupId>
+                <artifactId>nowander-base-system</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.wanderfour</groupId>
                 <artifactId>nowander-infrastructure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wanderfour</groupId>
-                <artifactId>nowander-blog</artifactId>
+                <artifactId>nowander-forum</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.wanderfour</groupId>
                 <artifactId>nowander-like</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.wanderfour</groupId>
-                <artifactId>nowander-comment</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

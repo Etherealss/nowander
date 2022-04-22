@@ -1,9 +1,9 @@
 @startuml
-|user| 用户
+|sysUser| 用户
 |system| 系统
 |admin| 管理员
 
-|user|
+|sysUser|
 start
 :登录系统;
 :填写认证资料;
@@ -16,7 +16,7 @@ start
 |system|
 :保存用户状态;
 :通知用户状态更新;
-|user|
+|sysUser|
 :收到状态更新通知;
 stop
 @enduml

@@ -1,10 +1,9 @@
 package com.nowander.chat.service;
 
+import com.nowander.basesystem.user.SysUser;
 import com.nowander.chat.manage.FriendshipManage;
 import com.nowander.chat.pojo.po.Friendship;
-import com.nowander.common.pojo.po.User;
-import com.nowander.common.user.manage.UserManage;
-import com.nowander.common.web.JsonParam;
+import com.nowander.basesystem.user.UserManage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,24 +22,24 @@ public class FriendshipService {
     private UserManage userManage;
     private FriendshipManage friendshipManage;
 
-    public List<User> getFriends(User user) {
-        List<Integer> friendIds = friendshipManage.getAllFriendIds(user.getId());
+    public List<SysUser> getFriends(SysUser sysUser) {
+        List<Integer> friendIds = friendshipManage.getAllFriendIds(sysUser.getId());
         return friendIds.stream().map(userManage::getById).collect(Collectors.toList());
     }
 
-    public boolean isFriend(User user, Integer friendId) {
-        return friendshipManage.getFriendship(user.getId(), friendId) != null;
+    public boolean isFriend(SysUser sysUser, Integer friendId) {
+        return friendshipManage.getFriendship(sysUser.getId(), friendId) != null;
     }
 
-    public void save(User user, Integer friendId) {
-        friendshipManage.save(new Friendship(user.getId(), friendId));
+    public void save(SysUser sysUser, Integer friendId) {
+        friendshipManage.save(new Friendship(sysUser.getId(), friendId));
     }
 
-    public void delete(User user, Integer friendId) {
-        friendshipManage.deleteByUserIdAndFriendId(user.getId(), friendId);
+    public void delete(SysUser sysUser, Integer friendId) {
+        friendshipManage.deleteByUserIdAndFriendId(sysUser.getId(), friendId);
     }
 
-    public void requestAddFriend(User user, Integer targetId, String message) {
+    public void requestAddFriend(SysUser sysUser, Integer targetId, String message) {
 
     }
 

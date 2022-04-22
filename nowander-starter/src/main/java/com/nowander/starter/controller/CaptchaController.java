@@ -2,9 +2,9 @@ package com.nowander.starter.controller;
 
 
 import cn.hutool.captcha.AbstractCaptcha;
-import com.nowander.common.pojo.vo.Msg;
-import com.nowander.common.security.IgnoreAuth;
-import com.nowander.common.user.service.CaptchaService;
+import com.nowander.common.pojo.Msg;
+import com.nowander.basesystem.user.security.IgnoreAuth;
+import com.nowander.basesystem.captcha.CaptchaService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,17 +1,17 @@
 @startuml
 
-actor 用户 as user
+actor 用户 as sysUser
 participant UserAuthService
 participant OSS对象存储服务 as oss
 participant 数据库 as db
 
-user -> UserAuthService ++ :获取用户认证资料
+sysUser -> UserAuthService ++ :获取用户认证资料
 UserAuthService -> db ++: 获取用户认证资料
 return 获取用户认证资料
 return 获取用户认证资料
 
-user -> oss ++: 访问认证资料中图片的URL
+sysUser -> oss ++: 访问认证资料中图片的URL
 return 图片数据流
-user -> oss ++: 通过文件URL下载文件
+sysUser -> oss ++: 通过文件URL下载文件
 return 文件数据流
 @enduml

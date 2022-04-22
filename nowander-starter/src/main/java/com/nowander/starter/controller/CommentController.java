@@ -1,10 +1,10 @@
 package com.nowander.starter.controller;
 
 
-import com.nowander.blog.comment.Comment;
-import com.nowander.blog.comment.CommentService;
-import com.nowander.common.pojo.po.User;
-import com.nowander.common.annotation.ResponseAdvice;
+import com.nowander.basesystem.user.SysUser;
+import com.nowander.forum.comment.Comment;
+import com.nowander.forum.comment.CommentService;
+import com.nowander.common.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +30,8 @@ public class CommentController {
     }
 
     @DeleteMapping("/delete/{commentId}")
-    public void delete(@PathVariable("commentId") Integer commentId, User user) {
-        commentService.deleteComment(commentId, user.getId());
+    public void delete(@PathVariable("commentId") Integer commentId, SysUser sysUser) {
+        commentService.deleteComment(commentId, sysUser.getId());
     }
 
     /**
@@ -42,7 +42,7 @@ public class CommentController {
      * @param orderBy 排序方式
      * @param commentRows 评论显示数
      * @param replyRows 评论的回复显示数
-     * @param user 当前用户
+     * @param sysUser 当前用户
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
     @PostMapping("/public/pages/comments/{parentType}/{parentId}/{curPage}")
@@ -53,8 +53,8 @@ public class CommentController {
             @RequestParam(value = "orderBy", defaultValue = "time") String orderBy,
             @RequestParam(value = "commentRows", defaultValue = "3") Integer commentRows,
             @RequestParam(value = "replyRows", defaultValue = "3") Integer replyRows,
-            User user) {
-        return commentService.pageComments(parentId, parentType, curPage, commentRows, replyRows, orderBy, user);
+            SysUser sysUser) {
+        return commentService.pageComments(parentId, parentType, curPage, commentRows, replyRows, orderBy, sysUser);
     }
 
     /**
@@ -63,7 +63,7 @@ public class CommentController {
      * @param commentId 评论ID
      * @param orderBy 排序方式
      * @param replyRows 回复显示数
-     * @param user 当前用户
+     * @param sysUser 当前用户
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
     @PostMapping("/public/pages/replys/{commentId}/{curPage}")
@@ -72,8 +72,8 @@ public class CommentController {
             @PathVariable(value = "commentId") Integer commentId,
             @RequestParam(value = "orderBy", required = false) String orderBy,
             @RequestParam(value = "replyRows", required = false) Integer replyRows,
-            User user) {
-        return commentService.pageReplys(commentId, curPage, replyRows, orderBy, user);
+            SysUser sysUser) {
+        return commentService.pageReplys(commentId, curPage, replyRows, orderBy, sysUser);
     }
 }
 

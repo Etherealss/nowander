@@ -2,8 +2,7 @@ package com.nowander.chat.domain.event.connect;
 
 
 import cn.hutool.json.JSONObject;
-import com.nowander.common.pojo.po.User;
-import org.springframework.web.socket.TextMessage;
+import com.nowander.basesystem.user.SysUser;
 import org.springframework.web.socket.WebSocketSession;
 
 /**
@@ -12,7 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
  */
 public class EstablishConnectionEvent extends ConnectionEvent {
 
-    public EstablishConnectionEvent(WebSocketSession session,  JSONObject attrs, User user) {
-        super(session, attrs, user);
+    public EstablishConnectionEvent(WebSocketSession session,  JSONObject attrs, SysUser sysUser) {
+        super(session, attrs, sysUser);
     }
 }

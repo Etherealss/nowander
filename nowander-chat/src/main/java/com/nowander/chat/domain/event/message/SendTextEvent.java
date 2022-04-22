@@ -1,8 +1,8 @@
 package com.nowander.chat.domain.event.message;
 
 import cn.hutool.json.JSONObject;
+import com.nowander.basesystem.user.SysUser;
 import com.nowander.chat.domain.event.ChatEvent;
-import com.nowander.common.pojo.po.User;
 import lombok.*;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -23,7 +23,7 @@ public class SendTextEvent extends ChatEvent {
     @NotBlank
     private String content;
 
-    public SendTextEvent(WebSocketSession session, JSONObject attrs, User user) {
-        super(session, attrs, user);
+    public SendTextEvent(WebSocketSession session, JSONObject attrs, SysUser sysUser) {
+        super(session, attrs, sysUser);
     }
 }

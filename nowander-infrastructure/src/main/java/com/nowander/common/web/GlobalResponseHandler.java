@@ -1,7 +1,6 @@
 package com.nowander.common.web;
 
-import com.nowander.common.pojo.vo.Msg;
-import com.nowander.common.annotation.ResponseAdvice;
+import com.nowander.common.pojo.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

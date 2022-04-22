@@ -1,15 +1,15 @@
 @startuml
-|user| 系统管理员
+|sysUser| 系统管理员
 |system| 系统及数据库
 
-|user|
+|sysUser|
 start
 :打开创建组件页面;
 :完善组件信息;
 :保存新组件;
 |system|
 :保存新组件，状态为“未发布”;
-|user|
+|sysUser|
 :更新组件状态为“已发布”;
 |system|
 :更新组件状态为“已发布”;

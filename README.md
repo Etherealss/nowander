@@ -282,8 +282,8 @@ docker-compose -f docker-compose-app.yaml up
 
 注意：mysql 8 以后不允许在 GRANT 命令后设置密码
 ```shell
-    update user set host='%' where user='nowander_user';
-    alter user nowander_user identified with mysql_native_password by 'baotamysql123456'; # 明文加密方式
+    update sysUser set host='%' where sysUser='nowander_user';
+    alter sysUser nowander_user identified with mysql_native_password by 'baotamysql123456'; # 明文加密方式
     Grant all privileges on nowander.* to 'nowander_user'@'%';
     Grant all privileges on nowander.* to 'nowander_user'@'%'; # 执行两次
 ```
@@ -303,7 +303,7 @@ docker-compose -f docker-compose-app.yaml up
 ### 多模块测试
 ```java
     @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = com.nowander.starter.NowanderApplication.class)
-    @ComponentScan(basePackages = "com.nowander.blog.mapper")
+    @ComponentScan(basePackages = "com.nowander.forum.mapper")
 ```
 Websocket测试
 

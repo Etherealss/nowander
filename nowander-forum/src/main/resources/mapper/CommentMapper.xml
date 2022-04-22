@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nowander.forum.comment.CommentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.nowander.forum.comment.Comment">
+        <id column="id" property="id"/>
+        <result column="author_id" property="authorId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="target_id" property="targetId"/>
+        <result column="content" property="content"/>
+        <result column="parent_type" property="parentType"/>
+        <result column="comment_type" property="commentType"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByAuthor">
+        DELETE
+        FROM `comment`
+        WHERE `id` = #{commentId}
+          AND `author_id` = #{authorId};
+    </delete>
+    <select id="getCommentByTime" resultType="com.nowander.forum.comment.Comment">
+        SELECT *
+        FROM `comment`
+        WHERE `parent_id` = #{parentId}
+          AND `parent_type` = #{parentType}
+          AND `comment_type` = 0
+          AND `state` = 1
+    </select>
+    <select id="getCommentByLike" resultType="com.nowander.forum.comment.Comment">
+        SELECT *
+        FROM `comment` `c`
+                 LEFT JOIN `like_count`
+                           ON `c`.`id` = `like_count`.`target_id`
+                               AND `like_count`.`target_type` = 2
+        WHERE `c`.`parent_id` = #{parentId}
+          AND `c`.`parent_type` = #{parentType}
+          AND `c`.`comment_type` = 0
+          AND `c`.`state` = 1
+        ORDER BY `like_count`.`count` DESC
+    </select>
+    <select id="getReplyByTime" resultType="com.nowander.forum.comment.Comment">
+        SELECT *
+        FROM `comment`
+        WHERE `parent_id` = #{parentId}
+          AND `parent_type` = #{parentType}
+          AND `comment_type` > 0
+    </select>
+    <select id="getReplyByLike" resultType="com.nowander.forum.comment.Comment">
+        SELECT *
+        FROM `comment` `c`
+                 LEFT JOIN `like_count`
+                           ON `c`.`id` = `like_count`.`target_id`
+                               AND `like_count`.`target_type` = 2
+        WHERE `c`.`parent_id` = #{parentId}
+          AND `c`.`parent_type` = #{parentType}
+          AND `c`.`comment_type` > 0
+        ORDER BY `like_count`.`count` DESC
+    </select>
+
+</mapper>

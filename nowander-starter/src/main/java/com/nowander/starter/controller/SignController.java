@@ -1,9 +1,9 @@
 package com.nowander.starter.controller;
 
-import com.nowander.common.pojo.po.User;
-import com.nowander.common.security.login.LoginSuccessHandler;
-import com.nowander.common.user.service.TokenService;
-import com.nowander.common.user.service.UserService;
+import com.nowander.basesystem.user.SysUser;
+import com.nowander.basesystem.user.security.login.LoginSuccessHandler;
+import com.nowander.basesystem.user.TokenService;
+import com.nowander.basesystem.user.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +28,11 @@ public class SignController {
      * 具体业务见 {@link LoginSuccessHandler }
      */
     @PostMapping("/login")
-    public User login() {
+    public SysUser login() {
         log.info("用户登录");
-        User user = new User();
-        user.setUsername("qlejqleqlejl");
-        return user;
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername("qlejqleqlejl");
+        return sysUser;
     }
 
     @GetMapping("/logout")
