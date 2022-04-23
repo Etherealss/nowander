@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.forum.comment.Comment;
-import com.nowander.common.enums.CommentConstants;
+import com.nowander.infrastructure.enums.CommentConstants;
 
 /**
  * @author wtk

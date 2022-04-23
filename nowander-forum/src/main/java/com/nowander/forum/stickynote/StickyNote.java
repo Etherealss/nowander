@@ -2,7 +2,7 @@ package com.nowander.forum.stickynote;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.nowander.common.pojo.IdentifiedEntity;
+import com.nowander.infrastructure.pojo.IdentifiedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

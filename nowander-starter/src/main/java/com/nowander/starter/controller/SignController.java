@@ -1,6 +1,8 @@
 package com.nowander.starter.controller;
 
 import com.nowander.basesystem.user.SysUser;
+import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
+import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousPostMapping;
 import com.nowander.basesystem.user.security.login.LoginSuccessHandler;
 import com.nowander.basesystem.user.TokenService;
 import com.nowander.basesystem.user.UserService;
@@ -27,7 +29,7 @@ public class SignController {
     /**
      * 具体业务见 {@link LoginSuccessHandler }
      */
-    @PostMapping("/login")
+    @AnonymousPostMapping("/login")
     public SysUser login() {
         log.info("用户登录");
         SysUser sysUser = new SysUser();
@@ -40,7 +42,7 @@ public class SignController {
         userService.logout(request);
     }
 
-    @GetMapping("/reflesh")
+    @AnonymousGetMapping("/reflesh")
     public String reflesh(HttpServletRequest request) {
         return tokenService.refleshToken(request);
     }

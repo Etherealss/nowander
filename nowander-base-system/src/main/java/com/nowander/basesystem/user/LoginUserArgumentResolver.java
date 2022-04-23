@@ -1,7 +1,7 @@
 package com.nowander.basesystem.user;
 
 import com.nowander.basesystem.user.security.SecurityUtil;
-import com.nowander.common.web.NotLoginUserParam;
+import com.nowander.infrastructure.web.NotLoginUserParam;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

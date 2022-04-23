@@ -2,10 +2,10 @@ package com.nowander.basesystem.user.security.login;
 
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.TokenService;
-import com.nowander.common.enums.RedisKeyPrefix;
-import com.nowander.common.pojo.Msg;
+import com.nowander.infrastructure.enums.RedisKeyPrefix;
+import com.nowander.infrastructure.pojo.Msg;
 import com.nowander.basesystem.user.security.jwt.JwtConfig;
-import com.nowander.common.utils.ResponseUtil;
+import com.nowander.infrastructure.utils.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

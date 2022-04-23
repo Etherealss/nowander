@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
  * @date 2022/2/23
  */
 @Configuration
-@ConfigurationProperties("jwt")
+@ConfigurationProperties("app.jwt")
 @Getter
 @Setter
 public class JwtConfig {

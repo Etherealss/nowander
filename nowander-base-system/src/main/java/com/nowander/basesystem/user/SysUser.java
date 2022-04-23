@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 import java.util.List;
 
-import com.nowander.common.pojo.IdentifiedEntity;
+import com.nowander.infrastructure.pojo.IdentifiedEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

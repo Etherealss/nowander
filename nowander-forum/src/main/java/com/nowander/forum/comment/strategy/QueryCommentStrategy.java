@@ -6,7 +6,7 @@ import com.nowander.basesystem.user.SysUser;
 import com.nowander.forum.comment.CommentDto;
 import com.nowander.forum.comment.Comment;
 import com.nowander.forum.comment.QueryCommentAndReplyStrategy;
-import com.nowander.common.utils.PageUtil;
+import com.nowander.infrastructure.utils.PageUtil;
 
 import java.util.ArrayList;
 import java.util.List;

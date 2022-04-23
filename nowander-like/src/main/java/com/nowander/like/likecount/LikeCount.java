@@ -3,8 +3,8 @@ package com.nowander.like.likecount;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.nowander.common.enums.RedisKeyPrefix;
-import com.nowander.common.pojo.BaseEntity;
+import com.nowander.infrastructure.enums.RedisKeyPrefix;
+import com.nowander.infrastructure.pojo.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

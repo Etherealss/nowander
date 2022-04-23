@@ -1,13 +1,16 @@
 package com.nowander.basesystem.user.security.login;
 
 import cn.hutool.core.util.StrUtil;
-import com.nowander.common.exception.MissingParamException;
+import com.nowander.infrastructure.exception.MissingParamException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+
+import static com.nowander.basesystem.user.security.login.LoginParamName.*;
 
 /**
  * 模仿UsernamePasswordAuthenticationToken
@@ -32,14 +35,24 @@ public class UsernamePasswordCaptchaToken extends AbstractAuthenticationToken {
      */
     private final String captchaCode;
 
+    /**
+     * 用于从缓存获取验证码
+     */
+    private final Date captchaCacheTimestamp;
+
     public UsernamePasswordCaptchaToken(HttpServletRequest request) {
         super(null);
-        this.captchaCode = request.getParameter(LoginParamName.CAPTCHA_CODE);
-        this.username = request.getParameter(LoginParamName.USERNAME);
-        this.password = request.getParameter(LoginParamName.PASSWORD);
-        notBlank(this.username, "用户名参数'" + LoginParamName.USERNAME + "'不能为空");
-        notBlank(this.password, "密码参数'" + LoginParamName.PASSWORD + "'不能为空");
-        notBlank(this.captchaCode, "验证码参数'" + LoginParamName.CAPTCHA_CODE + "'不能为空");
+        this.captchaCode = request.getParameter(CAPTCHA_CODE);
+        this.username = request.getParameter(USERNAME);
+        this.password = request.getParameter(PASSWORD);
+        String timestampStr = request.getParameter(CAPTCHA_CACHE_TIMESTAMP);
+
+        notBlank(this.username, "用户名参数'" + USERNAME + "'不能为空");
+        notBlank(this.password, "密码参数'" + PASSWORD + "'不能为空");
+        notBlank(this.captchaCode, "验证码参数'" + CAPTCHA_CODE + "'不能为空");
+        notBlank(timestampStr, "验证码时间戳参数'" + CAPTCHA_CACHE_TIMESTAMP + "'不能为空");
+
+        this.captchaCacheTimestamp = new Date(Long.parseLong(timestampStr));
         this.setAuthenticated(false);
     }
 

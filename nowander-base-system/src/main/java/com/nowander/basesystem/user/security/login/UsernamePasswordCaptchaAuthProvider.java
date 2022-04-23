@@ -1,10 +1,7 @@
 package com.nowander.basesystem.user.security.login;
 
-import cn.hutool.core.util.StrUtil;
+import com.nowander.basesystem.captcha.CaptchaService;
 import com.nowander.basesystem.user.SysUser;
-import com.nowander.common.enums.ApiInfo;
-import com.nowander.common.enums.AppAttribute;
-import com.nowander.common.exception.CaptchaException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -25,6 +22,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
+import java.util.Date;
+
 /**
  * 重写 AbstractUserDetailsAuthenticationProvider，它的默认实现是 DaoAuthenticationProvider
  * 我们要仿照 DaoAuthenticationProvider，实现新功能，在登录时校验验证码
@@ -42,6 +41,8 @@ public class UsernamePasswordCaptchaAuthProvider implements AuthenticationProvid
     private final PasswordEncoder passwordEncoder;
     private final GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
     private MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
+    private final CaptchaService captchaService;
+
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -54,8 +55,9 @@ public class UsernamePasswordCaptchaAuthProvider implements AuthenticationProvid
 
         //验证码value
         String captchaCode = auth.getCaptchaCode();
+        Date captchaCacheTimestamp = auth.getCaptchaCacheTimestamp();
         //检验验证码是否正确
-        validateCaptcha(captchaCode);
+        captchaService.validateCaptcha(captchaCode, captchaCacheTimestamp);
 
         //用户名
         String username = auth.getUsername();
@@ -73,9 +75,8 @@ public class UsernamePasswordCaptchaAuthProvider implements AuthenticationProvid
     /**
      * 认证成功将非授信凭据转为授信凭据.
      * 封装用户信息 角色信息。
-     *
      * @param authentication the authentication
-     * @param user           the user
+     * @param user the user
      * @return the authentication
      */
     protected Authentication createSuccessAuthentication(Object principal, Authentication authentication,
@@ -84,30 +85,6 @@ public class UsernamePasswordCaptchaAuthProvider implements AuthenticationProvid
                 authentication.getCredentials(), this.authoritiesMapper.mapAuthorities(user.getAuthorities()));
         result.setDetails(authentication.getDetails());
         return result;
-    }
-
-    private void validateCaptcha(String userInputCaptcha) {
-        String code = redisTemplate.opsForValue().getAndDelete(AppAttribute.CAPTCHAC_CACHE);
-
-        //验证码是否为空
-        if (StrUtil.isBlank(userInputCaptcha)) {
-            throw new CaptchaException(ApiInfo.CAPTCHA_MISSING);
-        }
-
-        // TODO 用于测试
-        if ("1234".equals(userInputCaptcha)) {
-            return;
-        }
-
-        // 验证码失效
-        if (code == null) {
-            throw new CaptchaException(ApiInfo.CAPTCHA_INVALID);
-        }
-
-        // 验证码不匹配
-        if (!code.equals(userInputCaptcha)) {
-            throw new CaptchaException(ApiInfo.CAPTCHA_NOT_MATCH);
-        }
     }
 
     @Override

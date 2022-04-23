@@ -69,6 +69,11 @@ PageApplicationService --> ComponentService
 TemplateApplicationService --> ComponentService
 
 class ComponentInstanceService {
-    + Component findBy(Long componentId)
+    + List<ComponentInstance> findAllByComponentId(Long componentId)
+    + List<ComponentInstance> findAllByTemplateId(Long templateId)
+    + List<ComponentInstance> findAllByPageId(Long pageId)
+    + void deleteAllByComponentId(Long componentId)
+    + void deleteAllByTemplateId(Long templateId)
+    + void deleteAllByPageId(Long pageId)
 }
 @enduml

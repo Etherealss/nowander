@@ -2,9 +2,10 @@ package com.nowander.starter.controller;
 
 
 import com.nowander.basesystem.user.SysUser;
+import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousPostMapping;
 import com.nowander.forum.comment.Comment;
 import com.nowander.forum.comment.CommentService;
-import com.nowander.common.web.ResponseAdvice;
+import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class CommentController {
      * @param sysUser 当前用户
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    @PostMapping("/public/pages/comments/{parentType}/{parentId}/{curPage}")
+    @AnonymousPostMapping("/pages/comments/{parentType}/{parentId}/{curPage}")
     public Map<String, Object> pageComment(
             @PathVariable(value = "curPage") Integer curPage,
             @PathVariable(value = "parentId") Integer parentId,
@@ -66,7 +67,7 @@ public class CommentController {
      * @param sysUser 当前用户
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    @PostMapping("/public/pages/replys/{commentId}/{curPage}")
+    @AnonymousPostMapping("/pages/replys/{commentId}/{curPage}")
     public Map<String, Object> pageRepky(
             @PathVariable(value = "curPage") Integer curPage,
             @PathVariable(value = "commentId") Integer commentId,

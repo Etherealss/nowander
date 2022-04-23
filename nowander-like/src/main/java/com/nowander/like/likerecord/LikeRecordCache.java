@@ -1,6 +1,6 @@
 package com.nowander.like.likerecord;
 
-import com.nowander.common.enums.RedisKeyPrefix;
+import com.nowander.infrastructure.enums.RedisKeyPrefix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;

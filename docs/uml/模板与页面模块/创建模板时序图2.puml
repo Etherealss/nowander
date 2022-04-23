@@ -1,0 +1,22 @@
+@startuml
+
+participant TemplateApplicationService
+participant TemplateService
+participant PageService
+participant ComponentService
+participant ComponentInstanceService
+
+activate TemplateApplicationService
+TemplateApplicationService -> TemplateApplicationService++--: 从模板数据中获取使用到的组件
+TemplateApplicationService -> ComponentService ++: 检查使用到的组件是否可用
+return 可用
+TemplateApplicationService -> TemplateService ++: 保存模板
+return ok
+TemplateApplicationService -> PageService ++: 保存模板中包含的页面信息
+PageService -> PageService ++--: 保存模板中包含的页面信息
+PageService ->ComponentInstanceService ++: 保存页面中包含的组件实例信息
+return ok
+return ok
+deactivate TemplateApplicationService
+
+@enduml

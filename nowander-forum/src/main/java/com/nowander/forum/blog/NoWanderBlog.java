@@ -1,8 +1,8 @@
 package com.nowander.forum.blog;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.nowander.common.pojo.IdentifiedEntity;
-import com.nowander.common.repository.JsonSetTypeHandler;
+import com.nowander.infrastructure.pojo.IdentifiedEntity;
+import com.nowander.infrastructure.repository.JsonSetTypeHandler;
 import lombok.*;
 
 import java.util.Set;

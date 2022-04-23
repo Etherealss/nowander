@@ -95,11 +95,13 @@ logging:
   config: classpath:log4j2.xml
   level:
     root: info
-
-jwt:
-  key: "bm93YW5kZXI="
-  token-header: Auth
-  expire-ms: 3000000
-  # 两天
-  reflesh-expire-ms: 172800000
-  subject: ${spring.application.name}
+app:
+  captcha:
+    captcha-cache-key: captcha
+  jwt:
+    key: "bm93YW5kZXI="
+    token-header: Auth
+    expire-ms: 3000000
+    # 两天
+    reflesh-expire-ms: 172800000
+    subject: ${spring.application.name}

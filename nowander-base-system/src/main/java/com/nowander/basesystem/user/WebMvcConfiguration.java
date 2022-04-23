@@ -1,6 +1,6 @@
 package com.nowander.basesystem.user;
 
-import com.nowander.common.web.JsonArgumentResolver;
+import com.nowander.infrastructure.web.JsonArgumentResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +19,7 @@ import java.util.List;
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
+    // TODO 依赖问题，这个类应该放在基础设施层
     @Autowired
     private LoginUserArgumentResolver currentUserArgumentResolver;
 

@@ -1,19 +1,19 @@
 @startuml
 @startuml
 state 不可使用 {
-  state unpublished {
+  state 未发布 {
   }
-  state disable {
+  state 已下架 {
   }
 }
 
-state published {
+state 已发布 {
 }
 
-[*] -> unpublished : 创建
-unpublished --> published : 发布
-disable --> published : 发布
-published --> disable : 停用
+[*] -> 未发布 : 创建
+未发布 --> 已发布 : 发布
+已下架 --> 已发布 : 发布
+已发布 --> 已下架 : 停用
 @enduml
 
 @enduml

@@ -1,14 +1,17 @@
 package com.nowander.basesystem.user.security;
 
+import com.nowander.basesystem.captcha.CaptchaService;
+import com.nowander.basesystem.user.security.anonymous.RequestMethodEnum;
+import com.nowander.basesystem.user.security.anonymous.annotation.AnonymousAccess;
 import com.nowander.basesystem.user.security.jwt.MyJwtAuthenticationFilter;
 import com.nowander.basesystem.user.security.login.LoginAuthenticationFilter;
 import com.nowander.basesystem.user.security.login.LoginFailureHandler;
 import com.nowander.basesystem.user.security.login.LoginSuccessHandler;
 import com.nowander.basesystem.user.security.login.UsernamePasswordCaptchaAuthProvider;
-import com.nowander.common.enums.ApiInfo;
-import com.nowander.common.exception.TokenException;
-import com.nowander.common.pojo.Msg;
-import com.nowander.common.utils.ResponseUtil;
+import com.nowander.infrastructure.enums.ApiInfo;
+import com.nowander.infrastructure.exception.TokenException;
+import com.nowander.infrastructure.pojo.Msg;
+import com.nowander.infrastructure.utils.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -38,13 +41,13 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
+import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author wtk
@@ -61,17 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_PAGE_PATH = "http://localhost:8080/#/login";
     private static final String DEFAULT_SUCCESS_URL = "/test.html";
     private static final String[] PERMIT_LIST = {
-            "/",
-            "/index.html",
             LOGIN_MAPPING_URL,
             "/users/reflesh",
             "/users/register",
-            "/lib/**",
-            "/toastr/**",
-            "/css/**",
-            "/img/**",
-            "/js/**",
-            "/config/**",
             "/likes/**",
             "/likeCount/**",
             "/test/**",
@@ -84,13 +79,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final LoginFailureHandler failureHandler;
     private final MyJwtAuthenticationFilter jwtAuthenticationFilter;
     private final RedisTemplate<String, String> redisTemplate;
+    private final CaptchaService captchaService;
 
     @Bean
     public UsernamePasswordCaptchaAuthProvider usernamePasswordCaptchaAuthProvider() {
         return new UsernamePasswordCaptchaAuthProvider(
                 userDetailsService,
                 redisTemplate,
-                getPasswordEncoder()
+                getPasswordEncoder(),
+                captchaService
         );
     }
 
@@ -166,6 +163,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        // 获取匿名标记
+        Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMapping);
         // 基于token，所以不需要session
         httpSecurity
                 .sessionManagement()
@@ -195,11 +194,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 设置哪些路径可以直接访问，不需要认证
                 .and()
                 .authorizeRequests()
-                // 对于登录login 验证码captcha 允许匿名访问
-                .antMatchers(HttpMethod.GET, PERMIT_LIST).anonymous()
+                .antMatchers("/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/*/api-docs",
+                        "/avatar/**",
+                        "/file/**",
+                        "/druid/**"
+                ).permitAll()
+                // 放行OPTIONS请求
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                // 自定义匿名访问所有url放行：允许匿名和带Token访问，细腻化到每个 Request 类型
+                // GET
+                .antMatchers(HttpMethod.GET, anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0])).permitAll()
+                // POST
+                .antMatchers(HttpMethod.POST, anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0])).permitAll()
+                // PUT
+                .antMatchers(HttpMethod.PUT, anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0])).permitAll()
+                // PATCH
+                .antMatchers(HttpMethod.PATCH, anonymousUrls.get(RequestMethodEnum.PATCH.getType()).toArray(new String[0])).permitAll()
+                // DELETE
+                .antMatchers(HttpMethod.DELETE, anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0])).permitAll()
+                // 所有类型的接口都放行
+                .antMatchers(anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0])).permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
-//                .anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
+//                .anyRequest().permitAll()
 
                 // 关闭CSRF防护
                 .and()
@@ -216,66 +236,79 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ;
     }
 
+    private Map<String, Set<String>> getAnonymousUrl(RequestMappingHandlerMapping handlerMapping) {
+        // 允许匿名访问的URL集合
+        Map<String, Set<String>> anonymousUrls = new HashMap<>(6);
+        // 各种HTTP请求方式对应的URL集合
+        Set<String> get = new HashSet<>();
+        Set<String> post = new HashSet<>();
+        Set<String> put = new HashSet<>();
+        Set<String> delete = new HashSet<>();
+        Set<String> patch = new HashSet<>();
+        Set<String> all = new HashSet<>();
+        // 从handlerMapping中获取所有Controller的Method，过滤出加了@AnonymousAccess注解的接口
+        List<Map.Entry<RequestMappingInfo, HandlerMethod>> entries = handlerMapping.getHandlerMethods().entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getMethodAnnotation(AnonymousAccess.class) != null)
+                .collect(Collectors.toList());
+        // 遍历添加了@AnonymousAccess注解的接口，获取其配置的URL，并根据HTTP请求方式添加到对应的Map中
+        for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : entries) {
+            List<RequestMethod> requestMethods = new ArrayList<>(infoEntry.getKey().getMethodsCondition().getMethods());
+            RequestMethodEnum requestMethod = RequestMethodEnum.find(
+                    requestMethods.size() == 0 ?
+                    RequestMethodEnum.ALL.getType() : requestMethods.get(0).name()
+            );
+            // 能够访问该方法的URL，一般只有一条URL
+            Set<String> urls = new HashSet<>(2);
+            if (infoEntry.getKey().getPatternsCondition() != null) {
+                // 不包含路径变量的URL
+                urls.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
+            }
+            if (infoEntry.getKey().getPathPatternsCondition() != null) {
+                // 包含了路径变量的URL，需要将 abc/{xxx}/xyz 替换成 abc/*/xyz
+                urls.addAll(infoEntry.getKey()
+                        .getPathPatternsCondition()
+                        .getPatterns()
+                        .stream()
+                        .map(PathPattern::getPatternString)
+                        .map(s -> s.replaceAll("\\{\\w++\\}", "*"))
+                        .collect(Collectors.toSet())
+                );
+            }
+            // 根据HTTP请求方式添加到对应的Map中
+            switch (Objects.requireNonNull(requestMethod)) {
+                case GET:       get.addAll(urls);       break;
+                case POST:      post.addAll(urls);      break;
+                case PUT:       put.addAll(urls);       break;
+                case DELETE:    delete.addAll(urls);    break;
+                case PATCH:     patch.addAll(urls);     break;
+                default:        all.addAll(urls);       break;
+            }
+        }
+
+        anonymousUrls.put(RequestMethodEnum.GET.getType(), get);
+        anonymousUrls.put(RequestMethodEnum.POST.getType(), post);
+        anonymousUrls.put(RequestMethodEnum.PUT.getType(), put);
+        anonymousUrls.put(RequestMethodEnum.DELETE.getType(), delete);
+        anonymousUrls.put(RequestMethodEnum.PATCH.getType(), patch);
+        anonymousUrls.put(RequestMethodEnum.ALL.getType(), all);
+        return anonymousUrls;
+    }
+
     @Override
     public void configure(WebSecurity web) {
         // 跳过Security过滤链
-        web.ignoring().antMatchers(HttpMethod.GET, PERMIT_LIST);
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
-        handlerMethods.forEach((info, method) -> {
-            // 带IgnoreAuth注解的方法直接放行
-            // 根据请求类型做不同的处理
-            for (RequestMethod requestMethod : info.getMethodsCondition().getMethods()) {
-                if (Objects.isNull(method.getMethodAnnotation(IgnoreAuth.class))) {
-                    return;
-                }
-                switch (requestMethod) {
-                    case GET:
-                        // getPatternsCondition得到请求url数组，遍历处理
-                        ignoreAuth(method, web, HttpMethod.GET);
-                        break;
-                    case POST:
-                        ignoreAuth(method, web, HttpMethod.POST);
-                        break;
-                    case DELETE:
-                        ignoreAuth(method, web, HttpMethod.DELETE);
-                        break;
-                    case PUT:
-                        ignoreAuth(method, web, HttpMethod.PUT);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-    }
-
-    private void ignoreAuth(HandlerMethod method, WebSecurity web, HttpMethod httpMethod) {
-//        // 获取方法上的注解
-//        RequestMapping mapping = method.getMethodAnnotation(RequestMapping.class);
-//        if (mapping == null) {
-//            return;
-//        }
-//        // 获取类的注解
-//        RequestMapping mappingClass = method.getBeanType().getAnnotation(RequestMapping.class);
-//        String path = (mappingClass == null ? "" : mappingClass.value()[0]) + mapping.value()[0];
-//        path = path.replaceAll("\\{\\w+\\}", "*");
-//        path = path.trim();
-//        if (StringUtils.isBlank(path)) {
-//            return;
-//        }
-//        log.info("Spring Security 忽略的路径：{}", path);
-//        web.ignoring().antMatchers(httpMethod, path);
-    }
-    private void ignoreAuth(RequestMappingInfo info, WebSecurity web, HttpMethod httpMethod) {
-        PathPatternsRequestCondition condition = info.getPathPatternsCondition();
-        if (condition == null) {
-            return;
-        }
-        for (PathPattern pattern : condition.getPatterns()) {
-            String ignroePath = pattern.getPatternString().replaceAll("\\{\\w+\\}", "*");
-            log.info("Spring Security 忽略的路径：{}", ignroePath);
-            web.ignoring().antMatchers(httpMethod, ignroePath);
-        }
+        web.ignoring().antMatchers(HttpMethod.GET,
+                "/index.html",
+                "/lib/**",
+                "/toastr/**",
+                "/img/**",
+                "/**/*.html",
+                "/**/*.css",
+                "/**/*.js",
+                "/webSocket/**",
+                "/config/**"
+        );
     }
 
     @Bean

@@ -1,6 +1,6 @@
 package com.nowander.like.likerecord.event;
 
-import com.nowander.common.pojo.DomainEvent;
+import com.nowander.infrastructure.pojo.DomainEvent;
 import com.nowander.like.likerecord.LikeRecord;
 import lombok.Getter;
 import lombok.Setter;

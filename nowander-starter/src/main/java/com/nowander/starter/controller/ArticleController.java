@@ -1,10 +1,12 @@
 package com.nowander.starter.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.nowander.basesystem.user.security.anonymous.annotation.AnonymousAccess;
+import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
 import com.nowander.forum.blog.article.Article;
 import com.nowander.forum.blog.article.ArticleDetailVO;
 import com.nowander.forum.blog.article.ArticleService;
-import com.nowander.common.web.ResponseAdvice;
+import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,7 @@ public class ArticleController {
 
     public static final int ARTICLE_PAGE_SIZE = 10;
 
-    @GetMapping("/public/{articleId}")
+    @AnonymousGetMapping("/{articleId}")
     public Article getArticle(@PathVariable Integer articleId) {
         log.trace("获取文章");
         return articleService.getById(articleId);
@@ -40,7 +42,7 @@ public class ArticleController {
         articleService.update(article);
     }
 
-    @DeleteMapping("/public/{articleId}")
+    @DeleteMapping("/{articleId}")
     public void deleteArticle(@PathVariable Long articleId) {
         articleService.removeById(articleId);
     }
@@ -65,7 +67,7 @@ public class ArticleController {
      * @param orderBy
      * @return
      */
-    @GetMapping("/public/pages/{curPage}")
+    @AnonymousGetMapping("/pages/{curPage}")
     public IPage<Article> getPageCompetition(
             @PathVariable(value = "curPage") int curPage,
             @MatrixVariable(value = "orderBy", pathVar = "curPage", defaultValue = "time") String orderBy) {

@@ -3,7 +3,7 @@ package com.nowander.forum.comment;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.nowander.common.pojo.IdentifiedEntity;
+import com.nowander.infrastructure.pojo.IdentifiedEntity;
 import com.nowander.basesystem.user.SysUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

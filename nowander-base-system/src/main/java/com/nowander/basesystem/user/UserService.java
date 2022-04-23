@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nowander.common.enums.RedisKeyPrefix;
+import com.nowander.infrastructure.enums.RedisKeyPrefix;
 import com.nowander.basesystem.user.security.jwt.JwtConfig;
 import com.nowander.basesystem.user.security.jwt.TokenUtil;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.nowander.forum.blog;
 
-import com.nowander.common.config.CompositePropertySourceFactory;
+import com.nowander.infrastructure.config.CompositePropertySourceFactory;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

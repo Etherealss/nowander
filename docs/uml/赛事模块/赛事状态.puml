@@ -1,0 +1,23 @@
+@startuml
+@startuml
+state 待审核 {
+}
+state 已删除 {
+}
+state 已审核 {
+    state 未开始 {
+    }
+    state 正在进行 {
+    }
+    state 停止报名 {
+    }
+    state 已结束 {
+    }
+}
+
+[*] -> 待审核 : 保存比赛
+待审核 --> 已审核 : 发布
+已审核 --> 已删除 : 删除
+@enduml
+
+@enduml

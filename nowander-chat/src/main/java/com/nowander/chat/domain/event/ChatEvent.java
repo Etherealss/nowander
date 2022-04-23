@@ -2,7 +2,7 @@ package com.nowander.chat.domain.event;
 
 import cn.hutool.json.JSONObject;
 import com.nowander.basesystem.user.SysUser;
-import com.nowander.common.pojo.DomainEvent;
+import com.nowander.infrastructure.pojo.DomainEvent;
 import lombok.Getter;
 import org.springframework.web.socket.WebSocketSession;
 

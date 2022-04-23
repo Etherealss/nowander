@@ -1,9 +1,9 @@
 package com.nowander.like;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nowander.common.enums.ApiInfo;
-import com.nowander.common.enums.RedisKeyPrefix;
-import com.nowander.common.exception.SimpleException;
+import com.nowander.infrastructure.enums.ApiInfo;
+import com.nowander.infrastructure.enums.RedisKeyPrefix;
+import com.nowander.infrastructure.exception.SimpleException;
 import com.nowander.like.likecount.LikeCount;
 import com.nowander.like.likerecord.LikeRecord;
 import com.nowander.like.likecount.LikeCountCache;

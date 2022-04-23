@@ -1,0 +1,24 @@
+@startuml
+
+actor 用户 as user
+participant PageController
+participant PageApplicationService
+participant PageService
+participant ComponentService
+participant ComponentInstanceService
+
+user -> PageController ++: 保存模板
+PageController -> PageApplicationService ++: 保存模板
+
+PageApplicationService -> PageApplicationService++--: 从页面数据中获取使用到的组件
+PageApplicationService -> ComponentService ++: 检查使用到的组件是否可用
+return 可用
+PageApplicationService -> PageService ++: 保存页面
+PageService -> PageService++--: 保存页面
+PageService ->ComponentInstanceService ++: 保存页面中包含的组件实例信息
+return ok
+return ok
+return ok
+return ok
+
+@enduml

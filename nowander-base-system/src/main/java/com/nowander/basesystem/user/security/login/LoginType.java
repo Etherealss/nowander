@@ -1,6 +1,6 @@
 package com.nowander.basesystem.user.security.login;
 
-import com.nowander.common.pojo.BaseEnum;
+import com.nowander.infrastructure.pojo.BaseEnum;
 
 /**
  * @author wang tengkun

@@ -1,6 +1,6 @@
 package com.nowander.chat.domain.event.message;
 
-import com.nowander.common.pojo.DomainEvent;
+import com.nowander.infrastructure.pojo.DomainEvent;
 
 /**
  * @author wtk

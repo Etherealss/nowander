@@ -1,7 +1,7 @@
 package com.nowander.starter.controller;
 
 
-import com.nowander.common.web.JsonParam;
+import com.nowander.infrastructure.web.JsonParam;
 import com.nowander.like.likerecord.LikeRecord;
 import com.nowander.like.LikeService;
 import lombok.AllArgsConstructor;

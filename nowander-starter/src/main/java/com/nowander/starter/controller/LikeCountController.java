@@ -1,6 +1,7 @@
 package com.nowander.starter.controller;
 
 
+import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
 import com.nowander.like.likecount.LikeCount;
 import com.nowander.like.LikeService;
 import lombok.AllArgsConstructor;
@@ -33,7 +34,7 @@ public class LikeCountController {
      * @param targetId
      * @return
      */
-    @GetMapping("/{targetType}/{targetId}")
+    @AnonymousGetMapping("/{targetType}/{targetId}")
     public Integer getLikeCount(@PathVariable Integer targetType, @PathVariable Integer targetId){
         LikeCount likeCount = new LikeCount();
         likeCount.setTargetId(targetId);

@@ -4,7 +4,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nowander.chat.domain.event.ChatEvent;
-import com.nowander.common.exception.ErrorParamException;
+import com.nowander.infrastructure.exception.ErrorParamException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;

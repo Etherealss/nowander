@@ -3,7 +3,7 @@ package com.nowander.starter.controller;
 
 import com.nowander.chat.service.FriendshipService;
 import com.nowander.basesystem.user.SysUser;
-import com.nowander.common.web.JsonParam;
+import com.nowander.infrastructure.web.JsonParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
