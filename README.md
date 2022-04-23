@@ -9,10 +9,10 @@
 #### 缓存、数据库双写
 
 点赞是高频操作，为了避免每一次点赞都作用于数据库上，我选择将点赞操作先写入redis，再使用定时任务写入mysql
-
 这需要靠AOF保证持久性，避免故障时丢失数据。
 
-RDB的话丢失的数据可能会比较多，但也可以考虑，因为个人认为，某个用户丢失一两个点赞记录、或者某篇文章少了一两个点赞数，并不算严重，而且不容易被察觉
+RDB的话丢失的数据可能会比较多，但也可以考虑，
+因为个人认为，某个用户丢失一两个点赞记录、或者某篇文章少了一两个点赞数，并不算严重，而且不容易被察觉
 
 【缓存、数据库双写，怎么保证数据一致】
 
@@ -21,29 +21,20 @@ RDB的话丢失的数据可能会比较多，但也可以考虑，因为个人�
 #### 冷热缓存
 
 有两个表用来保存点赞数以及点赞关系。
-
 缓存上，这两种记录都分近一小时操作缓存（近期缓存）和一小时前的记录缓存（普通缓存）
-
 在查缓存时，可能需要查三个地方：普通缓存 - 数据库 - 近期缓存
-
 普通缓存查不到时，通过数据库查，然后添加到缓存中
 
 近期缓存可以用于更新数据，点赞记录的更新操作优先作用在近期缓存上，而不是写入数据库。这样可以避免大量数据库操作。同时，近期缓存与普通缓存分离，还可以提升普通缓存的命中率，避免普通缓存因为数据更新而频繁失效。
 
 点赞记录缓存的key：userId:targetType:targetId
-
 value为1或0，表示点赞或者取消点赞
 
-
 点赞数缓存的key：targetType:targetId
-
 value：点赞数
 
-近期缓存使用Hash结构，方便通过key获取所有field。而因为Hash结构不能针对field添加过期时间，所以普通缓存使用String结构。
-
-
-
-
+近期缓存使用Hash结构，方便通过key获取所有field。
+而因为Hash结构不能针对field添加过期时间，所以普通缓存使用String结构。
 
 #### 避免刷赞
 
@@ -51,17 +42,12 @@ value：点赞数
 
 redis锁 LikeServiceImpl#likeOrUnlike
 
-
-
 【redis分布式锁】
-
 
 
 #### CAS 更新点赞记录
 
 【CAS操作、redis事务】
-
-
 
 #### 追加写
 
@@ -122,25 +108,71 @@ article_2_0_userId:articleId comment:
 
 ## SpringSecurity
 
+### 开发接口，允许未登录的用户访问
+
+在可以匿名访问的Controller接口上使用AnonymousAccess注解及对应Get、Post、Put、Delete、Patch的衍生注解，
+之后可以通过RequestMappingHandlerMapping获取所有Controller接口，
+并通过AnonymousAccess注解获取接口访问路径。
+需要注意，接口的访问路径中如果存在路径参数，需要将路径参数占位符替换为通配符`*`
+
+然后在SecurityConfig中，使用`httpSecurity.antMatchers(HttpMethod, urls).permitAll()`设置为不必鉴权的接口
+
 ### 基于token的登录和登出
 
 token黑名单
 
 用户退出登录时，token无法立即失效。所以在退出登录时将用户名存入redis中的token黑名单中。
-
 不存储失效的token，因为没必要，直接用username比较就行了
-
 用户重新登录时，将username从黑名单中移除
-
 在jwt filter中检查token时，检查username是否在黑名单中，如果有，则token失效，需要登录
 
 ### reflesh token
 
 本质上也是一个token，它可以用来申请一个新的token，但本身并没有特别的功能
-
 通过reflesh token获取新token的接口是开放的
 
 ### 验证码功能
+
+参考：
+1. https://juejin.cn/post/6854573219936993287
+2. https://juejin.cn/post/6967162207935135758
+
+回顾一下 SpringSecurity 的登录处理流程：
+![SpringSecurity的UsernamepasswordAuthenticationToekn工作原理.png](img/SpringSecurity的UsernamepasswordAuthenticationToekn工作原理.png)
+![SpringSecurity处理流程.png](img/SpringSecurity处理流程.png)
+
+SpringSecurity 是通过一个又一个的Filter来实现登录控制和权限控制的
+SpringSecurity的Filter入口是DelegatingFilterProxy，
+里面的FilterChainProxy包含了SpringSecurity的多个拦截器
+登录时用到的拦截器是 UsernamePasswordAuthenticationFilter，
+它会从Request域中获取前端传来的username和password
+将它包装成一个未鉴权的UsernamepasswordAuthenticationToekn，
+然后这个Token再交给ProviderManager来鉴权（ProviderManager的authenticate方法）
+默认的登录流程中，ProviderManager会找到DaoAuthticationPrivider，
+通过自定义的UserDetailsService查询UserDetails信息，
+然后鉴权并给出结果，
+最后在UsernamePasswordAuthenticationFilter中调用登录成功或者失败的Handler
+
+我们要自定义登录逻辑，就需要自定义AuthenticationToekn，
+在里面加上我们需要的参数（比如验证码），
+并从Request中获取参数
+
+因为自定义AuthenticationToekn需要自己初始化，
+所以我们要仿照UsernamePasswordAuthenticationFilter，写一个自己的Filter
+本系统对应的Filter是LoginAuthenticationFilter
+同时还需要自定义用来处理AuthenticationToekn的Provider，
+本系统对应的Provider是UsernamePasswordCaptchaAuthProvider。
+
+不同的登录方式需要有不同的AuthenticationToekn和Provider，
+这可以灵活拓展。
+SpringSecurity这里采用了责任链和模板方法模式，已经能够很方便我们拓展了。
+就是很多框架自己实现的类我们都用不上，要自己重写，上手没那么简单
+
+还有一个很坑的地方。记得写登录成功或者失败的Handler回调！！否则可能会有奇奇怪怪的bug。
+比如我遇到的：我的登录url是"/users/login"，
+但我在用户登录成功之后，访问不到对应的Controller，
+直接提示我404 Not Found，并说我的请求路径是"/"
+原因就是我没有写登录成功的Handler。但具体怎么变成404的，我也不理解
 
 ##Web
 
