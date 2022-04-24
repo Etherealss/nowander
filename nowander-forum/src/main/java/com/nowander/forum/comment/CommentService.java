@@ -80,7 +80,7 @@ public class CommentService extends ServiceImpl<CommentMapper, Comment> {
             Integer count = commentMapper.selectCount(
                     new QueryWrapper<Comment>().eq("id", commentId));
             if (count == 0) {
-                throw new NotFoundException("没有id为" + commentId + "的评论，删除失败");
+                throw new NotFoundException(Comment.class, commentId.toString());
             } else {
                 throw new NotAuthorException("id为" + authorId + "的用户不是id为" + commentId + "的作者，无法删除");
             }

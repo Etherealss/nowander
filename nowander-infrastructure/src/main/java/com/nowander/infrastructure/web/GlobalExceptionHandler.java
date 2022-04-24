@@ -30,7 +30,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             UnsupportedOperationException.class,
             ErrorParamException.class,
-            MismatchException.class,
             MissingParamException.class
     })
     public Msg<Object> handle(BaseException e) {

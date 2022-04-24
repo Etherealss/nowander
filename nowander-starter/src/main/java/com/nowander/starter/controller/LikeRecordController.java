@@ -1,6 +1,8 @@
 package com.nowander.starter.controller;
 
 
+import com.nowander.infrastructure.enums.LikeTargetType;
+import com.nowander.infrastructure.pojo.BaseEnum;
 import com.nowander.infrastructure.web.JsonParam;
 import com.nowander.like.likerecord.LikeRecord;
 import com.nowander.like.LikeService;
@@ -29,9 +31,12 @@ public class LikeRecordController {
      * @return
      */
     @PostMapping("/do")
-    public void doLike(@JsonParam Integer userId, @JsonParam Integer targetId, @JsonParam Integer targetType,
-                         @JsonParam Boolean isLike) {
-        likeService.likeOrUnlike(new LikeRecord(userId, targetId, targetType), isLike);
+    public void doLike(@JsonParam Integer userId,
+                       @JsonParam Integer targetId,
+                       @JsonParam String targetType,
+                       @JsonParam Boolean isLike) {
+        LikeTargetType likeTargetType = BaseEnum.fromName(LikeTargetType.class, targetType);
+        likeService.likeOrUnlike(new LikeRecord(userId, targetId, likeTargetType), isLike);
     }
 
     /**
@@ -39,8 +44,11 @@ public class LikeRecordController {
      * @return
      */
     @GetMapping("/check")
-    public Boolean checkHasLike(@JsonParam Integer userId, @JsonParam Integer targetId, @JsonParam Integer targetType) {
-        return likeService.checkHasLiked(new LikeRecord(userId, targetId, targetType));
+    public Boolean checkHasLike(@JsonParam Integer userId,
+                                @JsonParam Integer targetId,
+                                @JsonParam String targetType) {
+        LikeTargetType likeTargetType = BaseEnum.fromName(LikeTargetType.class, targetType);
+        return likeService.checkHasLiked(new LikeRecord(userId, targetId, likeTargetType));
     }
 }
 

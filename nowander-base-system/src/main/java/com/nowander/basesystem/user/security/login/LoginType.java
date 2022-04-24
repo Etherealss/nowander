@@ -22,28 +22,24 @@ public enum LoginType implements BaseEnum {
     ;
 
     String paramName;
-    Integer value;
+    Integer code;
 
     public String getParamName() {
         return paramName;
     }
 
-    public Integer getValue() {
-        return value;
-    }
-
-    LoginType(String paramName, Integer value) {
+    LoginType(String paramName, Integer code) {
         this.paramName = paramName;
-        this.value = value;
+        this.code = code;
     }
 
     @Override
-    public String display() {
+    public String getName() {
         return paramName;
     }
 
     @Override
-    public int value() {
-        return value;
+    public int getCode() {
+        return code;
     }
 }

@@ -9,11 +9,11 @@ import com.nowander.infrastructure.enums.ApiInfo;
  * @date 2021-08-12
  */
 public class ExistException extends BaseException {
-    public ExistException() {
-        super(ApiInfo.EXIST);
+    public ExistException(Class<?> clazz, String message) {
+        super(ApiInfo.EXIST, message);
     }
 
-    public ExistException(String message) {
-        super(ApiInfo.EXIST, message);
+    public ExistException(Class<?> clazz) {
+        super(ApiInfo.EXIST, "对应的" + clazz.getSimpleName() + "已存在");
     }
 }

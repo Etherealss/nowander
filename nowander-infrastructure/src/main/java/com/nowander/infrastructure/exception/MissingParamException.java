@@ -13,7 +13,7 @@ public class MissingParamException extends BaseException {
         super(ApiInfo.MISSING_PARAM);
     }
 
-    public MissingParamException(String message) {
-        super(ApiInfo.MISSING_PARAM, message);
+    public MissingParamException(String paramName) {
+        super(ApiInfo.MISSING_PARAM, paramName + "参数缺失");
     }
 }

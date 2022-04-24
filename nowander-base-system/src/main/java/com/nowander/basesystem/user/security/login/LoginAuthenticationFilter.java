@@ -44,7 +44,7 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
             AbstractAuthenticationToken authRequest;
             String loginType = request.getParameter(LoginParamName.LOGIN_TYPE);
             if (loginType == null || loginType.isEmpty()) {
-                throw new MissingParamException("登录方式参数'" + LoginParamName.LOGIN_TYPE + "'缺失");
+                throw new MissingParamException(LoginParamName.LOGIN_TYPE);
             }
             if (LoginType.USERNAME.getParamName().equals(loginType)) {
                 authRequest = new UsernamePasswordCaptchaToken(request);

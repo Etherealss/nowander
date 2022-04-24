@@ -20,17 +20,22 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @param authorId
      * @return
      */
-    int deleteByAuthor(@Param("commentId") Integer commentId, @Param("authorId") Integer authorId);
+    int deleteByAuthor(@Param("commentId") Integer commentId,
+                       @Param("authorId") Integer authorId);
 
-    IPage<Comment> getCommentByTime(IPage<Comment> page, @Param("parentId") int parentId,
+    IPage<Comment> getCommentByTime(IPage<Comment> page,
+                                    @Param("parentId") int parentId,
                                     @Param("parentType") int parentType);
 
-    IPage<Comment> getCommentByLike(IPage<Comment> page, @Param("parentId") int parentId,
+    IPage<Comment> getCommentByLike(IPage<Comment> page,
+                                    @Param("parentId") int parentId,
                                     @Param("parentType") int parentType);
 
-    IPage<Comment> getReplyByTime(IPage<Comment> page, @Param("parentId") int parentId,
-                                    @Param("parentType") int parentType);
+    IPage<Comment> getReplyByTime(IPage<Comment> page,
+                                  @Param("parentId") int parentId,
+                                  @Param("parentType") int parentType);
 
-    IPage<Comment> getReplyByLike(IPage<Comment> page, @Param("parentId") int parentId,
-                                    @Param("parentType") int parentType);
+    IPage<Comment> getReplyByLike(IPage<Comment> page,
+                                  @Param("parentId") int parentId,
+                                  @Param("parentType") int parentType);
 }

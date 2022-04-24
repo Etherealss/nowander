@@ -3,9 +3,11 @@ package com.nowander.like.likerecord;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import com.nowander.infrastructure.enums.LikeTargetType;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
 import com.nowander.infrastructure.exception.ServerException;
 import com.nowander.infrastructure.pojo.BaseEntity;
+import com.nowander.infrastructure.pojo.BaseEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,7 +40,7 @@ public class LikeRecord extends BaseEntity {
     /**
      * 目标类型
      */
-    private Integer targetType;
+    private LikeTargetType targetType;
 
     /**
      * 点赞状态
@@ -60,7 +62,7 @@ public class LikeRecord extends BaseEntity {
         return watchLikeRecord;
     }
 
-    public LikeRecord(Integer userId, Integer targetId, Integer targetType) {
+    public LikeRecord(Integer userId, Integer targetId, LikeTargetType targetType) {
         this.userId = userId;
         this.targetId = targetId;
         this.targetType = targetType;
@@ -73,7 +75,7 @@ public class LikeRecord extends BaseEntity {
             throw new ServerException("LikeRecord构造失败！传入的参数不对！");
         }
         userId = Integer.valueOf(split[1]);
-        targetType = Integer.valueOf(split[2]);
+        targetType = BaseEnum.fromCode(LikeTargetType.class, Integer.parseInt(split[2]));
         targetId = Integer.valueOf(split[3]);
     }
 
@@ -86,7 +88,7 @@ public class LikeRecord extends BaseEntity {
         if (likeRecordKey == null) {
             likeRecordKey = RedisKeyPrefix.LIKE_RECORD
                     + userId + "::"
-                    + targetType + "::"
+                    + targetType.getCode() + "::"
                     + targetId;
         }
         return likeRecordKey;
@@ -96,7 +98,7 @@ public class LikeRecord extends BaseEntity {
         if (likeRecordKey == null) {
             likeRecordKey = RedisKeyPrefix.RECENT_LIKE_RECORD
                     + userId + "::"
-                    + targetType + "::"
+                    + targetType.getCode() + "::"
                     + targetId;
         }
         return likeRecordKey;
@@ -105,7 +107,7 @@ public class LikeRecord extends BaseEntity {
     public String getLikeCountKey() {
         if (likeCountKey == null) {
             likeCountKey = RedisKeyPrefix.LIKE_COUNT
-                    + targetType + "::"
+                    + targetType.getCode() + "::"
                     + targetId;
         }
         return likeCountKey;
@@ -114,7 +116,7 @@ public class LikeRecord extends BaseEntity {
     public String getRecentLikeCountKey() {
         if (likeCountKey == null) {
             likeCountKey = RedisKeyPrefix.RECENT_LIKE_COUNT
-                    + targetType + "::"
+                    + targetType.getCode() + "::"
                     + targetId;
         }
         return likeCountKey;

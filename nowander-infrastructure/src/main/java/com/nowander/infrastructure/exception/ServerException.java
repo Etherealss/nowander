@@ -8,10 +8,6 @@ import com.nowander.infrastructure.enums.ApiInfo;
  * @date 2022/2/23
  */
 public class ServerException  extends BaseException {
-    public ServerException() {
-        super(ApiInfo.SERVER_ERROR);
-    }
-
     public ServerException(String message) {
         super(ApiInfo.SERVER_ERROR, message);
     }

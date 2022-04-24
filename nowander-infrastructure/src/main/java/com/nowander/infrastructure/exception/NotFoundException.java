@@ -9,11 +9,8 @@ import com.nowander.infrastructure.enums.ApiInfo;
  * @date 2021-08-12
  */
 public class NotFoundException extends BaseException {
-    public NotFoundException() {
-        super(ApiInfo.NOT_FOUND);
-    }
 
-    public NotFoundException(String message) {
-        super(ApiInfo.NOT_FOUND, message);
+    public NotFoundException(Class<?> clazz, String identification) {
+        super(ApiInfo.NOT_FOUND, identification + "对应的" + clazz.getSimpleName() + "不存在");
     }
 }

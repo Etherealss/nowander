@@ -14,6 +14,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * 路径变量参数验证
+ * 例如对于 {articleId}，会验证这个id存不存在
  * @author wang tengkun
  * @date 2022/2/25
  */
