@@ -1,17 +1,15 @@
 package com.nowander.starter.controller;
 
 
+import com.nowander.basesystem.user.SysUser;
 import com.nowander.infrastructure.enums.LikeTargetType;
-import com.nowander.infrastructure.pojo.BaseEnum;
-import com.nowander.infrastructure.web.JsonParam;
+import com.nowander.infrastructure.pojo.command.LikeRecordCommand;
 import com.nowander.like.likerecord.LikeRecord;
 import com.nowander.like.LikeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 前端控制器
@@ -30,25 +28,20 @@ public class LikeRecordController {
      * 点赞或取消点赞
      * @return
      */
-    @PostMapping("/do")
-    public void doLike(@JsonParam Integer userId,
-                       @JsonParam Integer targetId,
-                       @JsonParam String targetType,
-                       @JsonParam Boolean isLike) {
-        LikeTargetType likeTargetType = BaseEnum.fromName(LikeTargetType.class, targetType);
-        likeService.likeOrUnlike(new LikeRecord(userId, targetId, likeTargetType), isLike);
+    @PostMapping
+    public void doLike(@RequestBody @Validated LikeRecordCommand likeRecordCommand, SysUser user) {
+        likeService.likeOrUnlike(likeRecordCommand, user);
     }
 
     /**
      * 是否已点赞
      * @return
      */
-    @GetMapping("/check")
-    public Boolean checkHasLike(@JsonParam Integer userId,
-                                @JsonParam Integer targetId,
-                                @JsonParam String targetType) {
-        LikeTargetType likeTargetType = BaseEnum.fromName(LikeTargetType.class, targetType);
-        return likeService.checkHasLiked(new LikeRecord(userId, targetId, likeTargetType));
+    @GetMapping("/{targetType}/{targetId}/{userId}")
+    public Boolean checkHasLike(@PathVariable("targetType") LikeTargetType targetType,
+                                @PathVariable("targetId") Integer targetId,
+                                @PathVariable("userId") Integer userId) {
+        return likeService.checkHasLiked(new LikeRecord(targetType, targetId, userId));
     }
 }
 

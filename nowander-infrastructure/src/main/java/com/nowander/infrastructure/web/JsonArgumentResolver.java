@@ -5,6 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @author wtk
  * @date 2022-01-27
  */
+@Component
 @Slf4j(topic = "other")
 public class JsonArgumentResolver implements HandlerMethodArgumentResolver {
     @Override

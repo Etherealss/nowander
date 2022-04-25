@@ -1,6 +1,9 @@
 package com.nowander.infrastructure.pojo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.nowander.infrastructure.enums.LikeTargetType;
+import com.nowander.infrastructure.exception.EnumIllegalException;
 
 import java.util.Objects;
 
@@ -31,18 +34,19 @@ public interface BaseEnum {
                 return object;
             }
         }
-        throw new IllegalArgumentException("No enum code '" + code + "' of '" + enumType.getCanonicalName() + "'");
+        throw new EnumIllegalException(enumType, code);
     }
 
     /**
      * 按枚举的name获取枚举实例
      */
+    @JsonCreator
     static <T extends BaseEnum> T fromName(Class<T> enumType, String name) {
         for (T object : enumType.getEnumConstants()) {
             if (name.equals(object.getName())) {
                 return object;
             }
         }
-        throw new IllegalArgumentException("No enum name '" + name + "' of '" + enumType.getCanonicalName() + "'");
+        throw new EnumIllegalException(enumType, name);
     }
 }

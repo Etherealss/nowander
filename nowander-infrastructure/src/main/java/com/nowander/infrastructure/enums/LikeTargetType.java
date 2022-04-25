@@ -1,5 +1,9 @@
 package com.nowander.infrastructure.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.nowander.infrastructure.exception.EnumIllegalException;
 import com.nowander.infrastructure.pojo.BaseEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,4 +22,14 @@ public enum LikeTargetType implements BaseEnum {
     ;
     private final int code;
     private final String name;
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static LikeTargetType fromName(Object name) {
+        for (LikeTargetType object : LikeTargetType.class.getEnumConstants()) {
+            if (name.equals(object.getName())) {
+                return object;
+            }
+        }
+        throw new EnumIllegalException(LikeTargetType.class, name);
+    }
 }

@@ -101,7 +101,7 @@ app:
   jwt:
     key: "bm93YW5kZXI="
     token-header: Auth
-    expire-ms: 3000000
+    expire-ms: 300000000
     # 两天
     reflesh-expire-ms: 172800000
     subject: ${spring.application.name}
