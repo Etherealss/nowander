@@ -40,7 +40,6 @@ public interface BaseEnum {
     /**
      * 按枚举的name获取枚举实例
      */
-    @JsonCreator
     static <T extends BaseEnum> T fromName(Class<T> enumType, String name) {
         for (T object : enumType.getEnumConstants()) {
             if (name.equals(object.getName())) {

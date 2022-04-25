@@ -23,8 +23,13 @@ public enum LikeTargetType implements BaseEnum {
     private final int code;
     private final String name;
 
+    /**
+     * {@code @JsonCreator} 在 {@code @ReuqestBody} 时会自动通过该注解的方法创建枚举
+     * @param name
+     * @return
+     */
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static LikeTargetType fromName(Object name) {
+    public static LikeTargetType fromName(@JsonProperty("name") Object name) {
         for (LikeTargetType object : LikeTargetType.class.getEnumConstants()) {
             if (name.equals(object.getName())) {
                 return object;

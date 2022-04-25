@@ -1,6 +1,8 @@
-package com.nowander.infrastructure.pojo.command;
+package com.nowander.like.likerecord;
 
 import com.nowander.infrastructure.enums.LikeTargetType;
+import com.nowander.infrastructure.pojo.InputConverter;
+import com.nowander.like.likerecord.LikeRecord;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -10,7 +12,7 @@ import javax.validation.constraints.NotNull;
  * @date 2022-04-24
  */
 @Data
-public class LikeRecordCommand {
+public class LikeRecordCommand implements InputConverter<LikeRecord> {
     @NotNull
     private LikeTargetType targetType;
     @NotNull

@@ -2,8 +2,10 @@ package com.nowander.starter.controller;
 
 
 import com.nowander.basesystem.user.SysUser;
+import com.nowander.basesystem.user.security.SecurityUtil;
 import com.nowander.infrastructure.enums.LikeTargetType;
-import com.nowander.infrastructure.pojo.command.LikeRecordCommand;
+import com.nowander.infrastructure.web.ResponseAdvice;
+import com.nowander.like.likerecord.LikeRecordCommand;
 import com.nowander.like.likerecord.LikeRecord;
 import com.nowander.like.LikeService;
 import lombok.AllArgsConstructor;
@@ -18,7 +20,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/likes")
+@ResponseAdvice
+@RequestMapping("/likes/record")
 @AllArgsConstructor
 public class LikeRecordController {
 
@@ -37,11 +40,11 @@ public class LikeRecordController {
      * 是否已点赞
      * @return
      */
-    @GetMapping("/{targetType}/{targetId}/{userId}")
+    @GetMapping("/{targetType}/{targetId}")
     public Boolean checkHasLike(@PathVariable("targetType") LikeTargetType targetType,
                                 @PathVariable("targetId") Integer targetId,
-                                @PathVariable("userId") Integer userId) {
-        return likeService.checkHasLiked(new LikeRecord(targetType, targetId, userId));
+                                SysUser user) {
+        return likeService.checkHasLiked(new LikeRecord(targetType, targetId, user.getId()));
     }
 }
 

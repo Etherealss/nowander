@@ -3,8 +3,10 @@ package com.nowander.like.likecount;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import com.nowander.infrastructure.enums.LikeTargetType;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
 import com.nowander.infrastructure.pojo.BaseEntity;
+import com.nowander.infrastructure.pojo.BaseEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,7 +26,7 @@ public class LikeCount extends BaseEntity {
 
     private Integer targetId;
 
-    private Integer targetType;
+    private LikeTargetType targetType;
 
     private Integer count;
 
@@ -33,12 +35,12 @@ public class LikeCount extends BaseEntity {
 
     public String getLikeCountKey() {
         if (likeCountKey == null) {
-            likeCountKey = RedisKeyPrefix.LIKE_COUNT + targetType + "::" + targetId;
+            likeCountKey = RedisKeyPrefix.LIKE_COUNT + targetType.getCode() + "::" + targetId;
         }
         return likeCountKey;
     }
 
-    public LikeCount(Integer targetId, Integer targetType, Integer count) {
+    public LikeCount(Integer targetId, LikeTargetType targetType, Integer count) {
         this.targetId = targetId;
         this.targetType = targetType;
         this.count = count;
@@ -46,7 +48,7 @@ public class LikeCount extends BaseEntity {
 
     public LikeCount(String redisLikeCountKey, int count) {
         String[] split = redisLikeCountKey.split("::");
-        this.targetType = Integer.valueOf(split[1]);
+        this.targetType = BaseEnum.fromCode(LikeTargetType.class, Integer.parseInt(split[1]));
         this.targetId = Integer.valueOf(split[2]);
         this.count = count;
     }

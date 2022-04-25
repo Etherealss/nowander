@@ -27,8 +27,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        log.info("{}", argumentResolvers);
         argumentResolvers.addAll(customerArgumentResolvers);
+        log.info("{}", argumentResolvers);
     }
 
     @Override

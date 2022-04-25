@@ -12,9 +12,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Partition implements BaseEnum {
-    LEARNING(1, "学习天地"),
-    MAJOR(2, "专业介绍"),
-    COLLEGE(3, "大学风采"),
+    LEARNING(1, "learning"),
+    MAJOR(2, "major"),
+    COLLEGE(3, "college"),
     ;
 
     final int code;

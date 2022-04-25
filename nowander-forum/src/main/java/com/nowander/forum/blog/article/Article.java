@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.nowander.forum.blog.NoWanderBlog;
 import lombok.EqualsAndHashCode;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author wtk
@@ -12,6 +13,7 @@ import lombok.Data;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ToString(callSuper = true)
 @TableName("article")
 public class Article extends NoWanderBlog {
 
@@ -19,18 +21,4 @@ public class Article extends NoWanderBlog {
      * 收藏数
      */
     private Integer collected;
-
-    @Override
-    public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", category=" + category +
-                ", title='" + title + '\'' +
-                ", authorId=" + authorId +
-                ", labels=" + labels +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", collected=" + collected +
-                '}';
-    }
 }

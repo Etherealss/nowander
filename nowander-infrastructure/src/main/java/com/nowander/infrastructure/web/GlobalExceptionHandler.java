@@ -74,13 +74,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Msg<Void> handle(MethodArgumentTypeMismatchException e) {
-        return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "方法参数不匹配");
+        return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "方法参数不匹配：" + e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Msg<Void> handle(HttpRequestMethodNotSupportedException e) {
-        return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "请求方式不支持");
+        return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "请求方式不支持：" + e.getMessage());
     }
 
     /**
@@ -129,6 +129,17 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 后端有bug
+     * @param e
+     * @return
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(InfrastructureException.class)
+    public Msg<Object> handle(InfrastructureException e) {
+        return new Msg<>(e);
+    }
+
+    /**
      * 其他未处理异常
      * @param e
      * @return
@@ -139,7 +150,7 @@ public class GlobalExceptionHandler {
         if (e instanceof IllegalStateException) {
             if (e.getMessage().contains("argument type mismatch\nController")) {
                 log.warn("参数类型错误:", e);
-                return new Msg<>(new ErrorParamException("参数类型错误"));
+                return new Msg<>(new ErrorParamException("参数类型错误：" + e.getMessage()));
             }
         }
         log.warn("[全局异常处理器]其他异常:", e);

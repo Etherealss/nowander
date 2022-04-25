@@ -5,17 +5,16 @@ import com.nowander.basesystem.user.SysUser;
 import com.nowander.infrastructure.enums.ApiInfo;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
 import com.nowander.infrastructure.exception.SimpleException;
-import com.nowander.infrastructure.pojo.command.LikeRecordCommand;
 import com.nowander.like.likecount.LikeCount;
 import com.nowander.like.likerecord.LikeRecord;
 import com.nowander.like.likecount.LikeCountCache;
 import com.nowander.like.likerecord.LikeRecordCache;
 import com.nowander.like.likecount.LikeCountMapper;
+import com.nowander.like.likerecord.LikeRecordCommand;
 import com.nowander.like.likerecord.LikeRecordMapper;
 import com.nowander.like.pool.SaveLikeThreadPool;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -48,8 +47,7 @@ public class LikeService extends ServiceImpl<LikeRecordMapper, LikeRecord> {
      * 点赞 需要注意竞态条件
      */
     public void likeOrUnlike(LikeRecordCommand likeRecordCommand, SysUser user) {
-        LikeRecord likeRecord = new LikeRecord();
-        BeanUtils.copyProperties(likeRecordCommand, likeRecord);
+        LikeRecord likeRecord = likeRecordCommand.toEntity();
         likeRecord.setUserId(user.getId());
         Boolean isLike = likeRecordCommand.getIsLike();
         String key = likeRecord.getLikeRecordKey();
