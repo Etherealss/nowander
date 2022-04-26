@@ -16,8 +16,4 @@ public class PostsService extends NoWanderBlogService<PostsEntity> {
         super(blogMapper);
         this.postsMapper = postsMapper;
     }
-
-    public PostsEntity getById(Integer id) {
-        return postsMapper.selectById(id);
-    }
 }

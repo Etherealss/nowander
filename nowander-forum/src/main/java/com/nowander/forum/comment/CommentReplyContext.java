@@ -3,13 +3,15 @@ package com.nowander.forum.comment;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.forum.comment.reply.strategy.QueryReplyStrategy;
 import com.nowander.forum.comment.strategy.QueryCommentStrategy;
-import com.nowander.forum.comment.reply.ReplyDto;
+import com.nowander.forum.comment.reply.ReplyDTO;
 import com.nowander.basesystem.user.SysUser;
+import com.nowander.infrastructure.enums.CommentParentType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 策略上下午
  * @author wtk
  * @date 2022-02-05
  */
@@ -56,8 +58,8 @@ public class CommentReplyContext {
      * @param parentIdType
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    public Map<String, Object> query(int parentId, int parentIdType) {
-        IPage<CommentDto> page = commentStrategy.queryComments(parentId, parentIdType);
+    public Map<String, Object> query(int parentId, CommentParentType parentIdType) {
+        IPage<CommentAndReplyDTO> page = commentStrategy.queryComments(parentId, parentIdType);
         // 完善作者信息并返回
         return complete(page);
     }
@@ -68,7 +70,7 @@ public class CommentReplyContext {
      * @return 包含了页面回复数据以及作者用户信息的map，key分别是page和authors
      */
     public Map<String, Object> query(int commentId) {
-        IPage<ReplyDto> page = replyStrategy.queryReply(commentId);
+        IPage<ReplyDTO> page = replyStrategy.queryReply(commentId);
         // 完善作者信息并返回
         return complete(page);
     }

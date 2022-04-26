@@ -9,6 +9,8 @@ import com.nowander.forum.comment.reply.strategy.QueryReplyStrategy;
 import com.nowander.forum.comment.strategy.QueryCommentByLike;
 import com.nowander.forum.comment.strategy.QueryCommentByTime;
 import com.nowander.forum.comment.strategy.QueryCommentStrategy;
+import com.nowander.infrastructure.enums.CommentParentType;
+import com.nowander.infrastructure.enums.OrderType;
 import com.nowander.infrastructure.exception.service.NotAuthorException;
 import com.nowander.infrastructure.exception.service.NotFoundException;
 import com.nowander.basesystem.user.SysUser;
@@ -27,27 +29,25 @@ import java.util.Map;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class CommentService extends ServiceImpl<CommentMapper, Comment> {
+public class CommentService extends ServiceImpl<CommentMapper, CommentEntity> {
 
     private CommentMapper commentMapper;
 
-    public Msg<IPage<CommentDto>> getHotComments(Long parentId, Long userId) {
+    public Msg<IPage<CommentAndReplyDTO>> getHotComments(Long parentId, Long userId) {
         return null;
     }
 
     public Map<String, Object> pageComments(
-            Integer parentId, Integer parentType, int curPage,
-            int pageSize, int replySize, String orderBy, SysUser sysUser) {
+            Integer parentId, CommentParentType parentType, int curPage,
+            int pageSize, int replySize, OrderType orderBy, SysUser sysUser) {
         QueryCommentStrategy strategy;
         switch (orderBy) {
-            case "time":
-                strategy = new QueryCommentByTime(pageSize, replySize, curPage, sysUser);
+            case TIME:
+                strategy = new QueryCommentByTime(pageSize, replySize, curPage);
                 break;
-            case "like":
-                strategy = new QueryCommentByLike(pageSize, replySize, curPage, sysUser);
-                break;
+            case LIKE:
             default:
-                throw new UnsupportedOperationException("不支持的排序方式");
+                strategy = new QueryCommentByLike(pageSize, replySize, curPage);
         }
         Map<String, Object> map = CommentReplyContext.build4Comment(strategy)
                 .query(parentId, parentType);
@@ -55,17 +55,15 @@ public class CommentService extends ServiceImpl<CommentMapper, Comment> {
     }
 
     public Map<String, Object> pageReplys(
-            Integer commentId, int curPage, int replySize, String orderBy, SysUser sysUser) {
+            Integer commentId, int curPage, int replySize, OrderType orderBy, SysUser sysUser) {
         QueryReplyStrategy strategy;
         switch (orderBy) {
-            case "like":
-                strategy = new QueryReplyByLike(replySize, curPage, sysUser);
+            case LIKE:
+                strategy = new QueryReplyByLike(replySize, curPage);
                 break;
-            case "time":
-                strategy = new QueryReplyByTime(replySize, curPage, sysUser);
-                break;
+            case TIME:
             default:
-                throw new UnsupportedOperationException("不支持的排序方式");
+                strategy = new QueryReplyByTime(replySize, curPage);
 
         }
         Map<String, Object> map = CommentReplyContext.build4Reply(strategy)
@@ -78,9 +76,9 @@ public class CommentService extends ServiceImpl<CommentMapper, Comment> {
         if (i == 0) {
             // 没有删除
             Integer count = commentMapper.selectCount(
-                    new QueryWrapper<Comment>().eq("id", commentId));
+                    new QueryWrapper<CommentEntity>().eq("id", commentId));
             if (count == 0) {
-                throw new NotFoundException(Comment.class, commentId.toString());
+                throw new NotFoundException(CommentEntity.class, commentId.toString());
             } else {
                 throw new NotAuthorException("id为" + authorId + "的用户不是id为" + commentId + "的作者，无法删除");
             }

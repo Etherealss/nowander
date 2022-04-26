@@ -12,6 +12,6 @@ import com.nowander.infrastructure.exception.BaseException;
 public class NotFoundException extends BaseException {
 
     public NotFoundException(Class<?> clazz, String identification) {
-        super(ApiInfo.NOT_FOUND, identification + "对应的" + clazz.getSimpleName() + "不存在");
+        super(ApiInfo.NOT_FOUND, "属性'" + identification + "'对应的" + clazz.getSimpleName() + "不存在");
     }
 }

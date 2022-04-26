@@ -3,7 +3,7 @@
 <mapper namespace="com.nowander.forum.comment.CommentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.forum.comment.Comment">
+    <resultMap id="BaseResultMap" type="com.nowander.forum.comment.CommentEntity">
         <id column="id" property="id"/>
         <result column="author_id" property="authorId"/>
         <result column="parent_id" property="parentId"/>
@@ -21,7 +21,7 @@
         WHERE `id` = #{commentId}
           AND `author_id` = #{authorId};
     </delete>
-    <select id="getCommentByTime" resultType="com.nowander.forum.comment.Comment">
+    <select id="getCommentByTime" resultType="com.nowander.forum.comment.CommentEntity">
         SELECT *
         FROM `comment`
         WHERE `parent_id` = #{parentId}
@@ -29,7 +29,7 @@
           AND `comment_type` = 0
           AND `state` = 1
     </select>
-    <select id="getCommentByLike" resultType="com.nowander.forum.comment.Comment">
+    <select id="getCommentByLike" resultType="com.nowander.forum.comment.CommentEntity">
         SELECT *
         FROM `comment` `c`
                  LEFT JOIN `like_count`
@@ -41,14 +41,14 @@
           AND `c`.`state` = 1
         ORDER BY `like_count`.`count` DESC
     </select>
-    <select id="getReplyByTime" resultType="com.nowander.forum.comment.Comment">
+    <select id="getReplyByTime" resultType="com.nowander.forum.comment.CommentEntity">
         SELECT *
         FROM `comment`
         WHERE `parent_id` = #{parentId}
           AND `parent_type` = #{parentType}
           AND `comment_type` > 0
     </select>
-    <select id="getReplyByLike" resultType="com.nowander.forum.comment.Comment">
+    <select id="getReplyByLike" resultType="com.nowander.forum.comment.CommentEntity">
         SELECT *
         FROM `comment` `c`
                  LEFT JOIN `like_count`

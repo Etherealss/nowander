@@ -3,15 +3,13 @@ package com.nowander.starter.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
+import com.nowander.forum.blog.NoWanderBlog;
 import com.nowander.forum.blog.posts.PostsEntity;
 import com.nowander.forum.blog.posts.PostsService;
+import com.nowander.infrastructure.enums.OrderType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.MatrixVariable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -28,7 +26,7 @@ public class PostsController {
     private final PostsService postsService;
 
     @AnonymousGetMapping("/{postsId}")
-    public PostsEntity getById(@PathVariable Integer postsId) {
+    public NoWanderBlog getById(@PathVariable Integer postsId) {
         return postsService.getById(postsId);
     }
 
@@ -41,7 +39,7 @@ public class PostsController {
     @AnonymousGetMapping("/pages/{curPage}")
     public IPage<PostsEntity> getPageCompetition(
             @PathVariable(value = "curPage") int curPage,
-            @MatrixVariable(value = "orderBy", pathVar = "curPage", defaultValue = "time") String orderBy) {
+            @RequestParam(value = "orderBy",defaultValue = "time") OrderType orderBy) {
         return postsService.page(curPage, POSTS_PAGE_SIZE, orderBy);
     }
 }

@@ -18,7 +18,7 @@ public enum ApiInfo implements ApiExceptionThrower {
     BAD_REQUEST(400000, "请求报文语法错误[参数校验失败]"),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, 401000, "[未认证身份]"),
     FORBIDDEN_REQUEST(HttpStatus.FORBIDDEN, 403000, "[没有权限]"),
-    NOT_FOUND(HttpStatus.NOT_FOUND, 404000, "[资源不存在]"),
+    NOT_FOUND(HttpStatus.NOT_FOUND, 404000, "[目标不存在]"),
 
     SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 500000, "[服务运行异常]"),
     SERVER_BUSY(HttpStatus.INTERNAL_SERVER_ERROR, 500000, "[服务繁忙]"),

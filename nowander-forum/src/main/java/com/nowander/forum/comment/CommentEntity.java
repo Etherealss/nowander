@@ -3,6 +3,9 @@ package com.nowander.forum.comment;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import com.nowander.basesystem.user.security.SecurityUtil;
+import com.nowander.infrastructure.enums.CommentParentType;
+import com.nowander.infrastructure.enums.CommentType;
 import com.nowander.infrastructure.pojo.IdentifiedEntity;
 import com.nowander.basesystem.user.SysUser;
 import lombok.Data;
@@ -16,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("comment")
-public class Comment extends IdentifiedEntity {
+public class CommentEntity extends IdentifiedEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,14 +27,6 @@ public class Comment extends IdentifiedEntity {
      * 评论作者用户id
      */
     private Integer authorId;
-
-    /**
-     * 评论作者
-     */
-    @TableField(exist = false)
-    private SysUser author;
-
-    private Boolean isAuthor;
 
     /**
      * 表示该记录在哪个文章（帖子）或评论之下，可用于表示评论和回复
@@ -51,12 +46,12 @@ public class Comment extends IdentifiedEntity {
     /**
      * 文章为0，问贴为1
      */
-    private Integer parentType;
+    private CommentParentType parentType;
 
     /**
      * 评论为0，回复为1，子回复为2
      */
-    private Integer commentType;
+    private CommentType commentType;
 
     /**
      * 正常为1，已删除为0
@@ -64,10 +59,7 @@ public class Comment extends IdentifiedEntity {
     private Integer state;
 
     public Boolean getIsAuthor() {
-        return isAuthor;
-    }
-
-    public void setIsAuthor(Boolean author) {
-        isAuthor = author;
+        SysUser user = SecurityUtil.getLoginUser();
+        return user != null && user.getId().equals(authorId);
     }
 }
