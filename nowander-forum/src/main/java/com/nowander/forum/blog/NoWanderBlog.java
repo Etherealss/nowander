@@ -1,10 +1,12 @@
 package com.nowander.forum.blog;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.nowander.infrastructure.enums.Partition;
+import com.nowander.infrastructure.enums.Module;
 import com.nowander.infrastructure.pojo.IdentifiedEntity;
 import com.nowander.infrastructure.repository.JsonSetTypeHandler;
 import lombok.*;
+import org.apache.ibatis.type.MappedJdbcTypes;
 
 import java.util.Set;
 
@@ -21,7 +23,7 @@ public abstract class NoWanderBlog extends IdentifiedEntity {
     /**
      * 分区
      */
-    protected Partition partition;
+    protected Module module;
     /**
      * 分类
      */
@@ -40,6 +42,5 @@ public abstract class NoWanderBlog extends IdentifiedEntity {
     /**
      * 标签
      */
-    @TableField(typeHandler = JsonSetTypeHandler.class)
     protected Set<String> labels;
 }

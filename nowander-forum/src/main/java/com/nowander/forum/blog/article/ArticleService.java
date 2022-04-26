@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nowander.forum.blog.ArticleEsManage;
 import com.nowander.forum.blog.DocEsDTO;
+import com.nowander.forum.blog.article.content.ArticleContent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -37,20 +38,21 @@ public class ArticleService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void save(ArticleDetailVO entity) {
-        articleManage.save(entity);
-        articleEsManage.save(buildDocEsDTO(entity));
+    public Integer save(ArticleDetailCommand entity) {
+        Integer id = articleManage.save(entity);
+        // articleEsManage.save(buildDocEsDTO(entity));
+        return id;
     }
 
     public boolean removeById(Serializable id) {
         return articleManage.removeById(id);
     }
 
-    public void update(ArticleDetailVO entity) {
-        if (!StrUtil.isBlank(entity.getContent())) {
-            articleManage.updateContent(entity);
+    public void update(Integer articleId, ArticleDetailCommand command) {
+        if (!StrUtil.isBlank(command.getContent())) {
+            articleManage.updateContent(articleId, command);
         }
-        articleManage.updateById(entity);
+        articleManage.updateById(command);
     }
 
     public void deleteById(Integer id) {
@@ -83,7 +85,7 @@ public class ArticleService {
         return articleEsManage.searchTips(prefixWord, indexName, size);
     }
 
-    private DocEsDTO buildDocEsDTO(ArticleDetailVO detail) {
+    private DocEsDTO buildDocEsDTO(ArticleDetailCommand detail) {
         DocEsDTO docEsDTO = new DocEsDTO();
         BeanUtils.copyProperties(docEsDTO, detail);
         return docEsDTO;

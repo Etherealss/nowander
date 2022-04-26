@@ -1,6 +1,8 @@
 package com.nowander.forum.blog.article;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.nowander.forum.blog.article.content.ArticleContent;
+import com.nowander.forum.blog.article.content.ArticleContentMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -32,32 +34,33 @@ class ArticleManage extends ServiceImpl<ArticleMapper, Article> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void save(ArticleDetailVO vo) {
+    public Integer save(ArticleDetailCommand command) {
         Article article = new Article();
-        BeanUtils.copyProperties(article, vo);
+        BeanUtils.copyProperties(command, article);
         articleMapper.insert(article);
-        articleContentMapper.insert(buildArticleContent(vo));
+        ArticleContent articleContent = new ArticleContent();
+        articleContent.setArticleId(article.getId());
+        articleContent.setContent(command.getContent());
+        articleContentMapper.insert(articleContent);
+        return article.getId();
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void updateById(ArticleDetailVO vo) {
-        articleMapper.updateById(buildArticle(vo));
+    public void updateById(ArticleDetailCommand command) {
+        articleMapper.updateById(buildArticle(command));
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void updateContent(ArticleDetailVO vo) {
-        articleContentMapper.updateById(buildArticleContent(vo));
+    public void updateContent(Integer articleId, ArticleDetailCommand command) {
+        ArticleContent entity = new ArticleContent();
+        entity.setArticleId(articleId);
+        entity.setContent(command.getContent());
+        articleContentMapper.updateById(entity);
     }
 
-    private Article buildArticle(ArticleDetailVO vo) {
+    private Article buildArticle(ArticleDetailCommand vo) {
         Article article = new Article();
         BeanUtils.copyProperties(article, vo);
         return article;
-    }
-
-    private ArticleContent buildArticleContent(ArticleDetailVO vo) {
-        ArticleContent articleContent = new ArticleContent();
-        BeanUtils.copyProperties(articleContent, vo);
-        return articleContent;
     }
 }

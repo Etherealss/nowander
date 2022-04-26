@@ -169,14 +169,31 @@ Not Found，并说我的请求路径是"/"
 
 ### MyBatis自定义类型处理器 TypeHandler
 
+#### 集合处理
+
 可以用于将 集合 自动转为 JSON 格式存在数据库中
 
 见 JsonSetTypeHandler
 
-用法：
-```java
-    @TableField(typeHandler = JsonSetTypeHandler.class)
-    protected Set<String> labels;
+然后在application.yaml里配置Handler类的所在包，启动自动加载
+```yaml
+mybatis-plus:
+  type-handlers-package: com.nowander.infrastructure.repository
+```
+
+
+#### 枚举处理
+
+EnumTypeHandler 与 BaseEnum 配合
+
+在构造方法传入要处理的枚举类。
+
+处理器以及需要处理的枚举类在application.yaml中配置：
+
+```yaml
+mybatis-plus:
+  type-handlers-package: com.nowander.infrastructure.repository
+  type-enums-package: com.nowander.infrastructure.enums
 ```
 
 ## 消息通知

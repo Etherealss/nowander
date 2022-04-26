@@ -1,8 +1,8 @@
 package com.nowander.forum.blog.article;
 
+import com.nowander.infrastructure.enums.Module;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,12 +10,15 @@ import java.util.List;
  * @date 2022/3/3
  */
 @Data
-public class ArticleDetailVO {
+public class ArticleDetailCommand {
+
     private Integer id;
     /**
      * 分区
      */
     private Integer category;
+
+    private Module module;
 
     /**
      * 作者Id
@@ -26,6 +29,7 @@ public class ArticleDetailVO {
      * 标题
      */
     private String title;
+
     /**
      * 文章内容
      */
@@ -36,16 +40,4 @@ public class ArticleDetailVO {
      */
     private List<String> labels;
 
-    /**
-     * 收藏数
-     */
-    private Integer collected;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
 }

@@ -1,4 +1,4 @@
-package com.nowander.forum.blog.article;
+package com.nowander.forum.blog.article.content;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -11,6 +11,6 @@ import lombok.Data;
 @Data
 @TableName("article_content")
 public class ArticleContent {
-    private Integer id;
+    private Integer articleId;
     private String content;
 }

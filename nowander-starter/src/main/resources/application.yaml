@@ -86,6 +86,8 @@ spring:
 
 # mybatisplus配置
 mybatis-plus:
+  type-handlers-package: com.nowander.infrastructure.repository
+  type-enums-package: com.nowander.infrastructure.enums
   mapper-locations: classpath*:mapper/*.xml
   configuration: # 指定mybatis全局配置文件中的相关配置项
     map-underscore-to-camel-case: true

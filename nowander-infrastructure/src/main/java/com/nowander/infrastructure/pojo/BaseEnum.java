@@ -1,5 +1,6 @@
 package com.nowander.infrastructure.pojo;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.nowander.infrastructure.enums.LikeTargetType;
@@ -16,13 +17,13 @@ public interface BaseEnum {
      * 用于显示的枚举名
      * @return
      */
+    @JsonValue
     String getName();
 
     /**
      * 存储到数据库的枚举值
      * @return
      */
-    @JsonValue
     int getCode();
 
     /**

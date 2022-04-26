@@ -1,10 +1,9 @@
 package com.nowander.starter.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.nowander.basesystem.user.security.anonymous.annotation.AnonymousAccess;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
 import com.nowander.forum.blog.article.Article;
-import com.nowander.forum.blog.article.ArticleDetailVO;
+import com.nowander.forum.blog.article.ArticleDetailCommand;
 import com.nowander.forum.blog.article.ArticleService;
 import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
@@ -33,13 +32,13 @@ public class ArticleController {
     }
 
     @PostMapping("/publish")
-    public void publishArticle(ArticleDetailVO article) {
-        articleService.save(article);
+    public Integer publishArticle(@RequestBody ArticleDetailCommand article) {
+        return articleService.save(article);
     }
 
-    @PutMapping("/update")
-    public void updateArticle(ArticleDetailVO article) {
-        articleService.update(article);
+    @PutMapping("/update/{articleId}")
+    public void updateArticle(@PathVariable Integer articleId, @RequestBody ArticleDetailCommand article) {
+        articleService.update(articleId, article);
     }
 
     @DeleteMapping("/{articleId}")

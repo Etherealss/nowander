@@ -20,11 +20,9 @@ import java.util.Set;
  * @author wang tengkun
  * @date 2022/3/4
  */
-@Component
-@AllArgsConstructor
 public class JsonSetTypeHandler extends BaseTypeHandler<Set<?>> {
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void setNonNullParameter(PreparedStatement preparedStatement, int i, Set<?> objects, JdbcType jdbcType) throws SQLException {
@@ -37,18 +35,18 @@ public class JsonSetTypeHandler extends BaseTypeHandler<Set<?>> {
     }
 
     @Override
-    public Set<?> getNullableResult(ResultSet resultSet, String s) throws SQLException {
-        return readJson(resultSet.getString(s));
+    public Set<?> getNullableResult(ResultSet resultSet, String columnName) throws SQLException {
+        return readJson(resultSet.getString(columnName));
     }
 
     @Override
-    public Set<?> getNullableResult(ResultSet resultSet, int i) throws SQLException {
-        return readJson(resultSet.getString(i));
+    public Set<?> getNullableResult(ResultSet resultSet, int columnIndex) throws SQLException {
+        return readJson(resultSet.getString(columnIndex));
     }
 
     @Override
-    public Set<?> getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
-        return readJson(callableStatement.getString(i));
+    public Set<?> getNullableResult(CallableStatement callableStatement, int columnIndex) throws SQLException {
+        return readJson(callableStatement.getString(columnIndex));
     }
 
     private Set<?> readJson(String json) throws SQLException {
