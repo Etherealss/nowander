@@ -1,12 +1,7 @@
 package com.nowander.infrastructure.pojo;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.nowander.infrastructure.enums.LikeTargetType;
-import com.nowander.infrastructure.exception.EnumIllegalException;
-
-import java.util.Objects;
+import com.nowander.infrastructure.exception.rest.EnumIllegalException;
 
 /**
  * @author wtk

@@ -1,6 +1,8 @@
 package com.nowander.forum.blog.article;
 
+import com.nowander.forum.blog.article.content.ArticleContent;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
  */
 @Data
 public class ArticleDetailDTO {
+
     private Integer id;
     /**
      * 分区
@@ -40,12 +43,29 @@ public class ArticleDetailDTO {
      * 收藏数
      */
     private Integer collected;
+
     /**
      * 创建时间
      */
     private Date createTime;
+
     /**
      * 修改时间
      */
     private Date updateTime;
+
+    public static ArticleDetailDTO build(Article article) {
+        ArticleDetailDTO dto = new ArticleDetailDTO();
+        BeanUtils.copyProperties(article, dto);
+        return dto;
+    }
+    public static ArticleDetailDTO build(Article article, ArticleContent articleContent) {
+        ArticleDetailDTO dto = new ArticleDetailDTO();
+        BeanUtils.copyProperties(article, dto);
+        if (articleContent != null) {
+            // TODO 文章内容不能为null
+            BeanUtils.copyProperties(articleContent, dto);
+        }
+        return dto;
+    }
 }

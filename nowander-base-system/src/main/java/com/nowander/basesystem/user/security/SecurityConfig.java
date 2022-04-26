@@ -2,7 +2,6 @@ package com.nowander.basesystem.user.security;
 
 import com.nowander.basesystem.captcha.CaptchaService;
 import com.nowander.basesystem.user.security.anonymous.RequestMethodEnum;
-import com.nowander.basesystem.user.security.anonymous.annotation.AnonymousAccess;
 import com.nowander.basesystem.user.security.anonymous.annotation.AnonymousUrlUtil;
 import com.nowander.basesystem.user.security.jwt.MyJwtAuthenticationFilter;
 import com.nowander.basesystem.user.security.login.LoginAuthenticationFilter;
@@ -10,7 +9,7 @@ import com.nowander.basesystem.user.security.login.LoginFailureHandler;
 import com.nowander.basesystem.user.security.login.LoginSuccessHandler;
 import com.nowander.basesystem.user.security.login.UsernamePasswordCaptchaAuthProvider;
 import com.nowander.infrastructure.enums.ApiInfo;
-import com.nowander.infrastructure.exception.TokenException;
+import com.nowander.infrastructure.exception.service.TokenException;
 import com.nowander.infrastructure.pojo.Msg;
 import com.nowander.infrastructure.utils.ResponseUtil;
 import lombok.RequiredArgsConstructor;
@@ -39,16 +38,9 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
-import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import org.springframework.web.util.pattern.PathPattern;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author wtk

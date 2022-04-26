@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.TokenService;
-import com.nowander.infrastructure.exception.TokenException;
+import com.nowander.infrastructure.exception.service.TokenException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

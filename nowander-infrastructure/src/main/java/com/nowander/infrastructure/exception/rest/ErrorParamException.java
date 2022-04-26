@@ -1,7 +1,8 @@
-package com.nowander.infrastructure.exception;
+package com.nowander.infrastructure.exception.rest;
 
 
 import com.nowander.infrastructure.enums.ApiInfo;
+import com.nowander.infrastructure.exception.BaseException;
 
 /**
  * @author wtk

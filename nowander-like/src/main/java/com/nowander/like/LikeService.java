@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.infrastructure.enums.ApiInfo;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
-import com.nowander.infrastructure.exception.SimpleException;
+import com.nowander.infrastructure.exception.service.ExistException;
 import com.nowander.like.likecount.LikeCount;
 import com.nowander.like.likerecord.LikeRecord;
 import com.nowander.like.likecount.LikeCountCache;
@@ -62,7 +62,7 @@ public class LikeService extends ServiceImpl<LikeRecordMapper, LikeRecord> {
                     Boolean hasLiked = this.checkHasLiked(likeRecord);
                     if (hasLiked.equals(isLike)) {
                         // 重复点赞
-                        throw new SimpleException(ApiInfo.LIKE_DUPLICATE);
+                        throw new ExistException(LikeRecord.class);
                     }
                     likeRecordCache.setRecentLike(likeRecord, isLike);
                     break;

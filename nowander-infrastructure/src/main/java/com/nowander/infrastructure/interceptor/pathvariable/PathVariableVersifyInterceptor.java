@@ -1,6 +1,6 @@
 package com.nowander.infrastructure.interceptor.pathvariable;
 
-import com.nowander.infrastructure.exception.ErrorParamException;
+import com.nowander.infrastructure.exception.rest.ErrorParamException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;

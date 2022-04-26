@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
 import com.nowander.forum.blog.article.Article;
 import com.nowander.forum.blog.article.ArticleDetailCommand;
+import com.nowander.forum.blog.article.ArticleDetailDTO;
 import com.nowander.forum.blog.article.ArticleService;
 import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
@@ -25,10 +26,9 @@ public class ArticleController {
 
     public static final int ARTICLE_PAGE_SIZE = 10;
 
-    @AnonymousGetMapping("/{articleId}")
-    public Article getArticle(@PathVariable Integer articleId) {
-        log.trace("获取文章");
-        return articleService.getById(articleId);
+    @AnonymousGetMapping("/details/{articleId}")
+    public ArticleDetailDTO getArticleDetail(@PathVariable Integer articleId) {
+        return articleService.getDetailById(articleId);
     }
 
     @PostMapping("/publish")
@@ -42,8 +42,8 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{articleId}")
-    public void deleteArticle(@PathVariable Long articleId) {
-        articleService.removeById(articleId);
+    public void deleteArticle(@PathVariable Integer articleId) {
+        articleService.deleteById(articleId);
     }
 
     /* 矩阵变量：
@@ -61,17 +61,17 @@ public class ArticleController {
     */
 
     /**
-     *
+     * 分页获取
      * @param curPage
-     * @param orderBy
+     * @param orderBy 排序方式
      * @return
      */
     @AnonymousGetMapping("/pages/{curPage}")
-    public IPage<Article> getPageCompetition(
+    public IPage<ArticleDetailDTO> getPageCompetition(
             @PathVariable(value = "curPage") int curPage,
             @MatrixVariable(value = "orderBy", pathVar = "curPage", defaultValue = "time") String orderBy) {
         log.debug("获取分页数据：当前页curPage = {}, orderBy = {}", curPage, orderBy);
-        return articleService.page(curPage, ARTICLE_PAGE_SIZE, orderBy);
+        return articleService.pageDetails(curPage, ARTICLE_PAGE_SIZE, orderBy);
     }
 }
 

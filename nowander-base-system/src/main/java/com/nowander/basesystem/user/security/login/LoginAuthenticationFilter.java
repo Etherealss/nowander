@@ -1,7 +1,7 @@
 package com.nowander.basesystem.user.security.login;
 
-import com.nowander.infrastructure.exception.MissingParamException;
-import com.nowander.infrastructure.exception.UnsupportedOperationException;
+import com.nowander.infrastructure.exception.rest.MissingParamException;
+import com.nowander.infrastructure.exception.rest.UnsupportedOperationException;
 import com.nowander.basesystem.user.security.SecurityConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;

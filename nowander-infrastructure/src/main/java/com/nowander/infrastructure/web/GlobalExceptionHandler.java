@@ -1,12 +1,17 @@
 package com.nowander.infrastructure.web;
 
-import com.alibaba.druid.wall.violation.ErrorCode;
 import com.nowander.infrastructure.enums.ApiInfo;
 import com.nowander.infrastructure.exception.*;
+import com.nowander.infrastructure.exception.rest.UnsupportedOperationException;
+import com.nowander.infrastructure.exception.rest.ErrorParamException;
+import com.nowander.infrastructure.exception.rest.MissingParamException;
+import com.nowander.infrastructure.exception.service.CaptchaException;
+import com.nowander.infrastructure.exception.service.ExistException;
+import com.nowander.infrastructure.exception.service.NotFoundException;
+import com.nowander.infrastructure.exception.service.TokenException;
 import com.nowander.infrastructure.pojo.Msg;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
@@ -23,7 +28,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.lang.UnsupportedOperationException;
 
 /**
  * @author wtk
@@ -40,7 +44,6 @@ public class GlobalExceptionHandler {
             UnsupportedOperationException.class,
             ErrorParamException.class,
             MissingParamException.class,
-            SimpleException.class,
             ExistException.class,
             NotFoundException.class,
             CaptchaException.class,

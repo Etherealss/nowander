@@ -10,7 +10,7 @@ import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.nowander.basesystem.user.security.jwt.JwtConfig;
 import com.nowander.infrastructure.enums.ApiInfo;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
-import com.nowander.infrastructure.exception.TokenException;
+import com.nowander.infrastructure.exception.service.TokenException;
 import com.nowander.basesystem.user.security.jwt.TokenUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -4,8 +4,7 @@ package com.nowander.infrastructure.exception;
  * @author wtk
  * @date 2022-01-30
  */
-public class TaskException extends Exception
-{
+public class TaskException extends Exception {
     private static final long serialVersionUID = 1L;
 
     private final Code code;
@@ -26,7 +25,6 @@ public class TaskException extends Exception
         return code;
     }
 
-    @SuppressWarnings("AlibabaEnumConstantsMustHaveComment")
     public enum Code
     {
         TASK_EXISTS,

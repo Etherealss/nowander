@@ -1,5 +1,8 @@
-package com.nowander.infrastructure.exception;
+package com.nowander.infrastructure.exception.service;
 
+
+import com.nowander.infrastructure.exception.ApiInfoGetter;
+import com.nowander.infrastructure.exception.BaseException;
 
 /**
  * @author wtk

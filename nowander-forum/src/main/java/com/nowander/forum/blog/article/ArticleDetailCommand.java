@@ -1,6 +1,7 @@
 package com.nowander.forum.blog.article;
 
 import com.nowander.infrastructure.enums.Module;
+import com.nowander.infrastructure.pojo.InputConverter;
 import lombok.Data;
 
 import java.util.List;
@@ -10,14 +11,16 @@ import java.util.List;
  * @date 2022/3/3
  */
 @Data
-public class ArticleDetailCommand {
+public class ArticleDetailCommand implements InputConverter<Article> {
 
-    private Integer id;
     /**
-     * 分区
+     * 分类
      */
     private Integer category;
 
+    /**
+     * 分区
+     */
     private Module module;
 
     /**

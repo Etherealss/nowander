@@ -1,20 +1,22 @@
 package com.nowander.forum.blog.article;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.forum.blog.ArticleEsManage;
+import com.nowander.forum.blog.ArticleEsService;
 import com.nowander.forum.blog.DocEsDTO;
+import com.nowander.forum.blog.NoWanderBlogMapper;
+import com.nowander.forum.blog.NoWanderBlogService;
 import com.nowander.forum.blog.article.content.ArticleContent;
-import lombok.AllArgsConstructor;
+import com.nowander.forum.blog.article.content.ArticleContentService;
+import com.nowander.infrastructure.exception.service.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author wtk
@@ -22,67 +24,59 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
-public class ArticleService {
+public class ArticleService extends NoWanderBlogService<Article> {
 
-    private ArticleManage articleManage;
-    private ArticleMapper articleMapper;
-    private ArticleEsManage articleEsManage;
+    private final ArticleContentService articleContentService;
+    private final ArticleMapper articleMapper;
+    private final ArticleEsService articleEsService;
 
-    public ArticleContent findContentById(Integer id) {
-        return articleManage.findContentById(id);
+    public ArticleService(NoWanderBlogMapper<Article> noWanderBlogMapper,
+                          ArticleContentService articleContentService,
+                          ArticleMapper articleMapper,
+                          ArticleEsService articleEsService) {
+        super(noWanderBlogMapper);
+        this.articleContentService = articleContentService;
+        this.articleMapper = articleMapper;
+        this.articleEsService = articleEsService;
     }
 
-    public ArticleDetailDTO findDetailById(Integer id) {
-        return articleManage.findDetailById(id);
+    public ArticleContent getContentById(Integer id) {
+        return articleContentService.getById(id);
+    }
+
+    public ArticleDetailDTO getDetailById(Integer id) {
+        Article article = articleMapper.selectById(id);
+        if (article == null) {
+            throw new NotFoundException(Article.class, id.toString());
+        }
+        ArticleContent articleContent = articleContentService.getById(id);
+        return ArticleDetailDTO.build(article, articleContent);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Integer save(ArticleDetailCommand entity) {
-        Integer id = articleManage.save(entity);
+    public Integer save(ArticleDetailCommand command) {
+        Article article = new Article();
+        BeanUtils.copyProperties(command, article);
+        articleMapper.insert(article);
+        articleContentService.save(article.getId(), command);
         // articleEsManage.save(buildDocEsDTO(entity));
-        return id;
-    }
-
-    public boolean removeById(Serializable id) {
-        return articleManage.removeById(id);
+        return article.getId();
     }
 
     public void update(Integer articleId, ArticleDetailCommand command) {
         if (!StrUtil.isBlank(command.getContent())) {
-            articleManage.updateContent(articleId, command);
+            articleContentService.updateContent(articleId, command);
         }
-        articleManage.updateById(command);
-    }
-
-    public void deleteById(Integer id) {
-        articleManage.removeById(id);
-    }
-
-    public IPage<Article> page(int curPage, int size, String orderBy) {
-        IPage<Article> page;
-        Page<Article> p = new Page<>(curPage, size);
-        switch (orderBy) {
-            case "time":
-                page = articleMapper.selectPage(p,
-                        new QueryWrapper<Article>().orderByDesc("create_time"));
-                break;
-            case "like":
-                page = articleMapper.pageByLike(p);
-                break;
-            case "all":
-            default:
-                page = articleManage.page(p);
-        }
-        return page;
+        Article article = command.toEntity();
+        articleMapper.updateById(article);
     }
 
     public IPage<Article> searchByHighLigh(String word, int curPage, int size) {
-        return articleEsManage.searchByHighLigh(word, curPage, size);
+        return articleEsService.searchByHighLigh(word, curPage, size);
     }
 
     public List<String> searchTips(String prefixWord, String indexName, int size) {
-        return articleEsManage.searchTips(prefixWord, indexName, size);
+        return articleEsService.searchTips(prefixWord, indexName, size);
     }
 
     private DocEsDTO buildDocEsDTO(ArticleDetailCommand detail) {
@@ -91,7 +85,17 @@ public class ArticleService {
         return docEsDTO;
     }
 
-    public Article getById(Integer articleId) {
-        return articleManage.getById(articleId);
+    /**
+     * 分页，包含内容
+     */
+    public IPage<ArticleDetailDTO> pageDetails(int curPage, int size, String orderBy) {
+        IPage<Article> page = super.page(curPage, size, orderBy);
+        List<ArticleDetailDTO> articleDetails = page.getRecords().stream().map(article -> {
+            ArticleContent articleContent = articleContentService.getById(article.getId());
+            return ArticleDetailDTO.build(article, articleContent);
+        }).collect(Collectors.toList());
+        Page<ArticleDetailDTO> detailPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal(), page.isSearchCount());
+        detailPage.setRecords(articleDetails);
+        return detailPage;
     }
 }

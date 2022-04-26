@@ -1,7 +1,7 @@
 package com.nowander.basesystem.user.security.login;
 
 import cn.hutool.core.util.StrUtil;
-import com.nowander.infrastructure.exception.MissingParamException;
+import com.nowander.infrastructure.exception.rest.MissingParamException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

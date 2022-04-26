@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class ArticleEsManage {
+public class ArticleEsService {
     private EsSearchProperties properties;
     private ElasticsearchRestTemplate es;
 

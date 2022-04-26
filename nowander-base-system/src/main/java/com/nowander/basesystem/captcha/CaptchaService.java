@@ -4,7 +4,7 @@ import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.core.util.StrUtil;
 import com.nowander.infrastructure.enums.ApiInfo;
-import com.nowander.infrastructure.exception.CaptchaException;
+import com.nowander.infrastructure.exception.service.CaptchaException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
