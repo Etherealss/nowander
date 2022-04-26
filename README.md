@@ -89,7 +89,7 @@ level区分不同三层级，index区分同一层的不同行
 
 当某一块缓存缺失时，需要获取缓存并且拼接json，所以要使用hash缓存页面数据及其key，key可以用于拼接json
 
-article_0_0_userId:articleId page data article_1_0_userId:articleId article data article_1_1_userId:articleId comments
+article_0_0_userId:articleId page data article_1_0_userId:articleId articleEntity data article_1_1_userId:articleId comments
 data article_2_0_userId:articleId comment:
 
 ## SpringSecurity

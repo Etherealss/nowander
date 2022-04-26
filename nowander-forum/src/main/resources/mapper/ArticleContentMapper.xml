@@ -3,7 +3,7 @@
 <mapper namespace="com.nowander.forum.blog.article.content.ArticleContentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.forum.blog.article.content.ArticleContent">
+    <resultMap id="BaseResultMap" type="com.nowander.forum.blog.article.content.ArticleContentEntity">
         <id column="article_id" property="articleId"/>
         <result column="content" property="content"/>
     </resultMap>

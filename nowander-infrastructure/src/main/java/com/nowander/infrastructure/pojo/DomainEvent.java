@@ -13,17 +13,15 @@ import java.util.UUID;
 public abstract class DomainEvent extends ApplicationEvent {
     private final String id;
     private final Integer userId;
-    private final String username;
     private final LocalDateTime occurredOn;
 
-    public DomainEvent(Integer userId, String username) {
-        this(userId, userId, username);
+    public DomainEvent(Integer userId) {
+        this(userId, userId);
     }
 
-    public DomainEvent(Object o, Integer userId, String username) {
+    public DomainEvent(Object o, Integer userId) {
         super(o);
         this.userId = userId;
-        this.username = username;
         occurredOn = LocalDateTime.now();
         id = UUID.randomUUID().toString().replace("-", "");
     }

@@ -1,14 +1,15 @@
 package com.nowander.starter.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
-import com.nowander.forum.blog.article.Article;
 import com.nowander.forum.blog.article.ArticleDetailCommand;
 import com.nowander.forum.blog.article.ArticleDetailDTO;
 import com.nowander.forum.blog.article.ArticleService;
 import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -32,13 +33,15 @@ public class ArticleController {
     }
 
     @PostMapping("/publish")
-    public Integer publishArticle(@RequestBody ArticleDetailCommand article) {
-        return articleService.save(article);
+    public Integer publishArticle(@RequestBody @Validated ArticleDetailCommand article, SysUser user) {
+        return articleService.save(article, user);
     }
 
-    @PutMapping("/update/{articleId}")
-    public void updateArticle(@PathVariable Integer articleId, @RequestBody ArticleDetailCommand article) {
-        articleService.update(articleId, article);
+    @PutMapping("/{articleId}")
+    public void updateArticle(@PathVariable Integer articleId,
+                              @RequestBody @Validated ArticleDetailCommand article,
+                              SysUser user) {
+        articleService.update(articleId, article, user);
     }
 
     @DeleteMapping("/{articleId}")

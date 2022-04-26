@@ -16,7 +16,7 @@ public abstract class ChatEvent extends DomainEvent {
     private final JSONObject attrs;
 
     public ChatEvent(WebSocketSession session, JSONObject attrs, SysUser sysUser) {
-        super(sysUser.getId(), sysUser.getUsername());
+        super(sysUser.getId());
         this.session = session;
         this.attrs = attrs;
     }

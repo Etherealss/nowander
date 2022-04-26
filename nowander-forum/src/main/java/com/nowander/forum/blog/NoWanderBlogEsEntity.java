@@ -1,7 +1,12 @@
 package com.nowander.forum.blog;
 
+import com.nowander.forum.blog.article.ArticleEntity;
+import com.nowander.forum.blog.article.content.ArticleContentEntity;
+import com.nowander.forum.blog.posts.PostsEntity;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.CompletionField;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -14,11 +19,11 @@ import java.util.Set;
  * @date 2022/2/23
  */
 @Data
-@Document(indexName = "doc")
-public class DocEsDTO {
+@Document(indexName = "blog")
+public class NoWanderBlogEsEntity {
 
     /**
-     * 文章Id
+     * 文章或问贴Id
      */
     @Id
     private Integer id;
@@ -27,7 +32,7 @@ public class DocEsDTO {
      * 文章还是帖子？
      */
     @Field(type = FieldType.Text)
-    private String docType;
+    private String blogType;
 
     /**
      * 分区
@@ -45,6 +50,7 @@ public class DocEsDTO {
      * 标题
      */
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
+    @CompletionField
     private String title;
 
     /**
@@ -72,9 +78,28 @@ public class DocEsDTO {
     private Date updateTime;
 
     /**
-     * 收藏数
+     * 文章收藏数
      */
     @Field(type = FieldType.Integer)
     private Integer collected;
+
+    /**
+     * 问贴关注数
+     */
+    @Field(type = FieldType.Integer)
+    private Integer follow;
+
+    public static NoWanderBlogEsEntity build(ArticleEntity article, ArticleContentEntity content) {
+        NoWanderBlogEsEntity esEntity = new NoWanderBlogEsEntity();
+        BeanUtils.copyProperties(article, esEntity);
+        BeanUtils.copyProperties(content, esEntity);
+        return esEntity;
+    }
+
+    public static NoWanderBlogEsEntity build(PostsEntity postsEntity) {
+        NoWanderBlogEsEntity esEntity = new NoWanderBlogEsEntity();
+        BeanUtils.copyProperties(postsEntity, esEntity);
+        return esEntity;
+    }
 
 }

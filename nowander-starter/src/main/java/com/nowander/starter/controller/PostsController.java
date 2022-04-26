@@ -3,8 +3,7 @@ package com.nowander.starter.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
-import com.nowander.forum.blog.article.ArticleDetailDTO;
-import com.nowander.forum.blog.posts.Posts;
+import com.nowander.forum.blog.posts.PostsEntity;
 import com.nowander.forum.blog.posts.PostsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,7 @@ public class PostsController {
     private final PostsService postsService;
 
     @AnonymousGetMapping("/{postsId}")
-    public Posts getById(@PathVariable Integer postsId) {
+    public PostsEntity getById(@PathVariable Integer postsId) {
         return postsService.getById(postsId);
     }
 
@@ -40,7 +39,7 @@ public class PostsController {
      * @return
      */
     @AnonymousGetMapping("/pages/{curPage}")
-    public IPage<Posts> getPageCompetition(
+    public IPage<PostsEntity> getPageCompetition(
             @PathVariable(value = "curPage") int curPage,
             @MatrixVariable(value = "orderBy", pathVar = "curPage", defaultValue = "time") String orderBy) {
         return postsService.page(curPage, POSTS_PAGE_SIZE, orderBy);

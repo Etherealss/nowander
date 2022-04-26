@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface ArticleContentMapper extends BaseMapper<ArticleContent> {
+public interface ArticleContentMapper extends BaseMapper<ArticleContentEntity> {
 
 }

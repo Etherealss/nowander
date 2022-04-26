@@ -1,6 +1,6 @@
 package com.nowander.forum.blog.article;
 
-import com.nowander.forum.blog.article.content.ArticleContent;
+import com.nowander.forum.blog.article.content.ArticleContentEntity;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
@@ -54,17 +54,17 @@ public class ArticleDetailDTO {
      */
     private Date updateTime;
 
-    public static ArticleDetailDTO build(Article article) {
+    public static ArticleDetailDTO build(ArticleEntity articleEntity) {
         ArticleDetailDTO dto = new ArticleDetailDTO();
-        BeanUtils.copyProperties(article, dto);
+        BeanUtils.copyProperties(articleEntity, dto);
         return dto;
     }
-    public static ArticleDetailDTO build(Article article, ArticleContent articleContent) {
+    public static ArticleDetailDTO build(ArticleEntity articleEntity, ArticleContentEntity articleContentEntity) {
         ArticleDetailDTO dto = new ArticleDetailDTO();
-        BeanUtils.copyProperties(article, dto);
-        if (articleContent != null) {
+        BeanUtils.copyProperties(articleEntity, dto);
+        if (articleContentEntity != null) {
             // TODO 文章内容不能为null
-            BeanUtils.copyProperties(articleContent, dto);
+            BeanUtils.copyProperties(articleContentEntity, dto);
         }
         return dto;
     }

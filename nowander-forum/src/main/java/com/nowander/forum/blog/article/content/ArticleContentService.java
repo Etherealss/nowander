@@ -16,28 +16,30 @@ import java.io.Serializable;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class ArticleContentService extends ServiceImpl<ArticleContentMapper, ArticleContent> {
+public class ArticleContentService extends ServiceImpl<ArticleContentMapper, ArticleContentEntity> {
     private ArticleContentMapper articleContentMapper;
 
     @Override
-    public ArticleContent getById(Serializable id) {
-        ArticleContent articleContent = articleContentMapper.selectById(id);
-        return articleContent;
+    public ArticleContentEntity getById(Serializable id) {
+        ArticleContentEntity articleContentEntity = articleContentMapper.selectById(id);
+        return articleContentEntity;
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void save(Integer articleId, ArticleDetailCommand command) {
-        ArticleContent articleContent = new ArticleContent();
-        articleContent.setArticleId(articleId);
-        articleContent.setContent(command.getContent());
-        articleContentMapper.insert(articleContent);
+    public ArticleContentEntity save(Integer articleId, ArticleDetailCommand command) {
+        ArticleContentEntity articleContentEntity = new ArticleContentEntity();
+        articleContentEntity.setId(articleId);
+        articleContentEntity.setContent(command.getContent());
+        articleContentMapper.insert(articleContentEntity);
+        return articleContentEntity;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void updateContent(Integer articleId, ArticleDetailCommand command) {
-        ArticleContent entity = new ArticleContent();
-        entity.setArticleId(articleId);
+        ArticleContentEntity entity = new ArticleContentEntity();
+        entity.setId(articleId);
         entity.setContent(command.getContent());
+        ArticleContentEntity articleContentEntity = articleContentMapper.selectById(articleId);
         articleContentMapper.updateById(entity);
     }
 }

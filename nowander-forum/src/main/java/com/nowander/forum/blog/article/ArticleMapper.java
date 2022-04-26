@@ -13,12 +13,12 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-interface ArticleMapper extends NoWanderBlogMapper<Article> {
+interface ArticleMapper extends NoWanderBlogMapper<ArticleEntity> {
     /**
      * 按点赞数查询分页
      * @param page
      * @return
      */
     @Override
-    IPage<Article> pageByLike(@Param("page") Page<?> page);
+    IPage<ArticleEntity> pageByLike(@Param("page") Page<?> page);
 }

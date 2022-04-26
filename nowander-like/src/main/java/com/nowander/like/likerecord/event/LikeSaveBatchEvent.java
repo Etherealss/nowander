@@ -14,8 +14,8 @@ import java.util.List;
 @Setter
 @Getter
 public class LikeSaveBatchEvent extends DomainEvent {
-    public LikeSaveBatchEvent(Integer userId, String username) {
-        super(userId, username);
+    public LikeSaveBatchEvent(Integer userId) {
+        super(userId);
     }
     private List<LikeRecord> toSave;
 }

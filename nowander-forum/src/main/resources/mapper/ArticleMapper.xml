@@ -3,7 +3,7 @@
 <mapper namespace="com.nowander.forum.blog.article.ArticleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.nowander.forum.blog.article.Article">
+    <resultMap id="BaseResultMap" type="com.nowander.forum.blog.article.ArticleEntity">
         <id column="id" property="id"/>
         <result column="category" property="category"/>
         <result column="author_id" property="authorId"/>
@@ -13,9 +13,9 @@
         <result column="update_time" property="updateTime"/>
         <result column="collected" property="collected"/>
     </resultMap>
-    <select id="pageByLike" resultType="com.nowander.forum.blog.article.Article">
+    <select id="pageByLike" resultType="com.nowander.forum.blog.article.ArticleEntity">
         SELECT *
-        FROM `article` `a`
+        FROM `articleEntity` `a`
           LEFT JOIN `like_count` `l`
         ON `a`.`id` = `l`.`target_id`
           AND `l`.`target_type` = 0

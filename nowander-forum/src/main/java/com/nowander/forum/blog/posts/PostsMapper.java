@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface PostsMapper extends NoWanderBlogMapper<Posts> {
+public interface PostsMapper extends NoWanderBlogMapper<PostsEntity> {
 
     /**
      * 按点赞数查询分页
@@ -21,6 +21,6 @@ public interface PostsMapper extends NoWanderBlogMapper<Posts> {
      * @return
      */
     @Override
-    IPage<Posts> pageByLike(@Param("page") Page<?> page);
+    IPage<PostsEntity> pageByLike(@Param("page") Page<?> page);
 
 }

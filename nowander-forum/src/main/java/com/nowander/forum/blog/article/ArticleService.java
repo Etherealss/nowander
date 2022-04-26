@@ -3,15 +3,17 @@ package com.nowander.forum.blog.article;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nowander.forum.blog.ArticleEsService;
-import com.nowander.forum.blog.DocEsDTO;
+import com.nowander.basesystem.user.SysUser;
+import com.nowander.forum.blog.NoWanderBlogEsEntity;
 import com.nowander.forum.blog.NoWanderBlogMapper;
 import com.nowander.forum.blog.NoWanderBlogService;
-import com.nowander.forum.blog.article.content.ArticleContent;
+import com.nowander.forum.blog.article.content.ArticleContentEntity;
 import com.nowander.forum.blog.article.content.ArticleContentService;
+import com.nowander.infrastructure.exception.service.NotAuthorException;
 import com.nowander.infrastructure.exception.service.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,75 +26,80 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class ArticleService extends NoWanderBlogService<Article> {
+public class ArticleService extends NoWanderBlogService<ArticleEntity> {
 
     private final ArticleContentService articleContentService;
     private final ArticleMapper articleMapper;
-    private final ArticleEsService articleEsService;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public ArticleService(NoWanderBlogMapper<Article> noWanderBlogMapper,
+    public ArticleService(NoWanderBlogMapper<ArticleEntity> noWanderBlogMapper,
                           ArticleContentService articleContentService,
                           ArticleMapper articleMapper,
-                          ArticleEsService articleEsService) {
+                          ArticleEsService articleEsService,
+                          ApplicationEventPublisher applicationEventPublisher) {
         super(noWanderBlogMapper);
         this.articleContentService = articleContentService;
         this.articleMapper = articleMapper;
-        this.articleEsService = articleEsService;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
-    public ArticleContent getContentById(Integer id) {
+    public ArticleContentEntity getContentById(Integer id) {
         return articleContentService.getById(id);
     }
 
     public ArticleDetailDTO getDetailById(Integer id) {
-        Article article = articleMapper.selectById(id);
-        if (article == null) {
-            throw new NotFoundException(Article.class, id.toString());
+        ArticleEntity articleEntity = articleMapper.selectById(id);
+        if (articleEntity == null) {
+            throw new NotFoundException(ArticleEntity.class, id.toString());
         }
-        ArticleContent articleContent = articleContentService.getById(id);
-        return ArticleDetailDTO.build(article, articleContent);
+        ArticleContentEntity articleContentEntity = articleContentService.getById(id);
+        return ArticleDetailDTO.build(articleEntity, articleContentEntity);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Integer save(ArticleDetailCommand command) {
-        Article article = new Article();
-        BeanUtils.copyProperties(command, article);
-        articleMapper.insert(article);
-        articleContentService.save(article.getId(), command);
-        // articleEsManage.save(buildDocEsDTO(entity));
-        return article.getId();
+    public Integer save(ArticleDetailCommand command, SysUser user) {
+        ArticleEntity articleEntity = new ArticleEntity();
+        BeanUtils.copyProperties(command, articleEntity);
+        articleEntity.setAuthorId(user.getId());
+        articleMapper.insert(articleEntity);
+
+        ArticleContentEntity articleContentEntity = articleContentService.save(articleEntity.getId(), command);
+
+        applicationEventPublisher.publishEvent(new SaveArticleEsBlogEvent(user.getId(), articleEntity, articleContentEntity));
+
+        return articleEntity.getId();
     }
 
-    public void update(Integer articleId, ArticleDetailCommand command) {
+    @Transactional(rollbackFor = Exception.class)
+    public void update(Integer articleId, ArticleDetailCommand command, SysUser user) {
+        ArticleEntity articleEntity = command.toEntity();
+        ArticleEntity article = articleMapper.selectById(articleId);
+        if (article == null) {
+            throw new NotFoundException(ArticleEntity.class, articleId.toString());
+        }
+        if (!article.getAuthorId().equals(user.getId())) {
+            throw new NotAuthorException();
+        }
+        articleMapper.updateById(articleEntity);
         if (!StrUtil.isBlank(command.getContent())) {
             articleContentService.updateContent(articleId, command);
         }
-        Article article = command.toEntity();
-        articleMapper.updateById(article);
     }
 
-    public IPage<Article> searchByHighLigh(String word, int curPage, int size) {
-        return articleEsService.searchByHighLigh(word, curPage, size);
-    }
-
-    public List<String> searchTips(String prefixWord, String indexName, int size) {
-        return articleEsService.searchTips(prefixWord, indexName, size);
-    }
-
-    private DocEsDTO buildDocEsDTO(ArticleDetailCommand detail) {
-        DocEsDTO docEsDTO = new DocEsDTO();
-        BeanUtils.copyProperties(docEsDTO, detail);
-        return docEsDTO;
+    private NoWanderBlogEsEntity buildDocEsDTO(ArticleDetailCommand detail) {
+        NoWanderBlogEsEntity noWanderBlogEsEntity = new NoWanderBlogEsEntity();
+        BeanUtils.copyProperties(noWanderBlogEsEntity, detail);
+        return noWanderBlogEsEntity;
     }
 
     /**
      * 分页，包含内容
      */
     public IPage<ArticleDetailDTO> pageDetails(int curPage, int size, String orderBy) {
-        IPage<Article> page = super.page(curPage, size, orderBy);
+        IPage<ArticleEntity> page = super.page(curPage, size, orderBy);
         List<ArticleDetailDTO> articleDetails = page.getRecords().stream().map(article -> {
-            ArticleContent articleContent = articleContentService.getById(article.getId());
-            return ArticleDetailDTO.build(article, articleContent);
+            ArticleContentEntity articleContentEntity = articleContentService.getById(article.getId());
+            return ArticleDetailDTO.build(article, articleContentEntity);
         }).collect(Collectors.toList());
         Page<ArticleDetailDTO> detailPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal(), page.isSearchCount());
         detailPage.setRecords(articleDetails);

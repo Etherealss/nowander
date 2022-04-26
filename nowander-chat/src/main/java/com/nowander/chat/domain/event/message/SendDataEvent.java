@@ -7,7 +7,7 @@ import com.nowander.infrastructure.pojo.DomainEvent;
  * @date 2022-03-05
  */
 public abstract class SendDataEvent extends DomainEvent {
-    public SendDataEvent(Integer userId, String username) {
-        super(userId, userId, username);
+    public SendDataEvent(Integer userId) {
+        super(userId, userId);
     }
 }

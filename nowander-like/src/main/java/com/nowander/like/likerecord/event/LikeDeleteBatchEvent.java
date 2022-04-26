@@ -14,8 +14,8 @@ import java.util.List;
 @Setter
 @Getter
 public class LikeDeleteBatchEvent extends DomainEvent {
-    public LikeDeleteBatchEvent(Integer userId, String username) {
-        super(userId, username);
+    public LikeDeleteBatchEvent(Integer userId) {
+        super(userId);
     }
     private List<LikeRecord> toDel;
 }

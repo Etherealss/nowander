@@ -10,7 +10,8 @@ import lombok.Data;
  */
 @Data
 @TableName("article_content")
-public class ArticleContent {
-    private Integer articleId;
+public class ArticleContentEntity {
+
+    private Integer id;
     private String content;
 }

@@ -15,7 +15,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @TableName("article")
-public class Article extends NoWanderBlog {
+public class ArticleEntity extends NoWanderBlog {
 
     /**
      * 收藏数

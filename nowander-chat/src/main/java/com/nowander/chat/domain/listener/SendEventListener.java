@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SendEventListener {
 
-
-
     @EventListener(SendTextEvent.class)
     public void handleEvent(SendTextEvent event) {
 
