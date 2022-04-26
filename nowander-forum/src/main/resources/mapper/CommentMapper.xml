@@ -15,7 +15,7 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
-    <delete id="deleteByAuthor">
+    <delete id="deleteByIdAndAuthor">
         DELETE
         FROM `comment`
         WHERE `id` = #{commentId}

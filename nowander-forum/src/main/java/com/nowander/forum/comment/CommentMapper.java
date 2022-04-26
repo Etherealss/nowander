@@ -20,8 +20,8 @@ public interface CommentMapper extends BaseMapper<Comment> {
      * @param authorId
      * @return
      */
-    int deleteByAuthor(@Param("commentId") Integer commentId,
-                       @Param("authorId") Integer authorId);
+    int deleteByIdAndAuthor(@Param("commentId") Integer commentId,
+                            @Param("authorId") Integer authorId);
 
     IPage<Comment> getCommentByTime(IPage<Comment> page,
                                     @Param("parentId") int parentId,

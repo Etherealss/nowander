@@ -74,7 +74,7 @@ public class CommentService extends ServiceImpl<CommentMapper, Comment> {
     }
 
     public void deleteComment(Integer commentId, Integer authorId) {
-        int i = commentMapper.deleteByAuthor(commentId, authorId);
+        int i = commentMapper.deleteByIdAndAuthor(commentId, authorId);
         if (i == 0) {
             // 没有删除
             Integer count = commentMapper.selectCount(
