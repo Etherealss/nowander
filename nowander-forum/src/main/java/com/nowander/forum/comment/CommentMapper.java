@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface CommentMapper extends BaseMapper<Comment> {
+public interface CommentMapper extends BaseMapper<CommentEntity> {
 
     /**
      * 根据id和authorId删除
@@ -23,19 +23,19 @@ public interface CommentMapper extends BaseMapper<Comment> {
     int deleteByIdAndAuthor(@Param("commentId") Integer commentId,
                             @Param("authorId") Integer authorId);
 
-    IPage<Comment> getCommentByTime(IPage<Comment> page,
-                                    @Param("parentId") int parentId,
-                                    @Param("parentType") int parentType);
+    IPage<CommentEntity> getCommentByTime(IPage<CommentEntity> page,
+                                          @Param("parentId") int parentId,
+                                          @Param("parentType") int parentType);
 
-    IPage<Comment> getCommentByLike(IPage<Comment> page,
-                                    @Param("parentId") int parentId,
-                                    @Param("parentType") int parentType);
+    IPage<CommentEntity> getCommentByLike(IPage<CommentEntity> page,
+                                          @Param("parentId") int parentId,
+                                          @Param("parentType") int parentType);
 
-    IPage<Comment> getReplyByTime(IPage<Comment> page,
-                                  @Param("parentId") int parentId,
-                                  @Param("parentType") int parentType);
+    IPage<CommentEntity> getReplyByTime(IPage<CommentEntity> page,
+                                        @Param("parentId") int parentId,
+                                        @Param("parentType") int parentType);
 
-    IPage<Comment> getReplyByLike(IPage<Comment> page,
-                                  @Param("parentId") int parentId,
-                                  @Param("parentType") int parentType);
+    IPage<CommentEntity> getReplyByLike(IPage<CommentEntity> page,
+                                        @Param("parentId") int parentId,
+                                        @Param("parentType") int parentType);
 }

@@ -1,9 +1,9 @@
 package com.nowander.chat.service;
 
 import com.nowander.basesystem.user.SysUser;
+import com.nowander.basesystem.user.UserService;
 import com.nowander.chat.manage.FriendshipManage;
 import com.nowander.chat.pojo.po.Friendship;
-import com.nowander.basesystem.user.UserManage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 public class FriendshipService {
-    private UserManage userManage;
+    private UserService userService;
     private FriendshipManage friendshipManage;
 
     public List<SysUser> getFriends(SysUser sysUser) {
         List<Integer> friendIds = friendshipManage.getAllFriendIds(sysUser.getId());
-        return friendIds.stream().map(userManage::getById).collect(Collectors.toList());
+        return friendIds.stream().map(userService::getById).collect(Collectors.toList());
     }
 
     public boolean isFriend(SysUser sysUser, Integer friendId) {

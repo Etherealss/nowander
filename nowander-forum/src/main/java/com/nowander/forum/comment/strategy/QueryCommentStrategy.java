@@ -3,9 +3,10 @@ package com.nowander.forum.comment.strategy;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nowander.basesystem.user.SysUser;
-import com.nowander.forum.comment.CommentDto;
-import com.nowander.forum.comment.Comment;
+import com.nowander.forum.comment.CommentAndReplyDTO;
+import com.nowander.forum.comment.CommentEntity;
 import com.nowander.forum.comment.QueryCommentAndReplyStrategy;
+import com.nowander.infrastructure.enums.CommentParentType;
 import com.nowander.infrastructure.utils.PageUtil;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import java.util.List;
  */
 public abstract class QueryCommentStrategy extends QueryCommentAndReplyStrategy {
 
-    public QueryCommentStrategy(int commentSize, int replySize, int curPage, SysUser curSysUser, boolean getRefer) {
-        super(commentSize, replySize, curPage, curSysUser, getRefer);
+    public QueryCommentStrategy(int commentSize, int replySize, int curPage, boolean getRefer) {
+        super(commentSize, replySize, curPage, getRefer);
     }
 
     /**
@@ -27,37 +28,33 @@ public abstract class QueryCommentStrategy extends QueryCommentAndReplyStrategy 
      * @param parentIdType
      * @return
      */
-    protected abstract IPage<Comment> getComments(int parentId, int parentIdType);
+    protected abstract IPage<CommentEntity> getComments(int parentId, CommentParentType parentIdType);
 
     /**
      * 获取评论下的回复记录
      * @param commentId
      * @return
      */
-    protected abstract IPage<Comment> getReplys(int commentId);
+    protected abstract IPage<CommentEntity> getReplys(int commentId);
 
-    public IPage<CommentDto> queryComments(int parentId, int parentIdType) {
+    public IPage<CommentAndReplyDTO> queryComments(int parentId, CommentParentType parentIdType) {
         // 获取评论
-        IPage<Comment> comments = getComments(parentId, parentIdType);
+        IPage<CommentEntity> comments = getComments(parentId, parentIdType);
 
         // 将 IPage<Comment> 转为 IPage<CommentDto
-        IPage<CommentDto> page = new Page<>();
+        IPage<CommentAndReplyDTO> page = new Page<>();
         PageUtil.copyPage(page, comments);
 
         // 包装评论信息，根据需要获取评论下的回复
-        List<CommentDto> dtos = new ArrayList<>(commentSize);
-        for (Comment comment : comments.getRecords()) {
-            // 判断当前用户是否为作者
-            if (curSysUser != null) {
-                comment.setIsAuthor(comment.getAuthorId().equals(curSysUser.getId()));
-            }
+        List<CommentAndReplyDTO> dtos = new ArrayList<>(commentSize);
+        for (CommentEntity commentEntity : comments.getRecords()) {
             // 添加评论作者的id，后续会通过这些id获取User记录，保存到Map中
-            this.addAuthorId2Set(comment.getAuthorId());
-            CommentDto dto = new CommentDto();
-            dto.setParentComment(comment);
+            this.addAuthorId2Set(commentEntity.getAuthorId());
+            CommentAndReplyDTO dto = new CommentAndReplyDTO();
+            dto.setParentComment(commentEntity);
             // 获取评论下的回复记录
             if (replySize > 0) {
-                IPage<Comment> replys = getReplys(comment.getId());
+                IPage<CommentEntity> replys = getReplys(commentEntity.getId());
                 dto.setReplys(replys);
             }
             dtos.add(dto);

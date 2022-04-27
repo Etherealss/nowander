@@ -3,6 +3,7 @@ package com.nowander.forum.comment;
 import cn.hutool.extra.spring.SpringUtil;
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.UserMapper;
+import com.nowander.basesystem.user.security.SecurityUtil;
 import lombok.Data;
 
 import java.util.*;
@@ -17,6 +18,10 @@ public abstract class QueryCommentAndReplyStrategy {
     protected CommentMapper commentMapper = SpringUtil.getBean(CommentMapper.class);
     protected UserMapper userMapper = SpringUtil.getBean(UserMapper.class);
     /**
+     * 当前用户，用户判断是否为评论作者
+     */
+    protected SysUser curSysUser = SecurityUtil.getLoginUser();
+    /**
      * 每页显示的评论数量
      */
     protected int commentSize;
@@ -29,10 +34,6 @@ public abstract class QueryCommentAndReplyStrategy {
      */
     protected int curPage;
     /**
-     * 当前用户，用户判断是否为评论作者
-     */
-    protected SysUser curSysUser;
-    /**
      * 用于表示是否要附带某条回复的引用对象
      */
     protected boolean getRefer;
@@ -42,11 +43,10 @@ public abstract class QueryCommentAndReplyStrategy {
      */
     private Set<Integer> userIdSet = new HashSet<>();
 
-    public QueryCommentAndReplyStrategy(int commentSize, int replySize, int curPage, SysUser curSysUser, boolean getRefer) {
+    public QueryCommentAndReplyStrategy(int commentSize, int replySize, int curPage, boolean getRefer) {
         this.commentSize = commentSize;
         this.replySize = replySize;
         this.curPage = curPage;
-        this.curSysUser = curSysUser;
         this.getRefer = getRefer;
     }
 

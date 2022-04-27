@@ -25,9 +25,8 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class UserService extends ServiceImpl<UserMapper, SysUser> {
 
-    RedisTemplate<String, Object> redisTemplate;
-    JwtConfig jwtConfig;
-
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final JwtConfig jwtConfig;
 
     public void logout(HttpServletRequest request) {
         JSONObject claims = TokenUtil.parse(request.getHeader(jwtConfig.getTokenHeader()));

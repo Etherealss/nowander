@@ -9,7 +9,7 @@
         <result column="author_id" property="authorId"/>
         <result column="title" property="title"/>
         <result column="content" property="content"/>
-        <result column="labels" property="labels" typeHandler="com.nowander.infrastructure.repository.JsonSetTypeHandler"/>
+        <result column="labels" property="labels"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="follow" property="follow"/>
@@ -17,7 +17,7 @@
 
     <select id="pageByLike" resultType="com.nowander.forum.blog.posts.PostsEntity">
         SELECT *
-        FROM `postsEntity` p
+        FROM `posts` p
                  LEFT JOIN `like_count` `l`
                            ON p.`id` = `l`.`target_id`
                                AND `l`.`target_type` = 0

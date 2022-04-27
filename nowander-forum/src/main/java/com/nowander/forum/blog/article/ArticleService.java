@@ -9,6 +9,7 @@ import com.nowander.forum.blog.NoWanderBlogMapper;
 import com.nowander.forum.blog.NoWanderBlogService;
 import com.nowander.forum.blog.article.content.ArticleContentEntity;
 import com.nowander.forum.blog.article.content.ArticleContentService;
+import com.nowander.infrastructure.enums.OrderType;
 import com.nowander.infrastructure.exception.service.NotAuthorException;
 import com.nowander.infrastructure.exception.service.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -74,9 +75,6 @@ public class ArticleService extends NoWanderBlogService<ArticleEntity> {
     public void update(Integer articleId, ArticleDetailCommand command, SysUser user) {
         ArticleEntity articleEntity = command.toEntity();
         ArticleEntity article = articleMapper.selectById(articleId);
-        if (article == null) {
-            throw new NotFoundException(ArticleEntity.class, articleId.toString());
-        }
         if (!article.getAuthorId().equals(user.getId())) {
             throw new NotAuthorException();
         }
@@ -95,7 +93,7 @@ public class ArticleService extends NoWanderBlogService<ArticleEntity> {
     /**
      * 分页，包含内容
      */
-    public IPage<ArticleDetailDTO> pageDetails(int curPage, int size, String orderBy) {
+    public IPage<ArticleDetailDTO> pageDetails(int curPage, int size, OrderType orderBy) {
         IPage<ArticleEntity> page = super.page(curPage, size, orderBy);
         List<ArticleDetailDTO> articleDetails = page.getRecords().stream().map(article -> {
             ArticleContentEntity articleContentEntity = articleContentService.getById(article.getId());

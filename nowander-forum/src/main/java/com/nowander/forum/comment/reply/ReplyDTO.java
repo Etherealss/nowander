@@ -1,6 +1,6 @@
 package com.nowander.forum.comment.reply;
 
-import com.nowander.forum.comment.Comment;
+import com.nowander.forum.comment.CommentEntity;
 import lombok.Data;
 
 /**
@@ -8,13 +8,13 @@ import lombok.Data;
  * @date 2022-02-05
  */
 @Data
-public class ReplyDto {
+public class ReplyDTO {
     /**
      * 评论的回复
      */
-    private Comment reply;
+    private CommentEntity reply;
     /**
      * 回复的引用（“被提及的评论”)
      */
-    private Comment referComment;
+    private CommentEntity referComment;
 }

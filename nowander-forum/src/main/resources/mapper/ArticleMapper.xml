@@ -15,7 +15,7 @@
     </resultMap>
     <select id="pageByLike" resultType="com.nowander.forum.blog.article.ArticleEntity">
         SELECT *
-        FROM `articleEntity` `a`
+        FROM `article` `a`
           LEFT JOIN `like_count` `l`
         ON `a`.`id` = `l`.`target_id`
           AND `l`.`target_type` = 0

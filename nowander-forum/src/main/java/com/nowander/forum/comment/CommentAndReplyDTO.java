@@ -8,20 +8,20 @@ import lombok.Data;
  * @date 2022-02-04
  */
 @Data
-public class CommentDto {
+public class CommentAndReplyDTO {
 
     /**
      * 顶层评论
      */
-    private Comment parentComment;
+    private CommentEntity parentComment;
 
     /**
      * 评论的回复列表
      */
-    private IPage<Comment> replys;
+    private IPage<CommentEntity> replys;
 
     /**
      * 该评论下的总回复数量
      */
-    private int replysTotalCount;
+    private Integer replysTotalCount;
 }

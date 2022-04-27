@@ -18,7 +18,9 @@ public interface PathVariableValidator {
      * 比如检查formName时需要在appId下查，那么extraParamNames就需要提供appId的路径变量名
      * @return
      */
-    String[] extraParamNames();
+    default String[] extraParamNames() {
+        return new String[0];
+    }
 
     /**
      * 要检验的路径参数名

@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.nowander.forum.blog.article.content.ArticleContentEntity">
-        <id column="article_id" property="articleId"/>
+        <id column="id" property="id"/>
         <result column="content" property="content"/>
     </resultMap>
 

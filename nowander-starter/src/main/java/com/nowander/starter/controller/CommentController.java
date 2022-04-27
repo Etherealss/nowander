@@ -3,8 +3,11 @@ package com.nowander.starter.controller;
 
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousPostMapping;
-import com.nowander.forum.comment.Comment;
+import com.nowander.forum.comment.CommentEntity;
 import com.nowander.forum.comment.CommentService;
+import com.nowander.infrastructure.enums.CommentParentType;
+import com.nowander.infrastructure.enums.CommentType;
+import com.nowander.infrastructure.enums.OrderType;
 import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +29,8 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("/publish")
-    public void publish(@RequestBody Comment comment) {
-        commentService.save(comment);
+    public void publish(@RequestBody CommentEntity commentEntity) {
+        commentService.save(commentEntity);
     }
 
     @DeleteMapping("/delete/{commentId}")
@@ -39,7 +42,7 @@ public class CommentController {
      * 获取评论
      * @param curPage 当前页码
      * @param parentId 评论目标ID
-     * @param parentType 评论目标类型
+     * @param parentType 评论目标类型，文章下的评论还是问贴下的评论？
      * @param orderBy 排序方式
      * @param commentRows 评论显示数
      * @param replyRows 评论的回复显示数
@@ -48,10 +51,10 @@ public class CommentController {
      */
     @AnonymousPostMapping("/pages/comments/{parentType}/{parentId}/{curPage}")
     public Map<String, Object> pageComment(
-            @PathVariable(value = "curPage") Integer curPage,
+            @PathVariable(value = "parentType") CommentParentType parentType,
             @PathVariable(value = "parentId") Integer parentId,
-            @PathVariable(value = "parentType") Integer parentType,
-            @RequestParam(value = "orderBy", defaultValue = "time") String orderBy,
+            @PathVariable(value = "curPage") Integer curPage,
+            @RequestParam(value = "orderBy", defaultValue = "time") OrderType orderBy,
             @RequestParam(value = "commentRows", defaultValue = "3") Integer commentRows,
             @RequestParam(value = "replyRows", defaultValue = "3") Integer replyRows,
             SysUser sysUser) {
@@ -71,7 +74,7 @@ public class CommentController {
     public Map<String, Object> pageRepky(
             @PathVariable(value = "curPage") Integer curPage,
             @PathVariable(value = "commentId") Integer commentId,
-            @RequestParam(value = "orderBy", required = false) String orderBy,
+            @RequestParam(value = "orderBy", required = false) OrderType orderBy,
             @RequestParam(value = "replyRows", required = false) Integer replyRows,
             SysUser sysUser) {
         return commentService.pageReplys(commentId, curPage, replyRows, orderBy, sysUser);
