@@ -4,7 +4,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
-import com.nowander.infrastructure.exception.ServerException;
+import com.nowander.infrastructure.exception.BugException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -55,7 +55,7 @@ public class TokenUtil {
     public static Object parseAndGet(String token, String name) {
         Object field = JWTUtil.parseToken(token).getPayload().getClaim(name);
         if (field == null) {
-            throw new ServerException("JWT中不存在payload：" + name);
+            throw new BugException("JWT中不存在payload：" + name);
         }
         return field;
     }

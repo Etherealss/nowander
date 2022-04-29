@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.nowander.infrastructure.enums.LikeTargetType;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
-import com.nowander.infrastructure.exception.ServerException;
+import com.nowander.infrastructure.exception.BugException;
 import com.nowander.infrastructure.pojo.BaseEntity;
 import com.nowander.infrastructure.pojo.BaseEnum;
 import lombok.Data;
@@ -69,7 +69,7 @@ public class LikeRecord extends BaseEntity {
     public LikeRecord(String likeRecordKey) {
         String[] split = likeRecordKey.split("::");
         if (split.length != 4) {
-            throw new ServerException("LikeRecord构造失败！传入的参数不对！");
+            throw new BugException("LikeRecord构造失败！传入的参数不对！");
         }
         targetType = BaseEnum.fromCode(LikeTargetType.class, Integer.parseInt(split[1]));
         targetId = Integer.valueOf(split[2]);

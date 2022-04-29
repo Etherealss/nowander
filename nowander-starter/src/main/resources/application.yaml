@@ -93,6 +93,15 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
 
+file:
+  oss:
+    endPoint: http://oss-cn-guangzhou.aliyuncs.com
+    accessKeyId: <yourAccessKeyId>
+    accessKeySecret: <yourAccessKeySecret>
+    bucketName: nowander
+          rootDir: data
+  path-separator: /
+
 logging:
   config: classpath:log4j2.xml
   level:

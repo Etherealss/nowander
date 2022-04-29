@@ -1,6 +1,6 @@
 package com.nowander.infrastructure.pojo;
 
-import com.nowander.infrastructure.exception.InfrastructureException;
+import com.nowander.infrastructure.exception.BugException;
 import com.nowander.infrastructure.utils.ReflectUtil;
 import org.springframework.beans.BeanUtils;
 
@@ -29,7 +29,7 @@ public interface InputConverter<DOMAIN> {
             BeanUtils.copyProperties(this, domain);
             return domain;
         } catch (Exception e) {
-            throw new InfrastructureException("无法获取" + domainClass.getSimpleName() + "的无参构造器：" + e.getMessage());
+            throw new BugException("无法获取" + domainClass.getSimpleName() + "的无参构造器：" + e.getMessage());
         }
     }
 

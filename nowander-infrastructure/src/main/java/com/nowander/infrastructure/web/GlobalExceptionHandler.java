@@ -136,8 +136,8 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(InfrastructureException.class)
-    public Msg<Object> handle(InfrastructureException e) {
+    @ExceptionHandler(BugException.class)
+    public Msg<Object> handle(BugException e) {
         return new Msg<>(e);
     }
 

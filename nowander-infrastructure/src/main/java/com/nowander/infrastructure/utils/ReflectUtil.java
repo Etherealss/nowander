@@ -1,6 +1,6 @@
 package com.nowander.infrastructure.utils;
 
-import com.nowander.infrastructure.exception.ServerException;
+import com.nowander.infrastructure.exception.BugException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -22,7 +22,7 @@ public class ReflectUtil {
         try {
             return aClass.getDeclaredConstructor(parameterTypes).newInstance(initargs);
         } catch (Exception e) {
-            throw new ServerException("反射构造对象异常。目标类型：" + aClass.getName());
+            throw new BugException("反射构造对象异常。目标类型：" + aClass.getName());
         }
     }
 
