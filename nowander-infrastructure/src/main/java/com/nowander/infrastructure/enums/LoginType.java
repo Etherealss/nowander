@@ -1,11 +1,15 @@
-package com.nowander.basesystem.user.security.login;
+package com.nowander.infrastructure.enums;
 
 import com.nowander.infrastructure.pojo.BaseEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * @author wang tengkun
  * @date 2022/4/19
  */
+@Getter
+@AllArgsConstructor
 public enum LoginType implements BaseEnum {
     /**
      * 用户名、密码、验证码登录
@@ -21,25 +25,11 @@ public enum LoginType implements BaseEnum {
     EMAIL("email", 2),
     ;
 
-    String paramName;
-    Integer code;
-
-    public String getParamName() {
-        return paramName;
-    }
-
-    LoginType(String paramName, Integer code) {
-        this.paramName = paramName;
-        this.code = code;
-    }
+    private final String paramName;
+    private final Integer code;
 
     @Override
     public String getName() {
         return paramName;
-    }
-
-    @Override
-    public int getCode() {
-        return code;
     }
 }

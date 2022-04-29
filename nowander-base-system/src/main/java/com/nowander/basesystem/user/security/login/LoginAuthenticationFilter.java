@@ -1,8 +1,9 @@
 package com.nowander.basesystem.user.security.login;
 
-import com.nowander.infrastructure.exception.rest.MissingParamException;
-import com.nowander.infrastructure.exception.rest.UnsupportedOperationException;
 import com.nowander.basesystem.user.security.SecurityConfig;
+import com.nowander.infrastructure.enums.LoginType;
+import com.nowander.infrastructure.exception.rest.ErrorParamException;
+import com.nowander.infrastructure.exception.rest.MissingParamException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -51,7 +52,7 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
             } else if (LoginType.PHONE.getParamName().equals(loginType)) {
                 authRequest = new PhoneCaptchaToken(request);
             } else {
-                throw new UnsupportedOperationException("不支持的登录方式: '" + loginType + "'");
+                throw new ErrorParamException("不支持的登录方式: '" + loginType + "'");
             }
 
             // Allow subclasses to set the "details" property

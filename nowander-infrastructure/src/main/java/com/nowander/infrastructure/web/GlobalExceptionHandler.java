@@ -2,7 +2,6 @@ package com.nowander.infrastructure.web;
 
 import com.nowander.infrastructure.enums.ApiInfo;
 import com.nowander.infrastructure.exception.*;
-import com.nowander.infrastructure.exception.rest.UnsupportedOperationException;
 import com.nowander.infrastructure.exception.rest.ErrorParamException;
 import com.nowander.infrastructure.exception.rest.MissingParamException;
 import com.nowander.infrastructure.exception.service.CaptchaException;
