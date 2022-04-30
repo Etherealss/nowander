@@ -25,7 +25,7 @@ spring:
         min-idle: 0
     client-type: lettuce
     timeout: 1800000
-    password: baotaredis123456
+    password: ENC(0LWEduGcDiVdrOd8Xk7qHWmcOgXKEzcNKAbef4sp19MakUA4ozqtN/h1g+X2NmtZcSnCxmp1JCsjZglkSREh9g==)
 
   # 项目配置
   application:
@@ -50,7 +50,7 @@ spring:
   datasource:
     url: jdbc:mysql://119.23.214.198:3306/nowander?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
     username: nowander_user
-    password: baotamysql123456
+    password: ENC(Z32pHse78n2YDRMpct2Q/mFbSKjDxFmFqVpjRkc4kSW9i/x21yzI3S5C6tocw4pX7V8ZcDdweq9g+lk5vyiExg==)
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     # druid配置
@@ -93,22 +93,15 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
 
-file:
-  oss:
-    endPoint: http://oss-cn-guangzhou.aliyuncs.com
-    accessKeyId: <yourAccessKeyId>
-    accessKeySecret: <yourAccessKeySecret>
-    bucketName: nowander
-          rootDir: data
-  path-separator: /
-
 logging:
   config: classpath:log4j2.xml
   level:
     root: info
+
 app:
   captcha:
     captcha-cache-key: captcha
+    timeout-second: 300
   jwt:
     key: "bm93YW5kZXI="
     token-header: Auth
@@ -116,3 +109,11 @@ app:
     # 两天
     reflesh-expire-ms: 172800000
     subject: ${spring.application.name}
+  file:
+    oss:
+      endpoint: http://oss-cn-guangzhou.aliyuncs.com
+      bucket-name: nowander
+      avatar-dir: avatars/
+      access-key-id: ENC(nO9voXvLnOwDOv/5xvn4thwHZ+B/umQVLIEVIUGpl/d8dzTS6S3FIdvSAWDIPpYSnzdCnZsuiQ2GexiBql5wxA==)
+      access-key-secret: ENC(E4meUUc8L6CpICrcXNBGiSVQ0sBBBbXAPdEaRGW4suTJLi94vzgVrAyIm2V52eantbhdU8kyv76syqGBf3kIFA==)
+    path-separator: /

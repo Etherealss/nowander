@@ -1,4 +1,4 @@
-package com.nowander.infrastructure.pojo;
+package com.nowander.infrastructure.pojo.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

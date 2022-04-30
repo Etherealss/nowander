@@ -4,6 +4,7 @@ import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.core.util.StrUtil;
 import com.nowander.infrastructure.enums.ApiInfo;
+import com.nowander.infrastructure.exception.internal.BugException;
 import com.nowander.infrastructure.exception.service.CaptchaException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,32 +25,39 @@ public class CaptchaService {
 
     private final RedisTemplate<String, String> redis;
     private final String captchacCacheKey;
+    private final Integer captchaTimeoutSecond;
 
     public CaptchaService(RedisTemplate<String, String> redis,
-                          @Value("app.captcha.captcha-cache-key") String captchacCacheKey) {
+                          @Value("${app.captcha.captcha-cache-key}") String captchacCacheKey,
+                          @Value("${app.captcha.timeout-second}") Integer captchaTimeoutSecond) {
         this.redis = redis;
         this.captchacCacheKey = captchacCacheKey;
+        this.captchaTimeoutSecond = captchaTimeoutSecond;
+        Objects.requireNonNull(captchacCacheKey);
+        Objects.requireNonNull(captchaTimeoutSecond);
+        if (captchaTimeoutSecond <= 0) {
+            throw new BugException("验证码失效时间必须大于0");
+        }
     }
 
     /**
      * 获取并缓存
-     * @param timestamp
      * @return
      */
-    public AbstractCaptcha getAndCacheCaptcha(Date timestamp) {
+    public AbstractCaptcha getAndCacheCaptcha(String cacheKey) {
         AbstractCaptcha captcha = CaptchaUtil.createLineCaptcha(200, 100);
-        setCaptchaCache(captcha, timestamp);
+        setCaptchaCache(captcha, cacheKey);
         return captcha;
     }
 
     /**
      * 缓存到 Redis 中，5分钟超时
      * @param captcha
-     * @param timestamp
+     * @param cacheKey
      */
-    private void setCaptchaCache(AbstractCaptcha captcha, Date timestamp) {
-        redis.opsForValue().set(captchacCacheKey + timestamp.getTime(),
-                captcha.getCode(), 5, TimeUnit.MINUTES);
+    private void setCaptchaCache(AbstractCaptcha captcha, String cacheKey) {
+        redis.opsForValue().set(captchacCacheKey + cacheKey,
+                captcha.getCode(), captchaTimeoutSecond, TimeUnit.SECONDS);
     }
 
     public void validateCaptcha(String userInputCaptcha, Date timestamp) {

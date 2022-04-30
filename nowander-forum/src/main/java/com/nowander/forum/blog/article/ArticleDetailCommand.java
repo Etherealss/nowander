@@ -1,7 +1,7 @@
 package com.nowander.forum.blog.article;
 
 import com.nowander.infrastructure.enums.Module;
-import com.nowander.infrastructure.pojo.InputConverter;
+import com.nowander.infrastructure.pojo.Converter;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2022/3/3
  */
 @Data
-public class ArticleDetailCommand implements InputConverter<ArticleEntity> {
+public class ArticleDetailCommand implements Converter<ArticleEntity> {
 
     /**
      * 分类

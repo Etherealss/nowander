@@ -1,6 +1,6 @@
 package com.nowander.infrastructure.repository;
 
-import com.nowander.infrastructure.pojo.BaseEnum;
+import com.nowander.infrastructure.enums.BaseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
@@ -9,7 +9,6 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Set;
 
 /**
  * @author wang tengkun

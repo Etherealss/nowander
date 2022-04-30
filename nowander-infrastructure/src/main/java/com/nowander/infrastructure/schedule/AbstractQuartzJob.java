@@ -11,6 +11,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.BeanUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -20,6 +22,8 @@ import java.util.Date;
  */
 @Slf4j(topic = "schedule")
 public abstract class AbstractQuartzJob implements Job {
+
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -35,15 +39,15 @@ public abstract class AbstractQuartzJob implements Job {
         }
     }
 
-    private void doBefore(JobExecutionContext context, JobInfo jobInfo, Date date) {
+    private void doBefore(JobExecutionContext context, JobInfo jobInfo, Date start) {
         log.info("--- START --- 定时任务'{}'开始执行。当前时间：{}。JobInfo消息：{}",
-                jobInfo.getJobName(), date, jobInfo);
+                jobInfo.getJobName(), start.toString(), jobInfo);
     }
 
     private void doAfter(JobExecutionContext context, JobInfo jobInfo,  Date start) {
         DateTime finish = DateUtil.date();
         log.info("--- FINISH --- 定时任务 '{}' 执行完毕。耗时：{}ms。完成时间：{}。JobInfo消息：{}",
-                jobInfo.getJobName(), finish.getTime() - start.getTime(), finish, jobInfo);
+                jobInfo.getJobName(), finish.getTime() - start.getTime(), finish.toString(), jobInfo);
     }
 
     /**

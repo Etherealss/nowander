@@ -1,4 +1,4 @@
-package com.nowander.starter.controller;
+package com.nowander.starter.controller.forum;
 
 
 import com.nowander.basesystem.user.SysUser;

@@ -1,4 +1,4 @@
-package com.nowander.infrastructure.pojo;
+package com.nowander.infrastructure.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.nowander.infrastructure.exception.rest.EnumIllegalException;

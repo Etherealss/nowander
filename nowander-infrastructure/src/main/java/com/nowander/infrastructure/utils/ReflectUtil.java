@@ -1,6 +1,6 @@
 package com.nowander.infrastructure.utils;
 
-import com.nowander.infrastructure.exception.BugException;
+import com.nowander.infrastructure.exception.internal.BugException;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;

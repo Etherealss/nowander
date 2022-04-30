@@ -1,12 +1,11 @@
 package com.nowander.forum.comment;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.nowander.basesystem.user.security.SecurityUtil;
 import com.nowander.infrastructure.enums.CommentParentType;
 import com.nowander.infrastructure.enums.CommentType;
-import com.nowander.infrastructure.pojo.IdentifiedEntity;
+import com.nowander.infrastructure.pojo.entity.IdentifiedEntity;
 import com.nowander.basesystem.user.SysUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

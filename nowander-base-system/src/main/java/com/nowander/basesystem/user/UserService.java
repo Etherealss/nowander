@@ -11,10 +11,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author wtk
@@ -25,8 +29,26 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class UserService extends ServiceImpl<UserMapper, SysUser> {
 
+    private final UserMapper userMapper;
     private final RedisTemplate<String, Object> redisTemplate;
     private final JwtConfig jwtConfig;
+
+    public UserBriefDTO getBriefById(Integer userId) {
+        SysUser user = userMapper.selectById(userId);
+        return user.convert(UserBriefDTO.class);
+    }
+
+    public List<UserBriefDTO> getBatchBriefsByIds(Collection<Integer> userIds) {
+        List<SysUser> users = userMapper.selectBatchIds(userIds);
+        return users.stream()
+                .map(user -> user.convert(UserBriefDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public UserDetailDTO getDetailById(Integer userId) {
+        SysUser user = userMapper.selectById(userId);
+        return user.convert(UserDetailDTO.class);
+    }
 
     public void logout(HttpServletRequest request) {
         JSONObject claims = TokenUtil.parse(request.getHeader(jwtConfig.getTokenHeader()));

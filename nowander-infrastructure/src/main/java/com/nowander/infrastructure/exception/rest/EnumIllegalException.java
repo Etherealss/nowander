@@ -1,6 +1,6 @@
 package com.nowander.infrastructure.exception.rest;
 
-import com.nowander.infrastructure.pojo.BaseEnum;
+import com.nowander.infrastructure.enums.BaseEnum;
 
 /**
  * @author wtk

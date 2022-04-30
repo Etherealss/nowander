@@ -2,7 +2,7 @@ package com.nowander.chat.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.nowander.infrastructure.pojo.BaseEntity;
+import com.nowander.infrastructure.pojo.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

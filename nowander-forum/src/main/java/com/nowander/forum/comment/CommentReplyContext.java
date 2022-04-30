@@ -1,6 +1,7 @@
 package com.nowander.forum.comment;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.nowander.basesystem.user.UserBriefDTO;
 import com.nowander.forum.comment.reply.strategy.QueryReplyStrategy;
 import com.nowander.forum.comment.strategy.QueryCommentStrategy;
 import com.nowander.forum.comment.reply.ReplyDTO;
@@ -81,7 +82,7 @@ public class CommentReplyContext {
      * @return
      */
     private Map<String, Object> complete(IPage<?> page) {
-        Map<Integer, SysUser> authors = commentStrategy.getAuthorsData();
+        Map<Integer, UserBriefDTO> authors = commentStrategy.getAuthorsData();
         // 初始化为2的话，在第二次put的时候会扩容，初始化为3的话会转化为4
         Map<String, Object> map = new HashMap<>(4);
         map.put("page", page);

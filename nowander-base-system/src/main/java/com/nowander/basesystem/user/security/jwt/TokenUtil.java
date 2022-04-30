@@ -4,7 +4,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
-import com.nowander.infrastructure.exception.BugException;
+import com.nowander.infrastructure.exception.internal.BugException;
 import lombok.extern.slf4j.Slf4j;
 
 /**

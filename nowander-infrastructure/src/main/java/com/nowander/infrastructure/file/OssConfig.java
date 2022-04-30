@@ -3,7 +3,8 @@ package com.nowander.infrastructure.file;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.BucketInfo;
-import com.nowander.infrastructure.exception.BugException;
+import com.nowander.infrastructure.exception.internal.BugException;
+import com.nowander.infrastructure.exception.rest.ErrorParamException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +12,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 引导类
  * @author zhangzhixiang
  * @date 2018/09/18 14:51:39
  */
-@ConfigurationProperties("file.oss")
+@ConfigurationProperties("app.file.oss")
 @Configuration
 @Setter
 @Getter
@@ -29,7 +33,7 @@ public class OssConfig {
     /**
      * OSS地址（不同服务器，地址不同）
      */
-    private String endPoint;
+    private String endpoint;
     /**
      * OSS键id（去OSS控制台获取）
      */
@@ -42,14 +46,10 @@ public class OssConfig {
      * OSS桶名称（这个是自己创建bucket时候的命名）
      */
     private String bucketName;
-    /**
-     * OSS根目录
-     */
-    private String rootDir;
 
     @Bean
     public OSS oss() {
-        OSS ossClient = new OSSClientBuilder().build(endPoint, accessKeyId, accessKeySecret);
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
 
         // 判断Bucket是否存在。详细请参看“SDK手册 > Java-SDK > 管理Bucket”。
         // 链接地址是：https://help.aliyun.com/document_detail/oss/sdk/java-sdk/manage_bucket.html?spm=5176.docoss/sdk/java-sdk/init

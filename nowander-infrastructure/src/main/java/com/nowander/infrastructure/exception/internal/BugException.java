@@ -1,6 +1,7 @@
-package com.nowander.infrastructure.exception;
+package com.nowander.infrastructure.exception.internal;
 
 import com.nowander.infrastructure.enums.ApiInfo;
+import com.nowander.infrastructure.exception.BaseException;
 
 /**
  * 有bug

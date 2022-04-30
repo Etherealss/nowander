@@ -31,7 +31,7 @@ public class CodeGenerator {
             "friendship"
     };
     private static final String DB_USER = "nowander_user";
-    public static final String PASSWORD = "baotamysql123456";
+    public static final String PASSWORD = "???";
 
 
     public static String scanner(String tip) {

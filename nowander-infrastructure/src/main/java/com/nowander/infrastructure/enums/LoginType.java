@@ -1,6 +1,5 @@
 package com.nowander.infrastructure.enums;
 
-import com.nowander.infrastructure.pojo.BaseEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -26,7 +25,7 @@ public enum LoginType implements BaseEnum {
     ;
 
     private final String paramName;
-    private final Integer code;
+    private final int code;
 
     @Override
     public String getName() {

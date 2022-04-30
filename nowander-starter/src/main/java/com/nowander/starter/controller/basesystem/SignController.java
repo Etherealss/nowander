@@ -1,4 +1,4 @@
-package com.nowander.starter.controller;
+package com.nowander.starter.controller.basesystem;
 
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;

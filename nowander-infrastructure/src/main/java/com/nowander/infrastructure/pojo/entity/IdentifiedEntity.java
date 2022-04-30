@@ -1,7 +1,8 @@
-package com.nowander.infrastructure.pojo;
+package com.nowander.infrastructure.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.nowander.infrastructure.pojo.entity.BaseEntity;
 import lombok.*;
 
 /**

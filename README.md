@@ -247,6 +247,10 @@ mybatis-plus:
 2. 接收者
 3. 内容
 
+## 配置文件加密
+
+https://www.cnblogs.com/zhangzhixi/p/16178192.html
+
 # 踩坑
 
 ## docker的使用

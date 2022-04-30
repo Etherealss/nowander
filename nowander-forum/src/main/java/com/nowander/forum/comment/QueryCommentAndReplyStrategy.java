@@ -2,7 +2,8 @@ package com.nowander.forum.comment;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.nowander.basesystem.user.SysUser;
-import com.nowander.basesystem.user.UserMapper;
+import com.nowander.basesystem.user.UserBriefDTO;
+import com.nowander.basesystem.user.UserService;
 import com.nowander.basesystem.user.security.SecurityUtil;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @Data
 public abstract class QueryCommentAndReplyStrategy {
     protected CommentMapper commentMapper = SpringUtil.getBean(CommentMapper.class);
-    protected UserMapper userMapper = SpringUtil.getBean(UserMapper.class);
+    protected UserService userService = SpringUtil.getBean(UserService.class);
     /**
      * 当前用户，用户判断是否为评论作者
      */
@@ -62,13 +63,13 @@ public abstract class QueryCommentAndReplyStrategy {
      * 获取评论作者信息
      * @return
      */
-    public Map<Integer, SysUser> getAuthorsData() {
+    public Map<Integer, UserBriefDTO> getAuthorsData() {
         if (userIdSet.isEmpty()) {
             return new HashMap<>(0);
         }
         // TODO 获取用户数据的部分信息
-        List<SysUser> sysUsers = userMapper.selectBatchIds(userIdSet);
+        List<UserBriefDTO> sysUsers = userService.getBatchBriefsByIds(userIdSet);
         return sysUsers.stream()
-                .collect(Collectors.toMap((SysUser::getId), (user -> user)));
+                .collect(Collectors.toMap((UserBriefDTO::getId), (user -> user)));
     }
 }

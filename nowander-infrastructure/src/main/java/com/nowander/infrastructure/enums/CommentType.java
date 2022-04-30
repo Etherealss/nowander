@@ -3,7 +3,6 @@ package com.nowander.infrastructure.enums;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nowander.infrastructure.exception.rest.EnumIllegalException;
-import com.nowander.infrastructure.pojo.BaseEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -38,6 +38,7 @@
         <japidocs.version>1.4.4</japidocs.version>
         <aliyun-oss.version>3.14.0</aliyun-oss.version>
         <fileupload.version>1.4</fileupload.version>
+        <jasypt.version>3.0.4</jasypt.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -70,6 +71,12 @@
                 <groupId>com.wanderfour</groupId>
                 <artifactId>nowander-chat</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <!-- 配置文件加密 -->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.version}</version>
             </dependency>
             <!--elasticsearch-->
             <dependency>

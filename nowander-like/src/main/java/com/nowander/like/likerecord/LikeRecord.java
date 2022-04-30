@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.nowander.infrastructure.enums.LikeTargetType;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
-import com.nowander.infrastructure.exception.BugException;
-import com.nowander.infrastructure.pojo.BaseEntity;
-import com.nowander.infrastructure.pojo.BaseEnum;
+import com.nowander.infrastructure.exception.internal.BugException;
+import com.nowander.infrastructure.pojo.entity.BaseEntity;
+import com.nowander.infrastructure.enums.BaseEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

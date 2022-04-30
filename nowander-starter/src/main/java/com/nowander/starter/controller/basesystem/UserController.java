@@ -1,4 +1,4 @@
-package com.nowander.starter.controller;
+package com.nowander.starter.controller.basesystem;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

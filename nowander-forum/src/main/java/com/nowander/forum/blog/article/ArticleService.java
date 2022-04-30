@@ -73,7 +73,7 @@ public class ArticleService extends NoWanderBlogService<ArticleEntity> {
 
     @Transactional(rollbackFor = Exception.class)
     public void update(Integer articleId, ArticleDetailCommand command, SysUser user) {
-        ArticleEntity articleEntity = command.toEntity();
+        ArticleEntity articleEntity = command.convert();
         ArticleEntity article = articleMapper.selectById(articleId);
         if (!article.getAuthorId().equals(user.getId())) {
             throw new NotAuthorException();

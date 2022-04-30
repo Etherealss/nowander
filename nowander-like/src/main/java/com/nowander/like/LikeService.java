@@ -2,7 +2,6 @@ package com.nowander.like;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nowander.basesystem.user.SysUser;
-import com.nowander.infrastructure.enums.ApiInfo;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
 import com.nowander.infrastructure.exception.service.ExistException;
 import com.nowander.like.likecount.LikeCount;
@@ -47,7 +46,7 @@ public class LikeService extends ServiceImpl<LikeRecordMapper, LikeRecord> {
      * 点赞 需要注意竞态条件
      */
     public void likeOrUnlike(LikeRecordCommand likeRecordCommand, SysUser user) {
-        LikeRecord likeRecord = likeRecordCommand.toEntity();
+        LikeRecord likeRecord = likeRecordCommand.convert();
         likeRecord.setUserId(user.getId());
         Boolean isLike = likeRecordCommand.getIsLike();
         String key = likeRecord.getLikeRecordKey();

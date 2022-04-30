@@ -1,6 +1,5 @@
 package com.nowander.infrastructure.enums;
 
-import com.nowander.infrastructure.pojo.BaseEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

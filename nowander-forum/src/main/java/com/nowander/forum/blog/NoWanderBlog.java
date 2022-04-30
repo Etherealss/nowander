@@ -1,12 +1,8 @@
 package com.nowander.forum.blog;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.nowander.infrastructure.enums.Module;
-import com.nowander.infrastructure.pojo.IdentifiedEntity;
-import com.nowander.infrastructure.repository.JsonSetTypeHandler;
+import com.nowander.infrastructure.pojo.entity.IdentifiedEntity;
 import lombok.*;
-import org.apache.ibatis.type.MappedJdbcTypes;
 
 import java.util.Set;
 

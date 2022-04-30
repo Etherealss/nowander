@@ -1,4 +1,4 @@
-package com.nowander.starter.controller;
+package com.nowander.starter.controller.chat;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

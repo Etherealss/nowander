@@ -1,6 +1,6 @@
 package com.nowander.infrastructure.web;
 
-import com.nowander.infrastructure.pojo.BaseEnum;
+import com.nowander.infrastructure.enums.BaseEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 

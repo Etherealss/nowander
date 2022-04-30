@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 import java.util.List;
 
-import com.nowander.infrastructure.pojo.IdentifiedEntity;
+import com.nowander.infrastructure.enums.UserType;
+import com.nowander.infrastructure.pojo.Converter;
+import com.nowander.infrastructure.pojo.entity.IdentifiedEntity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @TableName("user")
-public class SysUser extends IdentifiedEntity implements UserDetails {
+public class SysUser extends IdentifiedEntity implements UserDetails, Converter<UserBriefDTO> {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,7 +64,7 @@ public class SysUser extends IdentifiedEntity implements UserDetails {
     /**
      * 高中/大学/教师/其他
      */
-    private Integer userType;
+    private UserType userType;
 
     /**
      * 获赞数
@@ -75,23 +77,10 @@ public class SysUser extends IdentifiedEntity implements UserDetails {
     private Integer collectedCount;
 
     /**
-     * 在读学校/毕业学校
-     */
-    private String school;
-
-    /**
-     * 选课/专业
-     */
-    private String major;
-
-    /**
      * 权限
      */
     @TableField(exist = false)
     private List<GrantedAuthority> authorities;
-
-    @TableField(exist = false)
-    private String token;
 
     /**
      * 账号是否未过期
