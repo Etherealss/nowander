@@ -1,14 +1,13 @@
 package com.nowander.starter.controller.basesystem;
 
-import com.nowander.basesystem.user.avatar.AvatarService;
+import com.nowander.basesystem.user.SysUser;
+import com.nowander.basesystem.user.UserService;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
-import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousPostMapping;
 import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -22,15 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users/avatars")
 public class UserAvatarController {
 
-    private final AvatarService avatarService;
+    private final UserService userService;
 
-    @AnonymousGetMapping("/{userAvatarPathAndName}")
-    public String logout(@PathVariable String userAvatarPathAndName) {
-        return avatarService.getAvatarUrl(userAvatarPathAndName);
-    }
-
-    @AnonymousPostMapping
-    public String testUpload() throws Exception {
-        return avatarService.testUploal();
+    /**
+     *
+     * @param avatarFile
+     * @param user
+     * @return 用户头像的保存路径
+     * @throws Exception
+     */
+    @PostMapping
+    public String upload(@RequestParam("avatarFile") MultipartFile avatarFile,
+                         SysUser user) throws Exception {
+        return userService.uploadAndSetUserAvatar(avatarFile, user);
     }
 }

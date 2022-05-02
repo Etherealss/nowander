@@ -36,4 +36,11 @@ public interface UserMapper extends BaseMapper<SysUser> {
      * @return
      */
     List<String> selectUserPermissions(@Param("id") Integer id);
+
+    /**
+     * 更新用户头像
+     * @param avatar
+     * @param id
+     */
+    void updateAvatarById(@Param("avatar") String avatar, @Param("id") Integer id);
 }

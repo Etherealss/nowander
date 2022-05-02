@@ -14,11 +14,14 @@
         <result column="user_type" property="userType"/>
         <result column="liked_count" property="likedCount"/>
         <result column="collected_count" property="collectedCount"/>
-        <result column="school" property="school"/>
-        <result column="major" property="major"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
+    <update id="updateAvatarById">
+        UPDATE `user`
+        SET `avatar`=#{avatar}
+        WHERE `id` = #{userId};
+    </update>
     <select id="selectUserPermissions" resultType="java.lang.String">
         SELECT p.`id`, p.`permission_name`
         FROM permission p
@@ -27,10 +30,15 @@
         WHERE up.`user_id` = #{id};
     </select>
     <select id="selectUserByUsername" resultType="com.nowander.basesystem.user.SysUser">
-        SELECT * FROM `user` WHERE username = #{username};
+        SELECT *
+        FROM `user`
+        WHERE username = #{username};
     </select>
     <select id="selectLoginUserByUsername" resultType="com.nowander.basesystem.user.SysUser">
-        SELECT * FROM `user` WHERE username = #{username} AND `password` = #{password};
+        SELECT *
+        FROM `user`
+        WHERE username = #{username}
+          AND `password` = #{password};
     </select>
 
 </mapper>

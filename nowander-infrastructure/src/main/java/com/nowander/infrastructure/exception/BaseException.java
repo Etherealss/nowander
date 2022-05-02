@@ -4,6 +4,7 @@ package com.nowander.infrastructure.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
 /**
  * @author wtk
@@ -16,15 +17,18 @@ import lombok.Setter;
 public class BaseException extends RuntimeException {
 
     private int code;
+    private HttpStatus httpStatus;
 
     public BaseException(ApiInfoGetter apiInfo) {
         super(apiInfo.getMessage());
         this.code = apiInfo.getCode();
+        this.httpStatus = apiInfo.getHttpStatus();
     }
 
     public BaseException(ApiInfoGetter apiInfo, String message) {
         super(apiInfo.getMessage() + message);
         this.code = apiInfo.getCode();
+        this.httpStatus = apiInfo.getHttpStatus();
     }
 
     /**
@@ -34,6 +38,7 @@ public class BaseException extends RuntimeException {
      */
     public BaseException(ApiInfoGetter apiInfo, String message, Throwable e) {
         super(apiInfo.getMessage() + message, e);
-        code = apiInfo.getCode();
+        this.code = apiInfo.getCode();
+        this.httpStatus = apiInfo.getHttpStatus();
     }
 }

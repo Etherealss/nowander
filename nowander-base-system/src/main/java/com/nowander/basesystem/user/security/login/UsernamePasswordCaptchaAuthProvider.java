@@ -55,9 +55,9 @@ public class UsernamePasswordCaptchaAuthProvider implements AuthenticationProvid
 
         //验证码value
         String captchaCode = auth.getCaptchaCode();
-        Date captchaCacheTimestamp = auth.getCaptchaCacheTimestamp();
+        String captchaId = auth.getCaptchaId();
         //检验验证码是否正确
-        captchaService.validateCaptcha(captchaCode, captchaCacheTimestamp);
+        captchaService.validateCaptcha(captchaCode, captchaId);
 
         //用户名
         String username = auth.getUsername();

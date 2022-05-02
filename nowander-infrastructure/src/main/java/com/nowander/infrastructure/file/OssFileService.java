@@ -63,7 +63,7 @@ public class OssFileService {
         // 公共读
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setObjectAcl(CannedAccessControlList.Private);
-        objectMetadata.setContentType(FileUtil.getcontentType(fileExt));
+        objectMetadata.setContentType(FileUtil.getContentType(fileExt));
         ossClient.putObject(bucketName, key, inputStream, objectMetadata);
         // 返回文件访问路径
         URL url = getUrlByKeyWithExpiration(key);
@@ -109,6 +109,7 @@ public class OssFileService {
     /**
      * 获得url地址
      * @param filePathAndPath
+     * @return 可在外网访问的url地址
      */
     public String getUrl(String filePathAndPath) {
         URL url = getUrlByKeyWithExpiration(filePathAndPath);

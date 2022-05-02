@@ -55,8 +55,8 @@ public class CaptchaController {
         String uuid = UUIDUtil.getUuid();
         String imageBase64 = captchaService.getAndCacheCaptcha(uuid).getImageBase64();
         Map<String, String> data = new HashMap<>(4);
-        data.put("iamge", imageBase64);
-        data.put("key", uuid);
+        data.put("image", imageBase64);
+        data.put("captchaId", uuid);
         return Msg.ok(data);
     }
 }

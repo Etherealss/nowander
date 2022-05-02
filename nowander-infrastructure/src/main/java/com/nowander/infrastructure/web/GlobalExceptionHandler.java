@@ -3,6 +3,7 @@ package com.nowander.infrastructure.web;
 import com.nowander.infrastructure.enums.ApiInfo;
 import com.nowander.infrastructure.exception.*;
 import com.nowander.infrastructure.exception.internal.BugException;
+import com.nowander.infrastructure.exception.rest.EnumIllegalException;
 import com.nowander.infrastructure.exception.rest.ErrorParamException;
 import com.nowander.infrastructure.exception.rest.MissingParamException;
 import com.nowander.infrastructure.exception.service.CaptchaException;
@@ -47,9 +48,10 @@ public class GlobalExceptionHandler {
             ExistException.class,
             NotFoundException.class,
             CaptchaException.class,
-            TokenException.class
+            TokenException.class,
+            EnumIllegalException.class
     })
-    public Msg<Object> handle(BaseException e) {
+    public Msg<Void> handle(BaseException e) {
         log.info("业务异常：" + e.getMessage());
         return new Msg<>(e);
     }
@@ -77,7 +79,16 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Msg<Void> handle(MethodArgumentTypeMismatchException e) {
-        return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "方法参数不匹配：" + e.getMessage());
+        // 可能会收到 EnumIllegalException
+        Throwable throwable = e;
+        while (throwable.getCause() != null) {
+            throwable = throwable.getCause();
+        }
+        if (throwable instanceof BaseException) {
+            return handle((BaseException) throwable);
+        } else {
+            return new Msg<>(ApiInfo.OPERATE_UNSUPPORTED, "方法参数不匹配：" + e.getMessage());
+        }
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

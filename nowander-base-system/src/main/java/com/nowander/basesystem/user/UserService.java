@@ -4,19 +4,23 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.json.JSONObject;
 import cn.hutool.jwt.JWT;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.nowander.basesystem.user.avatar.AvatarService;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
 import com.nowander.basesystem.user.security.jwt.JwtConfig;
 import com.nowander.basesystem.user.security.jwt.TokenUtil;
+import com.nowander.infrastructure.utils.FileUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -30,6 +34,7 @@ import java.util.stream.Collectors;
 public class UserService extends ServiceImpl<UserMapper, SysUser> {
 
     private final UserMapper userMapper;
+    private final AvatarService avatarService;
     private final RedisTemplate<String, Object> redisTemplate;
     private final JwtConfig jwtConfig;
 
@@ -61,5 +66,21 @@ public class UserService extends ServiceImpl<UserMapper, SysUser> {
                 exp - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
         // 清空
         SecurityContextHolder.getContext().setAuthentication(null);
+    }
+
+    /**
+     * 上传并更新用户头像
+     * @param avatarFile
+     * @param user
+     * @return
+     * @throws IOException
+     */
+    public String uploadAndSetUserAvatar(MultipartFile avatarFile, SysUser user) throws IOException {
+        String fileName = avatarFile.getOriginalFilename();
+        Objects.requireNonNull(fileName, "文件名不能为空");
+        String fileExt = FileUtil.getFileExt(fileName);
+        String avatarUrl = avatarService.uploadAvatar(avatarFile.getInputStream(), user.getId(), fileExt);
+        userMapper.updateAvatarById(avatarUrl, user.getId());
+        return avatarUrl;
     }
 }

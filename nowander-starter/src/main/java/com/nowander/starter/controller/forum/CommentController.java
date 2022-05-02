@@ -2,6 +2,7 @@ package com.nowander.starter.controller.forum;
 
 
 import com.nowander.basesystem.user.SysUser;
+import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousPostMapping;
 import com.nowander.forum.comment.CommentEntity;
 import com.nowander.forum.comment.CommentService;
@@ -49,7 +50,7 @@ public class CommentController {
      * @param sysUser 当前用户
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    @AnonymousPostMapping("/pages/comments/{parentType}/{parentId}/{curPage}")
+    @AnonymousGetMapping("/pages/comments/{parentType}/{parentId}/{curPage}")
     public Map<String, Object> pageComment(
             @PathVariable(value = "parentType") CommentParentType parentType,
             @PathVariable(value = "parentId") Integer parentId,
@@ -70,7 +71,7 @@ public class CommentController {
      * @param sysUser 当前用户
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    @AnonymousPostMapping("/pages/replys/{commentId}/{curPage}")
+    @AnonymousGetMapping("/pages/replys/{commentId}/{curPage}")
     public Map<String, Object> pageRepky(
             @PathVariable(value = "curPage") Integer curPage,
             @PathVariable(value = "commentId") Integer commentId,

@@ -1,6 +1,6 @@
 package com.nowander.infrastructure.enums;
 
-import com.nowander.infrastructure.exception.ApiExceptionThrower;
+import com.nowander.infrastructure.exception.ApiInfoGetter;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
  */
 @SuppressWarnings("AlibabaEnumConstantsMustHaveComment")
 @Getter
-public enum ApiInfo implements ApiExceptionThrower {
+public enum ApiInfo implements ApiInfoGetter {
 
     OK(HttpStatus.OK, 200000, "OK"),
 

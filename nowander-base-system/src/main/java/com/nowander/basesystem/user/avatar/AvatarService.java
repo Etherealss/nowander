@@ -38,8 +38,9 @@ public class AvatarService {
     }
 
     /**
+     * 通过用户的头像在OSS上的访问路径，获取用户头像在外网的url地址
      * @param userAvatarPathAndName 日期文件夹+用户文件名
-     * @return
+     * @return 可在外网访问的url地址
      */
     public String getAvatarUrl(String userAvatarPathAndName) {
         return fileService.getUrl(avatarDir + userAvatarPathAndName);
@@ -49,6 +50,13 @@ public class AvatarService {
         return fileService.getUrl(isBoy ? DEFAULT_BOY_AVATAR : DEFAULT_GIRL_AVATAR);
     }
 
+    /**
+     * 上传头像
+     * @param inputStream
+     * @param userId
+     * @param fileExt
+     * @return 头像保存路径，同时也是访问文件的url
+     */
     public String uploadAvatar(InputStream inputStream, Integer userId, String fileExt) {
         String filePathAndName = getSavePath() + userId + fileExt;
         return fileService.upload(inputStream, filePathAndName, fileExt);

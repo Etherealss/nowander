@@ -8,7 +8,6 @@ import lombok.ToString;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 import static com.nowander.basesystem.user.security.login.LoginParamName.*;
 
@@ -38,21 +37,21 @@ public class UsernamePasswordCaptchaToken extends AbstractAuthenticationToken {
     /**
      * 用于从缓存获取验证码
      */
-    private final Date captchaCacheTimestamp;
+    private final String captchaId;
 
     public UsernamePasswordCaptchaToken(HttpServletRequest request) {
         super(null);
         this.captchaCode = request.getParameter(CAPTCHA_CODE);
         this.username = request.getParameter(USERNAME);
         this.password = request.getParameter(PASSWORD);
-        String timestampStr = request.getParameter(CAPTCHA_CACHE_TIMESTAMP);
+        String captchaId = request.getParameter(LOGIN_CAPTCHA_ID);
 
         notBlank(this.username, "用户名参数'" + USERNAME + "'不能为空");
         notBlank(this.password, "密码参数'" + PASSWORD + "'不能为空");
         notBlank(this.captchaCode, "验证码参数'" + CAPTCHA_CODE + "'不能为空");
-        notBlank(timestampStr, "验证码时间戳参数'" + CAPTCHA_CACHE_TIMESTAMP + "'不能为空");
+        notBlank(captchaId, "验证码时间戳参数'" + LOGIN_CAPTCHA_ID + "'不能为空");
 
-        this.captchaCacheTimestamp = new Date(Long.parseLong(timestampStr));
+        this.captchaId = captchaId;
         this.setAuthenticated(false);
     }
 

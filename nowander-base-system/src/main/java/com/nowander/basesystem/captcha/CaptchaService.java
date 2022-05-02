@@ -44,24 +44,26 @@ public class CaptchaService {
      * 获取并缓存
      * @return
      */
-    public AbstractCaptcha getAndCacheCaptcha(String cacheKey) {
+    public AbstractCaptcha getAndCacheCaptcha(String captchaId) {
         AbstractCaptcha captcha = CaptchaUtil.createLineCaptcha(200, 100);
-        setCaptchaCache(captcha, cacheKey);
+        setCaptchaCache(captcha, captchaId);
         return captcha;
     }
 
     /**
      * 缓存到 Redis 中，5分钟超时
      * @param captcha
-     * @param cacheKey
+     * @param captchaId
      */
-    private void setCaptchaCache(AbstractCaptcha captcha, String cacheKey) {
-        redis.opsForValue().set(captchacCacheKey + cacheKey,
-                captcha.getCode(), captchaTimeoutSecond, TimeUnit.SECONDS);
+    private void setCaptchaCache(AbstractCaptcha captcha, String captchaId) {
+        String code = captcha.getCode();
+        log.debug("缓存验证码，id：{}，code：{}", captchacCacheKey + captchaId, code);
+        redis.opsForValue().set(captchacCacheKey + captchaId,
+                code, captchaTimeoutSecond, TimeUnit.SECONDS);
     }
 
-    public void validateCaptcha(String userInputCaptcha, Date timestamp) {
-        String code = redis.opsForValue().getAndDelete(captchacCacheKey + timestamp);
+    public void validateCaptcha(String userInputCaptcha, String captchaId) {
+        String code = redis.opsForValue().getAndDelete(captchacCacheKey + captchaId);
 
         //验证码是否为空
         if (StrUtil.isBlank(userInputCaptcha)) {

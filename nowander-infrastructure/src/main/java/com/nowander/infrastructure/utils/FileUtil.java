@@ -1,7 +1,6 @@
 package com.nowander.infrastructure.utils;
 
-import com.nowander.infrastructure.exception.rest.ErrorParamException;
-import com.nowander.infrastructure.file.OssConfig;
+import cn.hutool.core.util.StrUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,11 +37,27 @@ public class FileUtil {
      * @param filenameExtension
      * @return
      */
-    public static String getcontentType(String filenameExtension) {
+    public static String getContentType(String filenameExtension) {
+        if (StrUtil.isBlank(filenameExtension)) {
+            throw new IllegalArgumentException("文件扩展名不能为空");
+        }
         String contentType = FILE_EXTENSIONS.get(filenameExtension.toLowerCase());
         if (contentType == null) {
-            throw new ErrorParamException("不支持的文件类型：" + filenameExtension);
+            throw new IllegalArgumentException("不支持的文件类型：" + filenameExtension);
         }
         return contentType;
+    }
+
+    /**
+     * 获取文件扩展名
+     * @return
+     */
+    public static String getFileExt(String fileName) {
+        int index = fileName.lastIndexOf(".");
+        if (index == -1) {
+            return null;
+        }
+        String result = fileName.substring(index);
+        return result;
     }
 }
