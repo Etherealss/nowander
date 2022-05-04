@@ -50,7 +50,7 @@ public class ScheduleUtil {
      */
     public static void createScheduleJob(Scheduler scheduler, JobInfo job)
             throws SchedulerException, TaskException {
-        log.trace("创建定时任务：{}", job);
+        log.info("创建定时任务：{}", job);
         Class<? extends Job> jobClass = getQuartzJobClass(job);
         // 构建job信息
         Long jobId = job.getJobId();

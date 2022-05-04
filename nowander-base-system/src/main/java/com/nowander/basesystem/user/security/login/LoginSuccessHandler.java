@@ -2,6 +2,7 @@ package com.nowander.basesystem.user.security.login;
 
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.TokenService;
+import com.nowander.basesystem.user.UserDetailDTO;
 import com.nowander.infrastructure.enums.RedisKeyPrefix;
 import com.nowander.infrastructure.pojo.Msg;
 import com.nowander.basesystem.user.security.jwt.JwtConfig;
@@ -51,7 +52,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         redisTemplate.opsForValue().getAndDelete(RedisKeyPrefix.USER_TOKEN_BLACKLIST + sysUser.getUsername());
         Msg<Map<String, Object>> msg = Msg.ok("登录成功");
         Map<String, Object> data = new HashMap<>(4);
-        data.put("user", sysUser);
+        UserDetailDTO userDetailDTO = sysUser.convert(UserDetailDTO.class);
+        data.put("user", userDetailDTO);
         data.put("token", token);
         msg.setData(data);
         ResponseUtil.send(response, msg);

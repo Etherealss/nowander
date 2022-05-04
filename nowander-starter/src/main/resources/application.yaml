@@ -11,8 +11,8 @@ spring:
 
   # redis配置
   redis:
-    port: 6379
     host: 119.23.214.198
+    port: 6379
     lettuce:
       pool:
         # 连接池最大连接数
@@ -99,6 +99,13 @@ logging:
     root: debug
 
 app:
+  schedule:
+    like-record:
+      # 每半小时一次
+      cron: 0 0,30 * * * ? *
+    like-count:
+      # 每1小时一次
+      cron: 0 0 0 * * ? *
   captcha:
     captcha-cache-key: captcha
     timeout-second: 300
