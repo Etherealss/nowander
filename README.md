@@ -56,9 +56,7 @@ redis锁 LikeServiceImpl#likeOrUnlike
 
 #### 缓存穿透、布隆过滤器
 
-在压测的时候注意到，如果获取点赞数时，目标不存在，那么会频繁请求数据库，造成缓存穿透。所以在获取点赞数时，如果目标不存在，会缓存点赞数为0
-
-而在点赞、以及确认是否已点赞的时候，需要频繁判断目标在不在，所以加了一个布隆过滤器
+在压测的时候注意到，如果获取点赞数或者对文章、问贴点赞时，目标不存在，那么会频繁请求数据库，造成缓存穿透。所以在获取点赞数时，如果目标不存在，会缓存点赞数为0。而在点赞、以及确认是否已点赞的时候，需要频繁判断目标在不在，所以加了一个布隆过滤器
 
 ### 草稿缓存
 
@@ -133,7 +131,9 @@ SpringSecurity 是通过一个又一个的Filter来实现登录控制和权限�
 我们要自定义登录逻辑，就需要自定义AuthenticationToekn， 在里面加上我们需要的参数（比如验证码）， 并从Request中获取参数
 
 因为自定义AuthenticationToekn需要自己初始化， 所以我们要仿照UsernamePasswordAuthenticationFilter，写一个自己的Filter
-本系统对应的Filter是LoginAuthenticationFilter 同时还需要自定义用来处理AuthenticationToekn的Provider，
+本系统对应的Filter是LoginAuthenticationFilter 
+
+同时还需要自定义用来处理AuthenticationToekn的Provider，
 本系统对应的Provider是UsernamePasswordCaptchaAuthProvider。
 
 不同的登录方式需要有不同的AuthenticationToekn和Provider， 这可以灵活拓展。 SpringSecurity这里采用了责任链和模板方法模式，已经能够很方便我们拓展了。
@@ -261,11 +261,11 @@ docker-compose -f docker-compose-app.yaml up
 
 ## 多模块打包
 
-参考连接1
+[参考连接1](https://blog.csdn.net/qq_36636154/article/details/109060638)
 
-参考连接2
+[参考连接2](https://blog.csdn.net/weixin_44066622/article/details/105916607?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&utm_relevant_index=2)
 
-参考连接3
+[参考连接3](https://www.jb51.net/article/196059.htm)
 
 只需要对启动类模块打包。在启动类模块下使用mvn package
 
@@ -327,7 +327,7 @@ docker-compose -f docker-compose-app.yaml up
 
 尝试通过idea链接远程数据库，报错：Host is not allowed to connect to this MySQL server
 
-参考链接1
+[参考链接1](https://www.runoob.com/w3cnote/mysql8-error-1410-42000-you-are-not-allowed-to-create-a-user-with-grant.html)
 
 注意：mysql 8 以后不允许在 GRANT 命令后设置密码
 

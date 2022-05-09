@@ -20,10 +20,10 @@ public class JasyptTest {
         /*你的密码*/
         String passwd = stringEncryptor.encrypt("123");
         System.out.println("加密密码是：" + passwd);
-        System.out.println("解密密码是："+stringEncryptor.decrypt(passwd));
+        System.out.println("解密密码是：" + stringEncryptor.decrypt(passwd));
 
         passwd = stringEncryptor.encrypt("234");
         System.out.println("加密密码是：" + passwd);
-        System.out.println("解密密码是："+stringEncryptor.decrypt(passwd));
+        System.out.println("解密密码是：" + stringEncryptor.decrypt(passwd));
     }
 }
