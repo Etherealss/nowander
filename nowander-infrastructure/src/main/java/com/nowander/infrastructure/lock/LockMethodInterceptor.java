@@ -40,7 +40,7 @@ public class LockMethodInterceptor {
         this.lockPrefix = lockPrefix;
     }
 
-    @Around("execution(public * *(..)) && @annotation(vip.maxhub.web.waterdrop.infrastructure.lock.CacheLock)")
+    @Around("execution(public * *(..)) && @annotation(com.nowander.infrastructure.lock.CacheLock)")
     public Object interceptor(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
