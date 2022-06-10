@@ -10,11 +10,13 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * @author wang tengkun
  * @date 2022/2/26
  */
+@SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @Slf4j
 public class SpELParserUtils {
 
@@ -25,12 +27,12 @@ public class SpELParserUtils {
     /**
      * 表达式解析器
      */
-    private static ExpressionParser expressionParser = new SpelExpressionParser();
+    private static final ExpressionParser SPEL_EXPRESSION_PARSER = new SpelExpressionParser();
 
     /**
      * 参数名解析器，用于获取参数名
      */
-    private static DefaultParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
+    private static final DefaultParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
 
     /**
      * 解析spel表达式
@@ -41,10 +43,10 @@ public class SpELParserUtils {
      * @return 执行spel表达式后的结果
      */
     public static <T> T parse(Method method, Object[] args, String spelExpression, Class<T> clz) {
-        String[] params = parameterNameDiscoverer.getParameterNames(method);
+        String[] params = PARAMETER_NAME_DISCOVERER.getParameterNames(method);
         EvaluationContext context = new StandardEvaluationContext();
         //设置上下文变量
-        for (int i = 0; i < params.length; i++) {
+        for (int i = 0; i < Objects.requireNonNull(params).length; i++) {
             context.setVariable(params[i], args[i]);
         }
         return getResult(context, spelExpression, clz);
@@ -77,10 +79,10 @@ public class SpELParserUtils {
     private static Expression parseExpression(String spelExpression) {
         // 如果表达式是一个#{}表达式，需要为解析传入模板解析器上下文
         if (spelExpression.startsWith(EXPRESSION_PREFIX) && spelExpression.endsWith(EXPRESSION_SUFFIX)) {
-            return expressionParser.parseExpression(spelExpression, new TemplateParserContext());
+            return SPEL_EXPRESSION_PARSER.parseExpression(spelExpression, new TemplateParserContext());
         }
 
-        return expressionParser.parseExpression(spelExpression);
+        return SPEL_EXPRESSION_PARSER.parseExpression(spelExpression);
     }
 }
 

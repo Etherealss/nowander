@@ -2,7 +2,6 @@ package com.nowander.infrastructure.lock;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -15,8 +14,8 @@ import java.lang.reflect.Parameter;
  * @author wang tengkun
  * @date 2022/2/26
  */
-@Component
-public class LockKeyGenerator implements CacheKeyGenerator {
+@Deprecated
+public class LockKeyAnnotationGenerator implements CacheKeyGenerator {
 
     @Override
     public String getLockKey(ProceedingJoinPoint pjp) {
@@ -35,7 +34,7 @@ public class LockKeyGenerator implements CacheKeyGenerator {
             }
             builder.append(lockAnnotation.delimiter()).append(args[i]);
         }
-        if (StringUtils.isEmpty(builder.toString())) {
+        if (StringUtils.hasText(builder.toString())) {
             final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
             for (int i = 0; i < parameterAnnotations.length; i++) {
                 final Object object = args[i];
@@ -50,18 +49,7 @@ public class LockKeyGenerator implements CacheKeyGenerator {
                 }
             }
         }
-        if (builder.length() == 0) {
-            return getLockKeyByEl(pjp);
-        }
         return lockAnnotation.key() + builder;
     }
 
-    public String getLockKeyByEl(ProceedingJoinPoint pjp) {
-        MethodSignature signature = (MethodSignature) pjp.getSignature();
-        Method method = signature.getMethod();
-        final Object[] args = pjp.getArgs();
-        CacheLock lockAnnotation = method.getAnnotation(CacheLock.class);
-        //如果key中含SpEL表达式，先拼接表达式内容
-        return SpELParserUtils.parse(method, args, lockAnnotation.key(), String.class);
-    }
 }
