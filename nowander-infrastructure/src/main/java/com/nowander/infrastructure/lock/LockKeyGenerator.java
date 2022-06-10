@@ -13,7 +13,7 @@ import java.lang.reflect.Parameter;
 
 /**
  * @author wang tengkun
- * @date 2022/3/8
+ * @date 2022/2/26
  */
 @Component
 public class LockKeyGenerator implements CacheKeyGenerator {
@@ -50,6 +50,18 @@ public class LockKeyGenerator implements CacheKeyGenerator {
                 }
             }
         }
+        if (builder.length() == 0) {
+            return getLockKeyByEl(pjp);
+        }
         return lockAnnotation.key() + builder;
+    }
+
+    public String getLockKeyByEl(ProceedingJoinPoint pjp) {
+        MethodSignature signature = (MethodSignature) pjp.getSignature();
+        Method method = signature.getMethod();
+        final Object[] args = pjp.getArgs();
+        CacheLock lockAnnotation = method.getAnnotation(CacheLock.class);
+        //如果key中含SpEL表达式，先拼接表达式内容
+        return SpELParserUtils.parse(method, args, lockAnnotation.key(), String.class);
     }
 }

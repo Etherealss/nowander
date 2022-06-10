@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author wang tengkun
- * @date 2022/3/8
+ * @date 2022/2/26
  */
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
@@ -29,11 +29,10 @@ public class RedisLockHelper {
 
     /**
      * 获取锁
-     *
      * @param lockKey lockKey
-     * @param value   value
+     * @param value value
      * @param timeout 超时时间
-     * @param unit    过期单位
+     * @param unit 过期单位
      * @return true or false
      */
     public boolean lock(String lockKey, final String value, long timeout, final TimeUnit unit) {

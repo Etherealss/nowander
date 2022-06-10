@@ -17,10 +17,9 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 
 
-
 /**
  * @author wang tengkun
- * @date 2022/3/8
+ * @date 2022/2/26
  */
 @Profile("!standalone")
 @Aspect
@@ -36,13 +35,13 @@ public class LockMethodInterceptor {
     @Autowired
     public LockMethodInterceptor(RedisLockHelper redisLockHelper,
                                  CacheKeyGenerator cacheKeyGenerator,
-                                 @Value("${app.redis.key.lock.common-prefix}") String lockPrefix) {
+                                 @Value("${my.lock.redis.key-prefix}") String lockPrefix) {
         this.redisLockHelper = redisLockHelper;
         this.cacheKeyGenerator = cacheKeyGenerator;
         this.lockPrefix = lockPrefix;
     }
 
-    @Around("execution(public * *(..)) && @annotation(com.nowander.infrastructure.lock.CacheLock)")
+    @Around("execution(public * *(..)) && @annotation(vip.maxhub.web.waterdrop.infrastructure.lock.CacheLock)")
     public Object interceptor(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
@@ -54,13 +53,15 @@ public class LockMethodInterceptor {
 
         final String lockKey = lockPrefix + cacheKeyGenerator.getLockKey(pjp);
         final String lockFlag = UUID.randomUUID().toString();
+        long startTime = -1;
         try {
             // 循环重试
             for (int retryTimes = lock.retryTimes(); retryTimes >= 0; retryTimes--) {
                 boolean lockSuccess = redisLockHelper.lock(lockKey, lockFlag, lock.expire(), lock.timeUnit());
                 if (lockSuccess) {
                     // 获取锁成功
-                    log.debug("获取分布式锁成功，key: {}, value: {}", lockKey, lockFlag);
+                    log.debug("获取分布式锁成功，key: {}, value: {}，重试次数: {}", lockKey, lockFlag, lock.retryTimes() - retryTimes);
+                    startTime = System.currentTimeMillis();
                     return pjp.proceed();
                 }
                 // 获取锁失败
@@ -75,14 +76,14 @@ public class LockMethodInterceptor {
             }
             // 重试次数用尽也没有获取锁
             if (lock.lockFailedThrowException()) {
-                throw new BaseException(ApiInfo.SERVER_BUSY, "系统繁忙，请稍后重试");
+                throw new BaseException(ApiInfo.SERVER_BUSY, "业务繁忙，请稍后重试");
             } else {
                 return null;
             }
         } finally {
             // 释放锁
             redisLockHelper.unlockLua(lockKey, lockFlag);
-            log.debug("释放分布式锁成功，key: {}, value: {}", lockKey, lockFlag);
+            log.debug("释放分布式锁成功，key: {}, value: {}, 占有锁的时长: {}ms", lockKey, lockFlag, startTime > 0 ? System.currentTimeMillis() - startTime : 0);
         }
     }
 }
