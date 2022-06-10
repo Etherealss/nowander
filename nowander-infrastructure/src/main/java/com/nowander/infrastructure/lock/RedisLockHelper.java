@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author wang tengkun
- * @date 2022/6/8
+ * @date 2022/3/8
  */
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
@@ -21,18 +21,19 @@ import java.util.concurrent.TimeUnit;
 public class RedisLockHelper {
 
     private final StringRedisTemplate stringRedisTemplate;
-    public static final String SCRIPT_TEXT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+    private static final String SCRIPT_TEXT = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
 
     public RedisLockHelper(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
     /**
-     * 获取分布式锁
+     * 获取锁
+     *
      * @param lockKey lockKey
-     * @param value value
+     * @param value   value
      * @param timeout 超时时间
-     * @param unit 过期单位
+     * @param unit    过期单位
      * @return true or false
      */
     public boolean lock(String lockKey, final String value, long timeout, final TimeUnit unit) {
@@ -50,8 +51,7 @@ public class RedisLockHelper {
         boolean releaseLock = false;
         String requestId = stringRedisTemplate.opsForValue().get(lockKey);
         if (value.equals(requestId)) {
-            Boolean result = stringRedisTemplate.delete(lockKey);
-            releaseLock = result != null && result;
+            releaseLock = Boolean.TRUE.equals(stringRedisTemplate.delete(lockKey));
         }
         return releaseLock;
     }
@@ -64,7 +64,7 @@ public class RedisLockHelper {
             return false;
         }
 
-        DefaultRedisScript<Long> redisScript = new DefaultRedisScript();
+        DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
         //用于解锁的lua脚本位置
         redisScript.setScriptText(SCRIPT_TEXT);
         redisScript.setResultType(Long.class);

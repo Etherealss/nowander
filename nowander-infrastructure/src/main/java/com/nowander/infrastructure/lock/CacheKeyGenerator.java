@@ -3,9 +3,8 @@ package com.nowander.infrastructure.lock;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 /**
- * CacheKeyGenerator
  * @author wang tengkun
- * @date 2022/6/7
+ * @date 2022/3/8
  */
 public interface CacheKeyGenerator {
 

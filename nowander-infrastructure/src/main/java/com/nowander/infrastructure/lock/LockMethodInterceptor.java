@@ -16,9 +16,11 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
+
+
 /**
  * @author wang tengkun
- * @date 2022/6/8
+ * @date 2022/3/8
  */
 @Profile("!standalone")
 @Aspect
@@ -34,7 +36,7 @@ public class LockMethodInterceptor {
     @Autowired
     public LockMethodInterceptor(RedisLockHelper redisLockHelper,
                                  CacheKeyGenerator cacheKeyGenerator,
-                                 @Value("${my.lock.redis.key-prefix}") String lockPrefix) {
+                                 @Value("${app.redis.key.lock.common-prefix}") String lockPrefix) {
         this.redisLockHelper = redisLockHelper;
         this.cacheKeyGenerator = cacheKeyGenerator;
         this.lockPrefix = lockPrefix;
@@ -73,7 +75,7 @@ public class LockMethodInterceptor {
             }
             // 重试次数用尽也没有获取锁
             if (lock.lockFailedThrowException()) {
-                throw new BaseException(ApiInfo.SERVER_BUSY);
+                throw new BaseException(ApiInfo.SERVER_BUSY, "系统繁忙，请稍后重试");
             } else {
                 return null;
             }
