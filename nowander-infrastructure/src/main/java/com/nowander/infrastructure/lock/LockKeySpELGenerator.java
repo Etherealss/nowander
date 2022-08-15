@@ -2,6 +2,7 @@ package com.nowander.infrastructure.lock;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
@@ -9,6 +10,7 @@ import java.lang.reflect.Method;
  * @author wang tengkun
  * @date 2022/2/26
  */
+@Component
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 public class LockKeySpELGenerator implements CacheKeyGenerator {
 

@@ -7,7 +7,6 @@ import com.nowander.basesystem.user.TokenService;
 import com.nowander.infrastructure.exception.service.TokenException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,12 +37,10 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter {
 
     private TokenService tokenService;
 
-    private RedisTemplate<String, Object> redisTemplate;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(jwtConfig.getTokenHeader());
-
+        log.debug("请求的token：{}", token);
         // 校验token是否为有效token
         if (!StrUtil.isBlank(token) && ObjectUtil.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             // token有效，但SpringSecurity上下文没有User对象，则验证token，不通过时直接抛异常，通过了跳过登录

@@ -4,6 +4,7 @@ import com.nowander.infrastructure.enums.Module;
 import com.nowander.infrastructure.pojo.entity.IdentifiedEntity;
 import lombok.*;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -38,5 +39,5 @@ public abstract class NoWanderBlog extends IdentifiedEntity {
     /**
      * 标签
      */
-    protected Set<String> labels;
+    protected Set<String> labels = Collections.emptySet();
 }

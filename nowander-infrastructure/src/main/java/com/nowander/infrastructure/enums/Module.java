@@ -1,6 +1,5 @@
 package com.nowander.infrastructure.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nowander.infrastructure.exception.rest.EnumIllegalException;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,6 @@ public enum Module implements BaseEnum {
 
     private final String name;
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static Module fromName(@JsonProperty("name") Object name) {
         for (Module object : Module.class.getEnumConstants()) {
             if (name.equals(object.getName())) {

@@ -5,7 +5,7 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 /**
  * @author wang tengkun
@@ -37,7 +37,7 @@ public class ArticleDetailDTO {
     /**
      * 标签
      */
-    private List<String> labels;
+    private Set<String> labels;
 
     /**
      * 收藏数

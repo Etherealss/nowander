@@ -3,11 +3,9 @@ package com.nowander.starter.controller.forum;
 
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
-import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousPostMapping;
 import com.nowander.forum.comment.CommentEntity;
 import com.nowander.forum.comment.CommentService;
 import com.nowander.infrastructure.enums.CommentParentType;
-import com.nowander.infrastructure.enums.CommentType;
 import com.nowander.infrastructure.enums.OrderType;
 import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
@@ -29,7 +27,7 @@ public class CommentController {
 
     private CommentService commentService;
 
-    @PostMapping("/publish")
+    @PostMapping
     public void publish(@RequestBody CommentEntity commentEntity) {
         commentService.save(commentEntity);
     }

@@ -16,14 +16,15 @@ import javax.annotation.PostConstruct;
 @Getter
 @Setter
 public class JwtConfig {
+
     /**
      * 前端 token 存放的请求头的位置
      */
-    private String tokenHeader = "Auth";
+    private String tokenHeader;
     /**
      * 前端 reflesh token 存放的请求头的位置
      */
-    private String refleshHeader = "reflesh_token";
+    private String refleshHeader;
     /**
      * 密钥
      */
@@ -35,7 +36,7 @@ public class JwtConfig {
     /**
      * 发行人
      */
-    private String issuer = "NoWander";
+    private String issuer;
     /**
      * token失效时间间隔
      */
@@ -54,5 +55,4 @@ public class JwtConfig {
         keyBytes = key.getBytes();
     }
 
-    public static final String REDIS_CACHE_PREFIX = "token_";
 }

@@ -1,12 +1,12 @@
 package com.nowander.starter.controller.forum;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.basesystem.user.security.anonymous.annotation.rest.AnonymousGetMapping;
 import com.nowander.forum.blog.article.ArticleDetailCommand;
 import com.nowander.forum.blog.article.ArticleDetailDTO;
 import com.nowander.forum.blog.article.ArticleService;
 import com.nowander.infrastructure.enums.OrderType;
+import com.nowander.infrastructure.pojo.SimplePage;
 import com.nowander.infrastructure.web.ResponseAdvice;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +28,14 @@ public class ArticleController {
 
     public static final int ARTICLE_PAGE_SIZE = 10;
 
-    @AnonymousGetMapping("/details/{articleId}")
+    @AnonymousGetMapping("/{articleId}/details")
     public ArticleDetailDTO getArticleDetail(@PathVariable Integer articleId) {
         return articleService.getDetailById(articleId);
     }
 
     @PostMapping("/publish")
-    public Integer publishArticle(@RequestBody @Validated ArticleDetailCommand article, SysUser user) {
-        return articleService.save(article, user);
+    public Integer publishArticle(@RequestBody @Validated ArticleDetailCommand command, SysUser user) {
+        return articleService.save(command, user);
     }
 
     @PutMapping("/{articleId}")
@@ -56,9 +56,9 @@ public class ArticleController {
      * @param orderBy 排序方式
      * @return
      */
-    @AnonymousGetMapping("/pages/{curPage}")
-    public IPage<ArticleDetailDTO> getPageCompetition(
-            @PathVariable(value = "curPage") int curPage,
+    @AnonymousGetMapping
+    public SimplePage<ArticleDetailDTO> getPageCompetition(
+            @RequestParam(value = "curPage", defaultValue = "1") int curPage,
             @RequestParam(value = "orderBy", defaultValue = "time") OrderType orderBy) {
         log.debug("获取分页数据：当前页curPage = {}, orderBy = {}", curPage, orderBy);
         return articleService.pageDetails(curPage, ARTICLE_PAGE_SIZE, orderBy);

@@ -1,5 +1,6 @@
 package com.nowander.infrastructure.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.nowander.infrastructure.exception.rest.EnumIllegalException;
 
@@ -24,6 +25,7 @@ public interface BaseEnum {
     /**
      * 按枚举的code获取枚举实例
      */
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     static <T extends BaseEnum> T fromCode(Class<T> enumType, int code) {
         for (T object : enumType.getEnumConstants()) {
             if (code == object.getCode()) {

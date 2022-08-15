@@ -2,7 +2,6 @@ package com.nowander.forum.blog.article;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nowander.basesystem.user.SysUser;
 import com.nowander.forum.blog.NoWanderBlogEsEntity;
 import com.nowander.forum.blog.NoWanderBlogMapper;
@@ -12,6 +11,7 @@ import com.nowander.forum.blog.article.content.ArticleContentService;
 import com.nowander.infrastructure.enums.OrderType;
 import com.nowander.infrastructure.exception.service.NotAuthorException;
 import com.nowander.infrastructure.exception.service.NotFoundException;
+import com.nowander.infrastructure.pojo.SimplePage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
@@ -93,14 +93,18 @@ public class ArticleService extends NoWanderBlogService<ArticleEntity> {
     /**
      * 分页，包含内容
      */
-    public IPage<ArticleDetailDTO> pageDetails(int curPage, int size, OrderType orderBy) {
+    public SimplePage<ArticleDetailDTO> pageDetails(int curPage, int size, OrderType orderBy) {
         IPage<ArticleEntity> page = super.page(curPage, size, orderBy);
         List<ArticleDetailDTO> articleDetails = page.getRecords().stream().map(article -> {
             ArticleContentEntity articleContentEntity = articleContentService.getById(article.getId());
             return ArticleDetailDTO.build(article, articleContentEntity);
         }).collect(Collectors.toList());
-        Page<ArticleDetailDTO> detailPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal(), page.isSearchCount());
-        detailPage.setRecords(articleDetails);
+        SimplePage<ArticleDetailDTO> detailPage = new SimplePage<>(
+                articleDetails,
+                page.getTotal(),
+                page.getSize(),
+                page.getCurrent()
+        );
         return detailPage;
     }
 }

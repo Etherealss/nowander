@@ -23,15 +23,14 @@ import java.util.Scanner;
  */
 public class CodeGenerator {
     private static final String DB_NAME = "nowander";
-    private static final String OUT_PATH = "/Users/etherealss/IdeaProjects/nowander";
-    private static final String DB_URL = "jdbc:mysql://119.23.214.198:3306/nowander";
+    private static final String OUT_PATH = "D:\\MyProgrammingWorld\\IdeaWorkSpace\\nowander\\docs";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/nowander";
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String[] TABLE_NAMES = new String[]{
-//            "article", "comment", "like_record", "posts", "sticky_note", "user", "like_count"
-            "friendship"
+            "like_record_test1", "like_record_test2"
     };
-    private static final String DB_USER = "nowander_user";
-    public static final String PASSWORD = "???";
+    private static final String DB_USER = "root";
+    public static final String PASSWORD = "123456";
 
 
     public static String scanner(String tip) {
