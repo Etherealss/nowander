@@ -32,7 +32,7 @@ public class CommentController {
         commentService.save(commentEntity);
     }
 
-    @DeleteMapping("/delete/{commentId}")
+    @DeleteMapping("/{commentId}")
     public void delete(@PathVariable("commentId") Integer commentId, SysUser sysUser) {
         commentService.deleteComment(commentId, sysUser.getId());
     }
@@ -48,11 +48,11 @@ public class CommentController {
      * @param sysUser 当前用户
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    @AnonymousGetMapping("/pages/comments/{parentType}/{parentId}/{curPage}")
+    @AnonymousGetMapping("/comments/{parentType}/{parentId}")
     public Map<String, Object> pageComment(
             @PathVariable(value = "parentType") CommentParentType parentType,
             @PathVariable(value = "parentId") Integer parentId,
-            @PathVariable(value = "curPage") Integer curPage,
+            @RequestParam(value = "curPage", defaultValue = "1") Integer curPage,
             @RequestParam(value = "orderBy", defaultValue = "time") OrderType orderBy,
             @RequestParam(value = "commentRows", defaultValue = "3") Integer commentRows,
             @RequestParam(value = "replyRows", defaultValue = "3") Integer replyRows,
@@ -69,10 +69,10 @@ public class CommentController {
      * @param sysUser 当前用户
      * @return 包含了页面评论数据以及作者用户信息的map，key分别是page和authors
      */
-    @AnonymousGetMapping("/pages/replys/{commentId}/{curPage}")
+    @AnonymousGetMapping("/replys/{commentId}")
     public Map<String, Object> pageRepky(
-            @PathVariable(value = "curPage") Integer curPage,
             @PathVariable(value = "commentId") Integer commentId,
+            @RequestParam(value = "curPage", defaultValue = "1") Integer curPage,
             @RequestParam(value = "orderBy", required = false) OrderType orderBy,
             @RequestParam(value = "replyRows", required = false) Integer replyRows,
             SysUser sysUser) {

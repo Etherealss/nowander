@@ -36,9 +36,9 @@ public class PostsController {
      * @param orderBy 排序方式
      * @return
      */
-    @AnonymousGetMapping("/pages/{curPage}")
+    @AnonymousGetMapping
     public IPage<PostsEntity> getPageCompetition(
-            @PathVariable(value = "curPage") int curPage,
+            @RequestParam(value = "curPage", defaultValue = "1") int curPage,
             @RequestParam(value = "orderBy",defaultValue = "time") OrderType orderBy) {
         return postsService.page(curPage, POSTS_PAGE_SIZE, orderBy);
     }
